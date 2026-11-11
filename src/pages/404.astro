@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ActionLink from '../components/ActionLink.astro';
+import { href } from '../lib/url';
+---
+
+<BaseLayout title="Página no encontrada" description="Esta página no existe." altHref={href('/', 'en')} noindex>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Error 404</span>
+      <h1>Esta ruta no responde.</h1>
+      <p class="lead">
+        Escalera de diagnóstico: tengo IP, llego a la puerta de enlace, resuelvo el nombre… pero esta
+        página no existe. / This page does not exist.
+      </p>
+      <ActionLink href={href('/')}>Volver al inicio</ActionLink>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,203 @@
+---
+/* Guía de estilo: todos los componentes en un solo lugar. No se indexa. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Button from '../components/Button.astro';
+import ActionLink from '../components/ActionLink.astro';
+import Card from '../components/Card.astro';
+import Stat from '../components/Stat.astro';
+import Icon, { type IconName } from '../components/Icon.astro';
+import { href } from '../lib/url';
+
+const colors = [
+  ['--bg', '#141414', 'Fondo principal'],
+  ['--bg-alt', '#1A1A1A', 'Bloques alternos'],
+  ['--surface', '#1F1F1F', 'Tarjetas'],
+  ['--border', '#2A2A2A', 'Bordes'],
+  ['--red', '#E02B2F', 'Acento: fondos y cifras'],
+  ['--red-text', '#FF4A4E', 'Acento: texto pequeño (AA)'],
+  ['--text', '#FFFFFF', 'Texto principal'],
+  ['--text-muted', '#B5B5B5', 'Texto secundario'],
+  ['--icon-neutral', '#6B6B6B', 'Íconos neutros'],
+] as const;
+
+const icons: IconName[] = [
+  'server', 'shield', 'network', 'pulse', 'backup', 'container', 'bot', 'dns',
+  'bug', 'doc', 'lock', 'arrow', 'download', 'github', 'linkedin', 'rss', 'mail',
+];
+---
+
+<BaseLayout title="Guía de estilo" description="Componentes del sistema de diseño." altHref={href('/estilo', 'en')} noindex>
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Sistema de diseño" title="Guía de estilo" level={1}>
+        <p>Todos los componentes del sitio. Si una pantalla tiene mucho rojo, está mal.</p>
+      </SectionHeader>
+
+      <h2 class="g-title">Colores</h2>
+      <div class="swatches">
+        {
+          colors.map(([v, hex, use]) => (
+            <div class="swatch">
+              <span class="swatch__chip" style={`background: var(${v})`} />
+              <code>{v}</code>
+              <span class="swatch__hex">{hex}</span>
+              <span class="swatch__use">{use}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="note">
+        Nota de accesibilidad: el rojo <code>#E02B2F</code> sobre el fondo oscuro tiene un contraste de 4,0:1, por
+        debajo del mínimo AA (4,5:1) para texto pequeño. Se usa tal cual en botones, fondos y cifras grandes, y en
+        su variante <code>#FF4A4E</code> (5,6:1) para etiquetas y enlaces.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="g-title">Tipografía</h2>
+      <span class="eyebrow">Etiqueta destacada</span>
+      <h1 class="g-h1">Título de página · 800</h1>
+      <h2>Título de sección · 800</h2>
+      <h3>Título de tarjeta · 700</h3>
+      <p class="lead">
+        Párrafo de 15 px, peso 400 e interlineado 1.8 en gris secundario. Frases cortas y concretas, cada
+        afirmación apoyada en algo verificable. Código en línea: <code>sshd -T</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="g-title">Botones y enlaces</h2>
+      <div class="row">
+        <Button href="#">Botón principal</Button>
+        <Button href="#" icon="arrow">Con ícono</Button>
+        <Button href="#" variant="ghost" icon="download">Secundario</Button>
+      </div>
+      <div class="row">
+        <ActionLink href="#">Enlace de acción</ActionLink>
+        <a href="#">Enlace en texto</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="g-title">Tarjetas</h2>
+      <div class="grid">
+        <Card title="Monitorización" icon="pulse">
+          <p>Tarjeta estándar: ícono de línea en rojo, título blanco y texto gris.</p>
+        </Card>
+        <Card title="Agente de IA" icon="bot" featured>
+          <p>Tarjeta destacada: gradiente rojo. Como máximo una por sección.</p>
+        </Card>
+        <Card title="Con enlace" icon="shield" href="#">
+          <p>Tarjeta enlazada: al pasar el cursor se eleva y el borde se aclara.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="g-title">Cifras</h2>
+      <div class="stats">
+        <Stat value="25" label="incidencias documentadas" />
+        <Stat value="0" label="puertos abiertos" />
+        <Stat value="50 €" label="coste del servidor" />
+      </div>
+
+      <h2 class="g-title">Íconos</h2>
+      <ul class="icons">
+        {
+          icons.map((n) => (
+            <li>
+              <Icon name={n} size={28} />
+              <span>{n}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .g-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 3rem 0 1.5rem;
+  }
+  .g-title:first-of-type {
+    margin-top: 0;
+  }
+  .g-h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .swatches {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: var(--fs-small);
+  }
+  .swatch__chip {
+    height: 4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+  }
+  .swatch__hex {
+    color: var(--text);
+  }
+  .note {
+    margin-top: 2rem;
+    font-size: var(--fs-small);
+    max-width: 44rem;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .stats {
+    display: grid;
+    gap: 0 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  }
+  .icons {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .icons li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--red-text);
+  }
+  .icons span {
+    color: var(--text-muted);
+    font-size: var(--fs-ui);
+  }
+</style>

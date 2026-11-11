@@ -1,0 +1,59 @@
+---
+import Icon from './Icon.astro';
+import { t, type Lang } from '../i18n/ui';
+import { PROFILE, href } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__note">© {year} {PROFILE.name} · {t(lang, 'footer.static')}</p>
+    <ul class="footer__links">
+      <li>
+        <a href={PROFILE.github} rel="me noopener"><Icon name="github" size={20} label="GitHub" /></a>
+      </li>
+      <li>
+        <a href={PROFILE.linkedin} rel="me noopener"><Icon name="linkedin" size={20} label="LinkedIn" /></a>
+      </li>
+      <li>
+        <a href={href('/rss.xml', lang)}><Icon name="rss" size={20} label="RSS" /></a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-block: 2.5rem;
+  }
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer__note {
+    margin: 0;
+    font-size: var(--fs-small);
+  }
+  .footer__links {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .footer__links a {
+    color: var(--icon-neutral);
+  }
+  .footer__links a:hover {
+    color: var(--red-text);
+  }
+</style>

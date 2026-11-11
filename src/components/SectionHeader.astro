@@ -1,0 +1,21 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  level?: 1 | 2;
+}
+const { eyebrow, title, level = 2 } = Astro.props;
+const H = level === 1 ? 'h1' : 'h2';
+---
+
+<header class="sh">
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <H>{title}</H>
+  <div class="lead"><slot /></div>
+</header>
+
+<style>
+  .sh {
+    margin-bottom: 3rem;
+  }
+</style>

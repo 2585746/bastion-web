@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ActionLink from '../../components/ActionLink.astro';
+import { href } from '../../lib/url';
+---
+
+<BaseLayout
+  lang="en"
+  title="Martín De Prada"
+  description="IT support technician building Bastion, a documented infrastructure and security lab with automation and AI."
+  altHref={href('/')}
+>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Coming in phase 5</span>
+      <h1>English version in progress</h1>
+      <p class="lead">The full English site will be written, not machine-translated.</p>
+      <ActionLink href={href('/')}>Spanish version</ActionLink>
+    </div>
+  </section>
+</BaseLayout>

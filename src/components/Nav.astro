@@ -1,0 +1,163 @@
+---
+import Icon from './Icon.astro';
+import { t, type Lang } from '../i18n/ui';
+import { href } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+  altHref: string;
+}
+
+const { lang, altHref } = Astro.props;
+const current = Astro.url.pathname.replace(/\/$/, '');
+
+const items = [
+  { key: 'nav.home', path: '/' },
+  { key: 'nav.bastion', path: '/bastion' },
+  { key: 'nav.incidents', path: '/incidencias' },
+  { key: 'nav.blog', path: '/blog' },
+  { key: 'nav.about', path: '/sobre-mi' },
+] as const;
+---
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href={href('/', lang)}>
+      <span class="nav__mark" aria-hidden="true"></span>
+      Martín De Prada
+    </a>
+
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+      <Icon name="menu" size={22} />
+      <span class="sr-only">{t(lang, 'nav.menu')}</span>
+    </button>
+
+    <nav id="nav-menu" class="nav__menu" aria-label="Principal">
+      <ul>
+        {
+          items.map(({ key, path }) => {
+            const url = href(path, lang);
+            const active = url.replace(/\/$/, '') === current;
+            return (
+              <li>
+                <a href={url} aria-current={active ? 'page' : undefined}>
+                  {t(lang, key)}
+                </a>
+              </li>
+            );
+          })
+        }
+        <li>
+          <a class="nav__lang" href={altHref} hreflang={lang === 'es' ? 'en' : 'es'}>
+            {t(lang, 'lang.switch')}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(20 20 20 / 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 4.5rem;
+  }
+  .nav__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .nav__mark {
+    width: 10px;
+    height: 10px;
+    background: var(--red);
+  }
+  .nav__menu ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav__menu a {
+    color: var(--text-muted);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .nav__menu a:hover,
+  .nav__menu a[aria-current='page'] {
+    color: var(--text);
+  }
+  .nav__menu a[aria-current='page'] {
+    box-shadow: inset 0 -2px 0 var(--red);
+    padding-bottom: 0.35rem;
+  }
+  .nav__lang {
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius);
+  }
+  .nav__toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  @media (max-width: 860px) {
+    .nav__toggle {
+      display: inline-flex;
+    }
+    .nav__menu {
+      position: absolute;
+      inset: 100% 0 auto 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: none;
+    }
+    .nav__menu.is-open {
+      display: block;
+    }
+    .nav__menu ul {
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem var(--gutter) 1.5rem;
+    }
+    .nav__menu li a {
+      display: block;
+      padding: 0.9rem 0;
+    }
+    .nav__lang {
+      display: inline-block !important;
+      margin-top: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav__toggle');
+  const menu = document.getElementById('nav-menu');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    menu?.classList.toggle('is-open', !open);
+  });
+</script>

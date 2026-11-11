@@ -1,0 +1,29 @@
+---
+interface Props {
+  href: string;
+}
+const { href } = Astro.props;
+---
+
+<a class="action" href={href}><slot /> <span aria-hidden="true">→</span></a>
+
+<style>
+  .action {
+    display: inline-flex;
+    gap: 0.5rem;
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .action span {
+    transition: transform var(--t);
+  }
+  .action:hover {
+    color: var(--text);
+  }
+  .action:hover span {
+    transform: translateX(4px);
+  }
+</style>

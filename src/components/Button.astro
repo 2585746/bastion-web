@@ -1,0 +1,52 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost';
+  icon?: IconName;
+  download?: boolean;
+}
+
+const { href, variant = 'primary', icon, download } = Astro.props;
+---
+
+<a class:list={['btn', `btn--${variant}`]} href={href} download={download}>
+  <slot />
+  {icon && <Icon name={icon} size={16} />}
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 1.75rem;
+    border-radius: var(--radius);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    line-height: 1;
+    transition: background var(--t), color var(--t), border-color var(--t);
+  }
+  .btn--primary {
+    background: var(--red);
+    color: var(--text);
+    border: 1px solid var(--red);
+  }
+  .btn--primary:hover {
+    background: var(--red-dark);
+    border-color: var(--red-dark);
+    color: var(--text);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn--ghost:hover {
+    border-color: var(--text-muted);
+    color: var(--text);
+  }
+</style>

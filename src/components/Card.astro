@@ -1,0 +1,62 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  title: string;
+  icon?: IconName;
+  href?: string;
+  featured?: boolean;
+}
+
+const { title, icon, href, featured = false } = Astro.props;
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag class:list={['card', { 'card--featured': featured }]} href={href}>
+  {icon && <Icon name={icon} size={28} class="card__icon" />}
+  <h3 class="card__title">{title}</h3>
+  <div class="card__body"><slot /></div>
+</Tag>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    transition: border-color var(--t), transform var(--t);
+  }
+  a.card:hover {
+    border-color: var(--icon-neutral);
+    transform: translateY(-2px);
+    color: var(--text-muted);
+  }
+  .card :global(.card__icon) {
+    color: var(--red-text);
+    margin-bottom: 1rem;
+  }
+  .card__title {
+    margin-bottom: 0.5rem;
+  }
+  .card__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .card--featured {
+    background: var(--red-gradient);
+    border-color: transparent;
+    color: var(--text);
+  }
+  .card--featured :global(.card__icon),
+  .card--featured .card__body {
+    color: var(--text);
+  }
+  a.card--featured:hover {
+    color: var(--text);
+    border-color: transparent;
+  }
+</style>

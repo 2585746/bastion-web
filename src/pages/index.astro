@@ -1,0 +1,58 @@
+---
+/* Fase 1: encabezado provisional para validar estilo y textos. El resto llega en la Fase 2. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Stat from '../components/Stat.astro';
+import { href } from '../lib/url';
+---
+
+<BaseLayout
+  title="Martín De Prada"
+  description="Técnico de soporte IT. Construyo y documento Bastión, un laboratorio de infraestructura y seguridad con automatización e IA."
+  altHref={href('/', 'en')}
+>
+  <section class="section hero">
+    <div class="container">
+      <span class="eyebrow">IT Support → Systems &amp; Security · AI-powered Automation</span>
+      <h1>Martín De Prada</h1>
+      <p class="lead">
+        Doy soporte IT en un centro logístico 24/7 y en casa administro mi propia infraestructura:
+        un servidor Proxmox sin puertos abiertos, monitorizado, con copias probadas y un agente de IA
+        que solo puede leer. Busco dar el salto a administración de sistemas.
+      </p>
+      <div class="hero__actions">
+        <Button href={href('/bastion')} icon="arrow">Ver Bastión</Button>
+        <Button href={href('/sobre-mi')} variant="ghost" icon="download">Descargar CV</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container stats">
+      <Stat value="25" label="incidencias reales documentadas" />
+      <Stat value="0" label="puertos abiertos en casa" />
+      <Stat value="10" label="monitores de servicio con alertas al móvil" />
+      <Stat value="3-2-1" label="copias diarias, restauración probada y copia cifrada fuera de casa" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(5rem, 12vw, 9rem);
+  }
+  .hero h1 {
+    margin-bottom: 1.5rem;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .stats {
+    display: grid;
+    gap: 0 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  }
+</style>
