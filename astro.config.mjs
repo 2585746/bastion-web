@@ -7,7 +7,7 @@ import { defineConfig } from 'astro/config';
  * - Dominio propio (luego): SITE_URL = 'https://tudominio.com'
  * El "base" se deduce solo de la ruta de la URL.
  */
-const SITE_URL = 'https://2585746.github.io/bastion-web';
+const SITE_URL = 'https://martindeprada.dev';
 
 const url = new URL(SITE_URL);
 

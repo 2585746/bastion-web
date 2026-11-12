@@ -7,7 +7,7 @@ Sitio estático con [Astro](https://astro.build), sin cookies ni rastreadores.
 
 ```
 npm install
-npm run dev      # http://localhost:4321/bastion-web/
+npm run dev      # http://localhost:4321/
 npm run build    # comprueba tipos y genera dist/
 ```
 
