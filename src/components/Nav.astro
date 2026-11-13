@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 import { t, type Lang } from '../i18n/ui';
 import { href } from '../lib/url';
 
@@ -23,7 +24,7 @@ const items = [
 <header class="nav">
   <div class="container nav__inner">
     <a class="nav__brand" href={href('/', lang)}>
-      <span class="nav__mark" aria-hidden="true"></span>
+      <Logo size={30} />
       Martín De Prada
     </a>
 
@@ -94,11 +95,6 @@ const items = [
     color: var(--text);
     font-weight: 700;
     font-size: 0.95rem;
-  }
-  .nav__mark {
-    width: 10px;
-    height: 10px;
-    background: var(--red);
   }
   .nav__menu ul {
     display: flex;

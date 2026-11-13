@@ -1,6 +1,7 @@
 ---
 interface Props {
   eyebrow?: string;
+  /** Las palabras entre asteriscos van en rojo: «Lo que *puedo demostrar*». */
   title: string;
   level?: 1 | 2;
   /** Numeración grande y decorativa en gris: "01", "02"… */
@@ -8,11 +9,12 @@ interface Props {
 }
 const { eyebrow, title, level = 2, num } = Astro.props;
 const H = level === 1 ? 'h1' : 'h2';
+const parts = title.split(/\*([^*]+)\*/);
 ---
 
 <header class="sh" data-num={num}>
   {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-  <H>{title}</H>
+  <H>{parts.map((p, i) => (i % 2 ? <em class="hl">{p}</em> : p))}</H>
   <div class="lead"><slot /></div>
 </header>
 
@@ -29,7 +31,7 @@ const H = level === 1 ? 'h1' : 'h2';
     right: 0;
     z-index: 0;
     color: var(--num);
-    font-size: clamp(5rem, 14vw, 10rem);
+    font-size: clamp(4rem, 11vw, 8rem);
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.04em;

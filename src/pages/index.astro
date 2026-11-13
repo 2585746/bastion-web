@@ -192,7 +192,7 @@ const terminal = [
   </section>
 
   <section class="section section--alt stats-band">
-    <div class="container stats">
+    <div class="container stats stagger">
       <Stat value="25" label="incidencias reales documentadas" />
       <Stat value="0" label="puertos abiertos en casa" />
       <Stat value="10" label="monitores de servicio con alertas al móvil" />
@@ -202,12 +202,12 @@ const terminal = [
 
   <section class="section" id="demostrar">
     <div class="container">
-      <SectionHeader num="01" eyebrow="Qué sé hacer" title="Lo que puedo demostrar">
+      <SectionHeader num="01" eyebrow="Qué sé hacer" title="Lo que *puedo demostrar*">
         <p>Dos bloques: lo que hago en producción en mi trabajo y lo que practico en mi laboratorio. Cada tarjeta lleva a su evidencia.</p>
       </SectionHeader>
 
       <h3 class="block-title"><span>En producción</span> Mi trabajo</h3>
-      <div class="grid abilities">
+      <div class="grid abilities stagger">
         {
           work.map((a) => (
             <Card
@@ -226,7 +226,7 @@ const terminal = [
       </div>
 
       <h3 class="block-title block-title--lab"><span>En mi laboratorio</span> Bastión</h3>
-      <div class="grid abilities">
+      <div class="grid abilities stagger">
         {
           lab.map((a) => (
             <Card level={4} title={a.title} icon={a.icon} href={href(a.to)} featured={'featured' in a} cta="Ver en Bastión">
@@ -241,14 +241,14 @@ const terminal = [
 
   <section class="section section--alt" id="metodo">
     <div class="container">
-      <SectionHeader num="02" eyebrow="Método" title="Cómo hago troubleshooting">
+      <SectionHeader num="02" eyebrow="Método" title="Cómo hago *troubleshooting*">
         <p>
           Cuatro reglas que salieron de errores reales y que sigo en el trabajo y en el laboratorio. Cada una lleva un
           ejemplo de cada lado.
         </p>
       </SectionHeader>
 
-      <ol class="rules">
+      <ol class="rules stagger">
         {
           rules.map((r) => (
             <li class="rule reveal">
@@ -310,7 +310,7 @@ const terminal = [
 
   <section class="section" id="experiencia">
     <div class="container">
-      <SectionHeader num="03" eyebrow="Experiencia" title="Dónde lo he hecho">
+      <SectionHeader num="03" eyebrow="Experiencia" title="Dónde lo *he hecho*">
         <p>Mi trayectoria profesional en dos puestos, con el detalle completo en la página Sobre mí.</p>
       </SectionHeader>
       <Timeline
@@ -322,7 +322,7 @@ const terminal = [
 
   <section class="section section--alt">
     <div class="container contact">
-      <SectionHeader num="04" eyebrow="Contacto" title="Hablemos">
+      <SectionHeader num="04" eyebrow="Contacto" title="*Hablemos*">
         <p>Madrid, España. Abierto a reubicación en Alemania y Países Bajos.</p>
       </SectionHeader>
       <div class="contact__actions">

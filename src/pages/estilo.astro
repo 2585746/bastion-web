@@ -8,6 +8,7 @@ import Card from '../components/Card.astro';
 import Stat from '../components/Stat.astro';
 import Terminal from '../components/Terminal.astro';
 import Timeline from '../components/Timeline.astro';
+import Logo from '../components/Logo.astro';
 import Icon, { type IconName } from '../components/Icon.astro';
 import { href } from '../lib/url';
 
@@ -26,6 +27,7 @@ const colors = [
 const icons: IconName[] = [
   'server', 'shield', 'network', 'pulse', 'backup', 'container', 'bot', 'dns',
   'bug', 'doc', 'lock', 'arrow', 'download', 'github', 'linkedin', 'rss', 'mail',
+  'terminal', 'database', 'cloud', 'scanner', 'user', 'ticket', 'eye',
 ];
 ---
 
@@ -175,10 +177,32 @@ const icons: IconName[] = [
         ]}
       />
 
+      <h2 class="g-title">Marca</h2>
+      <div class="row">
+        <Logo size={64} />
+        <Logo size={32} />
+        <Logo size={20} />
+      </div>
+      <p class="note">Torre con almenas y una «B» de línea fina. Se usa en el menú, el favicon y la imagen para redes (<code>public/og.png</code>, 1200×630).</p>
+
+      <h2 class="g-title">Titulares</h2>
+      <p class="note">Las palabras entre asteriscos en el título de <code>SectionHeader</code> salen en rojo: <em class="hl">así</em>. Las cifras grandes usan un degradado de blanco a gris.</p>
+
+      <h2 class="g-title">Atmósfera</h2>
+      <p class="note">Cada sección lleva una malla de degradados rojos de muy baja opacidad que cambia de posición (tres variantes), un grano sutil hecho con un SVG inline y, entre secciones, una línea de luz roja que se desvanece por los extremos.</p>
+
+      <h2 class="g-title">Navegación de página</h2>
+      <p class="note">
+        <code>SubNav</code> es el menú de anclas de Bastión y Sobre mí: barra de chips bajo el menú en pantallas estrechas y riel de puntos
+        numerados en el margen izquierdo desde 80 rem. Marca la sección visible con un script de pocas líneas. La barra de progreso de
+        lectura (<code>progress</code> en <code>BaseLayout</code>) es solo CSS.
+      </p>
+
       <h2 class="g-title">Efectos</h2>
       <p class="note">
         Resplandores y degradados rojos de baja opacidad (<code>--red-glow</code>, <code>--red-glow-soft</code>); nunca
-        sombras pesadas. El revelado al hacer scroll (<code>.reveal</code>) y los contadores (<code>.count</code>) usan solo
+        sombras pesadas. Las tarjetas son de cristal oscuro: borde con degradado y brillo que sigue al cursor (solo con ratón y sin movimiento reducido).
+        El escalonado de entrada se activa con la clase <code>stagger</code> en la cuadrícula. El revelado al hacer scroll (<code>.reveal</code>) y los contadores (<code>.count</code>) usan solo
         CSS y desaparecen con <code>prefers-reduced-motion</code> o si el navegador no los admite.
       </p>
     </div>

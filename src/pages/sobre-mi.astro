@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
+import SubNav from '../components/SubNav.astro';
 import Button from '../components/Button.astro';
 import ActionLink from '../components/ActionLink.astro';
 import { href, asset, PROFILE } from '../lib/url';
@@ -11,7 +12,16 @@ import { jobs, techGroups, education, languages } from '../data/experience';
   title="Sobre mí"
   description="Técnico de soporte IT y referente de IT del sitio en un centro de distribución 24/7. Experiencia, formación, tecnologías e idiomas de Martín De Prada."
   altHref={href('/sobre-mi', 'en')}
+  progress
 >
+  <SubNav
+    items={[
+      { id: 'experiencia', label: 'Experiencia' },
+      { id: 'tecnologias', label: 'Tecnologías' },
+      { id: 'formacion', label: 'Formación' },
+      { id: 'contacto', label: 'Contacto' },
+    ]}
+  />
   <section class="section hero-about">
     <div class="container">
       <SectionHeader eyebrow="Sobre mí" title="Martín De Prada" level={1}>
@@ -36,7 +46,7 @@ import { jobs, techGroups, education, languages } from '../data/experience';
 
   <section class="section section--alt" id="experiencia">
     <div class="container">
-      <SectionHeader num="01" eyebrow="Trayectoria" title="Experiencia profesional">
+      <SectionHeader num="01" eyebrow="Trayectoria" title="Experiencia *profesional*">
         <p>Dos puestos, con lo que hice en cada uno.</p>
       </SectionHeader>
       <div class="jobs">
@@ -69,7 +79,7 @@ import { jobs, techGroups, education, languages } from '../data/experience';
 
   <section class="section" id="tecnologias">
     <div class="container">
-      <SectionHeader num="02" eyebrow="Tecnologías" title="Con qué trabajo">
+      <SectionHeader num="02" eyebrow="Tecnologías" title="Con qué *trabajo*">
         <p>Agrupadas por área. No hay niveles ni porcentajes: lo que aparece lo uso y lo puedo demostrar.</p>
       </SectionHeader>
       <div class="tech">
@@ -92,7 +102,7 @@ import { jobs, techGroups, education, languages } from '../data/experience';
   <section class="section section--alt" id="formacion">
     <div class="container two">
       <div>
-        <SectionHeader num="03" eyebrow="Formación" title="Estudios y certificaciones" />
+        <SectionHeader num="03" eyebrow="Formación" title="Estudios y *certificaciones*" />
         <ul class="plain">
           {
             education.map((e) => (
@@ -122,7 +132,7 @@ import { jobs, techGroups, education, languages } from '../data/experience';
 
   <section class="section" id="contacto">
     <div class="container">
-      <SectionHeader num="05" eyebrow="Contacto" title="Hablemos">
+      <SectionHeader num="05" eyebrow="Contacto" title="*Hablemos*">
         <p>Madrid, España · abierto a reubicación en Alemania y Países Bajos.</p>
       </SectionHeader>
       <div class="contact__actions">

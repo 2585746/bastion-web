@@ -4,6 +4,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import ActionLink from '../components/ActionLink.astro';
 import Card from '../components/Card.astro';
 import ArchDiagram from '../components/ArchDiagram.astro';
+import SubNav from '../components/SubNav.astro';
 import { href } from '../lib/url';
 import { layers, decisions } from '../data/bastion';
 import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
@@ -13,7 +14,16 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
   title="Bastión"
   description="Bastión es el laboratorio de infraestructura y seguridad que administro en casa: Proxmox sin puertos abiertos, monitorización, copias probadas y un agente de IA de solo lectura."
   altHref={href('/bastion', 'en')}
+  progress
 >
+  <SubNav
+    items={[
+      { id: 'arquitectura', label: 'Arquitectura' },
+      { id: 'capas', label: 'Capas' },
+      { id: 'decisiones', label: 'Decisiones' },
+      { id: 'hoja-de-ruta', label: 'Hoja de ruta' },
+    ]}
+  />
   <section class="section">
     <div class="container">
       <SectionHeader eyebrow="Proyecto" title="Bastión" level={1}>
@@ -34,7 +44,7 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
 
   <section class="section section--alt" id="arquitectura">
     <div class="container">
-      <SectionHeader eyebrow="Arquitectura" title="Cómo encaja todo">
+      <SectionHeader eyebrow="Arquitectura" title="Cómo *encaja* todo">
         <p>
           Un solo anfitrión con contenedores y máquinas virtuales, al que se llega únicamente por una red privada. Lo
           que sale al exterior son alertas, latidos y consultas a APIs, y el router no tiene ningún puerto abierto.
@@ -46,10 +56,10 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
 
   <section class="section" id="capas">
     <div class="container">
-      <SectionHeader eyebrow="Capas" title="Qué hay en cada una">
+      <SectionHeader eyebrow="Capas" title="Qué hay en *cada capa*">
         <p>Qué monté, cómo lo comprobé y qué falló por el camino.</p>
       </SectionHeader>
-      <div class="grid">
+      <div class="grid stagger">
         {
           layers.map((l) => (
             <div id={l.id} class="layer">
@@ -65,7 +75,7 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
 
   <section class="section section--alt" id="decisiones">
     <div class="container">
-      <SectionHeader eyebrow="Decisiones de diseño" title="Qué decidí y por qué">
+      <SectionHeader eyebrow="Decisiones de diseño" title="Qué decidí y *por qué*">
         <p>Cada decisión tiene una razón, y varias salieron de un fallo concreto.</p>
       </SectionHeader>
       <dl class="decisions">
@@ -83,7 +93,7 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
 
   <section class="section" id="hoja-de-ruta">
     <div class="container">
-      <SectionHeader eyebrow="Hoja de ruta" title="Estado por fases">
+      <SectionHeader eyebrow="Hoja de ruta" title="Estado *por fases*">
         <p>Actualizada el {UPDATED}. Las fases con trabajo hecho o en curso aparecen abiertas.</p>
       </SectionHeader>
       <ol class="phases">

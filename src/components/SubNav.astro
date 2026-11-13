@@ -1,0 +1,155 @@
+---
+/**
+ * Menú de anclas con indicador de sección activa.
+ * - Menos de 80 rem: barra de chips pegada bajo el menú principal.
+ * - 80 rem o más: riel de puntos numerados en el margen izquierdo; la etiqueta aparece al pasar el cursor o enfocar.
+ * Sin JavaScript todos los enlaces funcionan; el script solo marca la sección visible.
+ */
+interface Props {
+  items: { id: string; label: string }[];
+}
+const { items } = Astro.props;
+---
+
+<nav class="subnav" aria-label="En esta página">
+  <ul>
+    {
+      items.map((it, i) => (
+        <li>
+          <a href={`#${it.id}`}>
+            <span class="subnav__n">{String(i + 1).padStart(2, '0')}</span>
+            <span class="subnav__label">{it.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .subnav {
+    position: sticky;
+    top: 4.5rem;
+    z-index: 40;
+    background: rgb(20 20 20 / 0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .subnav ul {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0.6rem var(--gutter);
+    max-width: var(--container);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .subnav ul::-webkit-scrollbar {
+    display: none;
+  }
+  .subnav a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: border-color var(--t), color var(--t), background var(--t);
+  }
+  .subnav__n {
+    color: var(--red-text);
+    font-weight: 700;
+  }
+  .subnav a:hover,
+  .subnav a[aria-current='location'] {
+    color: var(--text);
+    border-color: var(--red);
+    background: linear-gradient(135deg, rgb(224 43 47 / 0.22), rgb(224 43 47 / 0.04));
+  }
+
+  @media (min-width: 80rem) {
+    .subnav {
+      position: fixed;
+      top: 50%;
+      left: 1.1rem;
+      transform: translateY(-50%);
+      z-index: 45;
+      background: none;
+      backdrop-filter: none;
+      border: 0;
+    }
+    .subnav ul {
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 0;
+      overflow: visible;
+    }
+    .subnav li {
+      position: relative;
+    }
+    .subnav a {
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      padding: 0;
+      background: rgb(20 20 20 / 0.85);
+      font-size: 0.6875rem;
+      letter-spacing: 0;
+    }
+    /* La etiqueta sale hacia la derecha como una pestaña */
+    .subnav__label {
+      position: absolute;
+      left: calc(100% + 0.5rem);
+      top: 50%;
+      transform: translate(-0.5rem, -50%);
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--red);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--t), transform var(--t);
+    }
+    .subnav a:hover .subnav__label,
+    .subnav a:focus-visible .subnav__label {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+    .subnav a[aria-current='location'] {
+      box-shadow: 0 0 14px var(--red-glow);
+    }
+  }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('.subnav ul');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.subnav a')];
+  const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        links.forEach((l) => l.removeAttribute('aria-current'));
+        const a = byId.get(e.target.id);
+        a?.setAttribute('aria-current', 'location');
+        if (a && bar && bar.scrollWidth > bar.clientWidth) {
+          bar.scrollTo({ left: a.offsetLeft - bar.clientWidth / 2 + a.offsetWidth / 2 });
+        }
+      }
+    },
+    { rootMargin: '-35% 0px -60% 0px' },
+  );
+  byId.forEach((_, id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>

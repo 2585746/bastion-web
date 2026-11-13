@@ -42,12 +42,18 @@ const numeric = /^\d+$/.test(value);
     height: 2px;
     background: var(--red);
   }
+  /* Cifras enormes con degradado de blanco a gris */
   .stat__value {
-    color: var(--red);
-    font-size: clamp(2.75rem, 6vw, 4rem);
+    color: var(--text);
+    font-size: clamp(3.5rem, 8vw, 5.5rem);
     font-weight: 800;
-    line-height: 1;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
+    background: linear-gradient(180deg, #ffffff 25%, #8c8c8c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .stat__label {
     color: var(--text-muted);
