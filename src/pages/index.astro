@@ -86,7 +86,7 @@ const lab = [
     title: 'Monitorización y copias',
     to: '/bastion#monitorizacion',
     lines: [
-      'Uptime Kuma con 10 monitores, Glances y un latido cada 5 minutos a Healthchecks.io; avisos por ntfy.',
+      'Uptime Kuma con 9 monitores activos, Glances y un latido cada 5 minutos a Healthchecks.io; avisos por ntfy.',
       'Copia diaria con vzdump en modo snapshot (ZSTD) y restauración probada.',
       'Copia cifrada con rclone fuera de casa: regla 3-2-1.',
     ],
@@ -166,7 +166,7 @@ const terminal = [
         <h1>Martín De Prada</h1>
         <p class="lead">
           Doy soporte IT en un centro logístico 24/7 y en casa construyo Bastión: un servidor Proxmox sin puertos
-          abiertos, con monitorización, copias probadas y un agente de IA que solo puede leer. Documenté 25 fallos
+          abiertos, con monitorización, copias probadas y un agente de IA que solo puede leer. Documenté 27 fallos
           reales con su causa y su solución. Mi objetivo es llevar este trabajo a la nube.
         </p>
         <div class="hero__actions">
@@ -193,9 +193,9 @@ const terminal = [
 
   <section class="section section--alt stats-band">
     <div class="container stats stagger">
-      <Stat value="25" label="incidencias reales documentadas" />
+      <Stat value="27" label="incidencias reales documentadas" />
       <Stat value="0" label="puertos abiertos en casa" />
-      <Stat value="10" label="monitores de servicio con alertas al móvil" />
+      <Stat value="9" label="monitores activos con alertas al móvil" />
       <Stat value="3-2-1" label="copias diarias, restauración probada y copia cifrada fuera de casa" />
     </div>
   </section>

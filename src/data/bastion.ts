@@ -32,7 +32,7 @@ export const layers: Layer[] = [
     id: 'monitorizacion',
     icon: 'pulse',
     title: 'Monitorización y alertas',
-    text: 'Uptime Kuma con 10 monitores, Glances para los sensores del hardware y un latido cada 5 minutos a Healthchecks.io: si cae el servidor, la luz o internet, avisa un servicio que no vive dentro de lo que vigila. Todo llega al móvil por ntfy y cada vía se probó con un fallo real.',
+    text: 'Uptime Kuma con 9 monitores activos, Glances para los sensores del hardware y un latido cada 5 minutos a Healthchecks.io: si cae el servidor, la luz o internet, avisa un servicio que no vive dentro de lo que vigila. Todo llega al móvil por ntfy y cada vía se probó con un fallo real.',
   },
   {
     id: 'copias',
