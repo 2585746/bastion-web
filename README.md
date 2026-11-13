@@ -15,10 +15,11 @@ Portafolio de Martín De Prada y bitácora de **Bastión**, su laboratorio de in
 ## Qué contiene
 
 - **Inicio:** lo que puedo demostrar (mi trabajo y mi laboratorio), método de troubleshooting y experiencia.
-- **Bastión:** arquitectura, capas, decisiones de diseño y hoja de ruta.
 - **Sobre mí:** experiencia, formación, tecnologías por área, idiomas y CV en español e inglés.
-- **Incidencias, Blog y versión en inglés:** secciones por fases, todavía provisionales.
-- **`/estilo`:** guía de estilo con todos los componentes (no se indexa).
+- **Blog:** sección provisional.
+- **Bastión** (área propia, se abre en una pestaña nueva, con subpestañas): Funcionamiento (`/bastion/`), Conexiones, Estado, Incidencias y Hoja de ruta. Estado e Incidencias son esqueletos por ahora.
+- **Inglés (`/en/`)** y **`/estilo`** (guía de estilo, sin enlace en el menú).
+- La ruta antigua `/incidencias/` redirige a `/bastion/incidencias/`.
 
 ## Stack
 
@@ -36,9 +37,9 @@ src/
   components/   Card, Stat, Terminal, Timeline, ArchDiagram, Nav, Footer…
   data/         roadmap.ts (hoja de ruta), bastion.ts (capas y decisiones), experience.ts (experiencia)
   i18n/         textos de la interfaz en español e inglés
-  layouts/      BaseLayout.astro
+  layouts/      BaseLayout.astro y BastionLayout.astro (área Bastión)
   lib/          url.ts (rutas y datos públicos del autor)
-  pages/        una página por ruta; en/ contiene la versión en inglés
+  pages/        una página por ruta; bastion/ es el área Bastión; en/ contiene la versión en inglés
   styles/       global.css (variables y utilidades)
 public/
   cv/           CV en PDF (español e inglés)
