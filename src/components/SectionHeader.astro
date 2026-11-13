@@ -10,8 +10,7 @@ const { eyebrow, title, level = 2, num } = Astro.props;
 const H = level === 1 ? 'h1' : 'h2';
 ---
 
-<header class="sh">
-  {num && <span class="sh__num" aria-hidden="true">{num}</span>}
+<header class="sh" data-num={num}>
   {eyebrow && <span class="eyebrow">{eyebrow}</span>}
   <H>{title}</H>
   <div class="lead"><slot /></div>
@@ -22,7 +21,9 @@ const H = level === 1 ? 'h1' : 'h2';
     position: relative;
     margin-bottom: 3rem;
   }
-  .sh__num {
+  /* Numeración decorativa como contenido generado: no es texto del documento */
+  .sh[data-num]::before {
+    content: attr(data-num);
     position: absolute;
     top: -0.35em;
     right: 0;
@@ -35,7 +36,7 @@ const H = level === 1 ? 'h1' : 'h2';
     pointer-events: none;
     user-select: none;
   }
-  .sh > :not(.sh__num) {
+  .sh > * {
     position: relative;
     z-index: 1;
   }
