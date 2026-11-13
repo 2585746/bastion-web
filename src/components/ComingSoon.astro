@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ActionLink from './ActionLink.astro';
+import { href } from '../lib/url';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+  path: string;
+  title: string;
+}
+
+const { lang = 'es', path, title } = Astro.props;
+const es = lang === 'es';
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={es ? `${title}: sección en construcción.` : `${title}: section in progress.`}
+  altHref={href(path, es ? 'en' : 'es')}
+>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">{es ? 'En construcción' : 'In progress'}</span>
+      <h1>{title}</h1>
+      <p class="lead">
+        {
+          es
+            ? 'Esta sección se está construyendo y documentando por fases. Vuelve pronto.'
+            : 'This section is being built and documented in phases. Check back soon.'
+        }
+      </p>
+      <ActionLink href={href('/', lang)}>{es ? 'Volver al inicio' : 'Back to home'}</ActionLink>
+    </div>
+  </section>
+</BaseLayout>
