@@ -6,48 +6,159 @@ import Button from '../components/Button.astro';
 import ActionLink from '../components/ActionLink.astro';
 import Card from '../components/Card.astro';
 import Stat from '../components/Stat.astro';
+import Terminal from '../components/Terminal.astro';
+import Timeline from '../components/Timeline.astro';
 import { href, asset, PROFILE } from '../lib/url';
+import { jobs } from '../data/experience';
 import foto from '../assets/foto.jpg';
 
-const abilities = [
+/** Tarjetas del bloque «En producción». Fuente: los CV. */
+const work = [
   {
-    icon: 'server',
-    title: 'Infraestructura y virtualización',
-    text: 'Proxmox VE con contenedores LXC y máquinas virtuales, cuentas separadas con 2FA y hardware validado antes de usarlo.',
-    to: '/bastion#hipervisor',
+    icon: 'bug',
+    title: 'Soporte y troubleshooting 24/7',
+    featured: true,
+    lines: [
+      'Referente de IT del sitio en mi turno, en un centro de distribución 24/7 operado por GXO Logistics.',
+      'Soporte presencial de primer nivel: hardware, Windows, Microsoft 365 y aplicaciones de negocio.',
+      'Casos con proveedores, garantías y RMA hasta el cierre.',
+    ],
+    chips: ['Windows 10/11', 'Microsoft 365', 'RMA', 'Deskside y field'],
   },
   {
     icon: 'network',
-    title: 'Redes y acceso seguro',
-    text: 'Tailscale como router de subred, ningún puerto abierto en el router y DNS propio con Pi-hole.',
+    title: 'Redes y control de acceso',
+    lines: [
+      'Puertos de switch y VLAN, DHCP/DNS, LAN/Wi-Fi y puntos de acceso con el equipo corporativo de redes.',
+      'NAC (802.1X, MAB): registro de MAC y diagnóstico de autenticación, incluidos errores de VLAN.',
+      'Puestos críticos por VPN F5, PLC y sorter pick-to-light con el fabricante, y CCTV en Genetec.',
+    ],
+    chips: ['VLAN', '802.1X', 'MAB', 'VPN F5', 'Genetec'],
+  },
+  {
+    icon: 'shield',
+    title: 'Endpoints, identidad y dispositivos',
+    lines: [
+      'Cuentas, grupos y permisos en Active Directory y Microsoft Entra ID.',
+      'Imagen y despliegue de equipos; terminales Zebra y Bluebird gestionados por MDM.',
+      'Inventario y ciclo de vida de activos, e impresoras Zebra y Ricoh.',
+    ],
+    chips: ['Active Directory', 'Entra ID', 'MDM', 'Zebra', 'Bluebird'],
+  },
+  {
+    icon: 'doc',
+    title: 'Herramientas internas que construí',
+    lines: [
+      'Aplicación de tickets de IT en Netlify, con vista única del trabajo abierto e histórico.',
+      'Asignación de equipos por autoservicio en Retool: escaneo de tarjeta y máquina, check previo y trazabilidad.',
+      'Escáneres ProGlove y lectores RFID Impinj R700 en líneas de producción, con su manual.',
+    ],
+    chips: ['Netlify', 'Retool', 'ProGlove', 'Impinj R700'],
+  },
+] as const;
+
+/** Tarjetas del bloque «En mi laboratorio». Fuente: el documento de Bastión. */
+const lab = [
+  {
+    icon: 'server',
+    title: 'Infraestructura y virtualización',
+    to: '/bastion#hipervisor',
+    lines: [
+      'Proxmox VE 9.2 en UEFI, contenedores LXC sin privilegios y máquinas virtuales KVM.',
+      'Cuentas de administración separadas con 2FA TOTP.',
+      'Hardware validado con Memtest86+ y SMART antes de usarlo.',
+    ],
+    chips: ['Proxmox VE', 'LXC', 'KVM', 'TOTP'],
+  },
+  {
+    icon: 'dns',
+    title: 'Acceso seguro y DNS',
     to: '/bastion#red',
+    lines: [
+      'Tailscale como router de subred, con ningún puerto abierto en el router.',
+      'Pi-hole v6 en un LXC sin privilegios, con unos 303 000 dominios bloqueados.',
+      'accept-dns=false en el anfitrión para evitar una dependencia circular de DNS.',
+    ],
+    chips: ['Tailscale', 'WireGuard', 'Pi-hole', 'DNS'],
   },
   {
     icon: 'pulse',
     title: 'Monitorización y copias',
-    text: 'Alertas y restauraciones probadas con fallos reales. Una copia que decía «éxito» guardaba una máquina de tres, y lo detectó el informe automático.',
     to: '/bastion#monitorizacion',
-    featured: true,
+    lines: [
+      'Uptime Kuma con 10 monitores, Glances y un latido cada 5 minutos a Healthchecks.io; avisos por ntfy.',
+      'Copia diaria con vzdump en modo snapshot (ZSTD) y restauración probada.',
+      'Copia cifrada con rclone fuera de casa: regla 3-2-1.',
+    ],
+    chips: ['Uptime Kuma', 'Healthchecks.io', 'ntfy', 'vzdump', 'rclone'],
   },
   {
     icon: 'bot',
     title: 'Automatización e IA',
-    text: 'n8n y Gemini generan un informe semanal y responden por chat sobre el estado del servidor, con credenciales de solo lectura.',
     to: '/bastion#automatizacion',
+    featured: true,
+    lines: [
+      'n8n y la API de Gemini: informe semanal y agente por chat de solo lectura.',
+      'VM Debian 13 endurecida: SSH solo con clave Ed25519, verificado con sshd -T.',
+      'Un proyecto Docker Compose por servicio, con secretos con permisos 600.',
+    ],
+    chips: ['n8n', 'Gemini', 'Docker Compose', 'Debian 13'],
   },
 ] as const;
 
+/**
+ * Cuatro reglas con un ejemplo de mi trabajo y otro de Bastión.
+ * Los ejemplos de Bastión salen de las incidencias 7, 13 y 24 del documento del proyecto.
+ * TODO: los ejemplos «work» describen cómo aplico la regla a mis tareas del banco de hechos;
+ * sustituirlos por un caso concreto del trabajo si Martín lo aporta.
+ */
 const rules = [
-  ['01', 'Leo la salida literal', 'Un «copia correcta» no significa que se copió todo.'],
-  ['02', 'Recorro la red en orden', 'IP, puerta de enlace, internet por IP y, al final, DNS.'],
-  ['03', 'Verifico lo efectivo', 'Compruebo la configuración que se aplica, no la que escribí.'],
-  ['04', 'Reviso los registros', 'Responden lo que la prueba funcional no.'],
+  {
+    n: '01',
+    title: 'Leo la salida literal',
+    text: 'Un «correcto» o un «successful» no prueba nada: leo qué dice exactamente.',
+    work: 'Ante un fallo de NAC (802.1X, MAB) parto del error de autenticación exacto, incluidos los de VLAN, y no de «el equipo no tiene red».',
+    lab: 'La notificación de la copia diaria decía «correcta». Leí el detalle y la orden: solo se había copiado una de las tres máquinas.',
+  },
+  {
+    n: '02',
+    title: 'Recorro la red en orden',
+    text: 'IP, puerta de enlace, internet por IP y, al final, DNS.',
+    work: 'Con un equipo sin conexión sigo el camino: puerto del switch y VLAN, después DHCP y, por último, DNS.',
+    lab: 'Con «Could not resolve host», la IP, la ruta y el ping por IP respondían: fallaba solo la resolución de nombres. Al corregir el DNS aparecieron 191 actualizaciones que el primer «sistema actualizado» no vio.',
+  },
+  {
+    n: '03',
+    title: 'Verifico lo efectivo',
+    text: 'Compruebo la configuración que se aplica, no la que escribí.',
+    work: 'Con cuentas y permisos en Active Directory y Entra ID compruebo lo que se aplica de verdad en el equipo, por ejemplo con gpresult /r, y no solo a qué grupo añadí al usuario.',
+    lab: 'El endurecimiento de SSH no surtía efecto: en sshd_config.d gana el primer archivo que define un valor. Lo vi con sshd -T, no leyendo mi archivo.',
+  },
+  {
+    n: '04',
+    title: 'Reviso los registros',
+    text: 'Responden lo que la prueba funcional no.',
+    work: 'En la aplicación de tickets que construí, el histórico completo de cada incidencia permite ver qué se hizo antes de volver a tocar un equipo.',
+    lab: 'Para saber si SSH entraba con clave o con contraseña miré el registro (Accepted publickey frente a password): conectar con éxito no lo distinguía.',
+  },
+] as const;
+
+const terminal = [
+  { kind: 'note', text: '# VM de Docker · configuración efectiva de SSH' },
+  { kind: 'cmd', text: "sudo sshd -T | grep -E 'permitrootlogin|passwordauthentication'" },
+  { kind: 'out', text: 'permitrootlogin no' },
+  { kind: 'out', text: 'passwordauthentication no' },
+  { kind: 'note', text: '' },
+  { kind: 'note', text: '# Copia diaria · máquinas incluidas en la tarea' },
+  { kind: 'ok', text: 'ok  100  0,6 GB' },
+  { kind: 'ok', text: 'ok  101  0,3 GB' },
+  { kind: 'ok', text: 'ok  103  5,1 GB' },
 ] as const;
 ---
 
 <BaseLayout
   title="Martín De Prada"
-  description="Técnico de soporte IT. Construyo y documento Bastión, un laboratorio de infraestructura y seguridad con automatización e IA."
+  description="Técnico de soporte IT en un centro logístico 24/7. Construyo y documento Bastión, un laboratorio de infraestructura y seguridad con automatización e IA."
   altHref={href('/', 'en')}
 >
   <section class="section hero">
@@ -82,7 +193,7 @@ const rules = [
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--alt stats-band">
     <div class="container stats">
       <Stat value="25" label="incidencias reales documentadas" />
       <Stat value="0" label="puertos abiertos en casa" />
@@ -91,16 +202,38 @@ const rules = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="demostrar">
     <div class="container">
-      <SectionHeader eyebrow="Qué sé hacer" title="Lo que puedo demostrar">
-        <p>Cada tarjeta lleva a la parte de Bastión donde está explicado cómo lo monté y cómo lo comprobé.</p>
+      <SectionHeader num="01" eyebrow="Qué sé hacer" title="Lo que puedo demostrar">
+        <p>Dos bloques: lo que hago en producción en mi trabajo y lo que practico en mi laboratorio. Cada tarjeta lleva a su evidencia.</p>
       </SectionHeader>
+
+      <h3 class="block-title"><span>En producción</span> Mi trabajo</h3>
       <div class="grid abilities">
         {
-          abilities.map((a) => (
-            <Card title={a.title} icon={a.icon} href={href(a.to)} featured={'featured' in a}>
-              <p>{a.text}</p>
+          work.map((a) => (
+            <Card
+              level={4}
+              title={a.title}
+              icon={a.icon}
+              href={href('/sobre-mi#experiencia')}
+              featured={'featured' in a}
+              cta="Ver experiencia"
+            >
+              <ul class="lines">{a.lines.map((l) => <li>{l}</li>)}</ul>
+              <ul class="chips">{a.chips.map((c) => <li class="chip">{c}</li>)}</ul>
+            </Card>
+          ))
+        }
+      </div>
+
+      <h3 class="block-title block-title--lab"><span>En mi laboratorio</span> Bastión</h3>
+      <div class="grid abilities">
+        {
+          lab.map((a) => (
+            <Card level={4} title={a.title} icon={a.icon} href={href(a.to)} featured={'featured' in a} cta="Ver en Bastión">
+              <ul class="lines">{a.lines.map((l) => <li>{l}</li>)}</ul>
+              <ul class="chips">{a.chips.map((c) => <li class="chip">{c}</li>)}</ul>
             </Card>
           ))
         }
@@ -108,29 +241,73 @@ const rules = [
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--alt" id="metodo">
     <div class="container">
-      <SectionHeader eyebrow="Método" title="Cómo diagnostico">
-        <p>Cuatro reglas que salieron de los errores del proyecto y que sigo en cada incidencia.</p>
+      <SectionHeader num="02" eyebrow="Método" title="Cómo hago troubleshooting">
+        <p>
+          Cuatro reglas que salieron de errores reales y que sigo en el trabajo y en el laboratorio. Cada una lleva un
+          ejemplo de cada lado.
+        </p>
       </SectionHeader>
+
       <ol class="rules">
         {
-          rules.map(([n, title, text]) => (
-            <li>
-              <span class="rules__n">{n}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
+          rules.map((r) => (
+            <li class="rule reveal">
+              <div class="rule__head">
+                <span class="rules__n">{r.n}</span>
+                <h3>{r.title}</h3>
+                <p>{r.text}</p>
+              </div>
+              <div class="rule__ex">
+                <h4>En mi trabajo</h4>
+                <p>{r.work}</p>
+              </div>
+              <div class="rule__ex">
+                <h4>En Bastión</h4>
+                <p>{r.lab}</p>
+              </div>
             </li>
           ))
         }
       </ol>
-      <ActionLink href={href('/incidencias')}>Ver las incidencias</ActionLink>
+
+      <div class="method-foot">
+        <div class="priority reveal">
+          <h3>Cómo priorizo</h3>
+          <p>
+            Por impacto en la operación de un centro que funciona 24/7. Primero lo que detiene un puesto crítico:
+            fichadores, terminales de planta, y las comunicaciones del PLC y del sorter. Después lo que frena a un
+            usuario, y al final lo que puede esperar a un hueco.
+          </p>
+          <ActionLink href={href('/incidencias')}>Ver las incidencias</ActionLink>
+        </div>
+        <div class="reveal">
+          <Terminal title="bastion · extractos saneados" lines={terminal} />
+          <p class="term-note">
+            Ilustración con extractos reales y saneados de Bastión: en la VM de Docker no se entra con contraseña ni como
+            root, y la tarea de copias incluye las tres máquinas.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="experiencia">
+    <div class="container">
+      <SectionHeader num="03" eyebrow="Experiencia" title="Dónde lo he hecho">
+        <p>Mi trayectoria profesional en dos puestos, con el detalle completo en la página Sobre mí.</p>
+      </SectionHeader>
+      <Timeline
+        items={jobs.map((j) => ({ period: j.period, role: j.role, org: j.org, points: [...j.highlights] }))}
+      />
+      <p class="timeline-link"><ActionLink href={href('/sobre-mi#experiencia')}>Ver la experiencia completa</ActionLink></p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
     <div class="container contact">
-      <SectionHeader eyebrow="Contacto" title="Hablemos">
+      <SectionHeader num="04" eyebrow="Contacto" title="Hablemos">
         <p>Madrid, España. Abierto a reubicación en Alemania y Países Bajos.</p>
       </SectionHeader>
       <div class="contact__actions">
@@ -143,16 +320,32 @@ const rules = [
 </BaseLayout>
 
 <style>
+  /* Hero: rejilla de puntos sutil, resplandor rojo detrás de la foto y titular grande */
   .hero {
+    position: relative;
+    overflow: clip;
     padding-block: clamp(4rem, 10vw, 8rem);
   }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1.5px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 80% 90% at 70% 40%, #000 20%, transparent 75%);
+    pointer-events: none;
+  }
   .hero__grid {
+    position: relative;
     display: grid;
     gap: 3rem;
     align-items: center;
   }
   .hero h1 {
+    font-size: clamp(2.75rem, 9vw, 5.5rem);
+    line-height: 1.02;
     margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
   }
   .hero__actions {
     display: flex;
@@ -160,20 +353,40 @@ const rules = [
     gap: 1rem;
     margin-top: 2.5rem;
   }
+
+  /* Foto: marco con esquinas rojas a la misma distancia (1 rem) en los cuatro lados */
   .hero__photo {
     position: relative;
-    width: min(100%, 16rem);
-    margin-inline: 0.75rem auto;
+    isolation: isolate;
+    width: min(100%, 17rem);
+    margin-inline: auto;
+    padding: 1rem;
   }
   .hero__photo::before {
     content: '';
     position: absolute;
+    inset: -35%;
+    z-index: -1;
+    background: radial-gradient(closest-side, var(--red-glow), transparent);
+  }
+  .hero__photo::after {
+    content: '';
+    position: absolute;
     inset: 0;
-    transform: translate(0.75rem, 0.75rem);
-    border: 1px solid var(--red);
+    pointer-events: none;
+    --c: var(--red);
+    background:
+      linear-gradient(var(--c), var(--c)) top left / 1.75rem 2px,
+      linear-gradient(var(--c), var(--c)) top left / 2px 1.75rem,
+      linear-gradient(var(--c), var(--c)) top right / 1.75rem 2px,
+      linear-gradient(var(--c), var(--c)) top right / 2px 1.75rem,
+      linear-gradient(var(--c), var(--c)) bottom left / 1.75rem 2px,
+      linear-gradient(var(--c), var(--c)) bottom left / 2px 1.75rem,
+      linear-gradient(var(--c), var(--c)) bottom right / 1.75rem 2px,
+      linear-gradient(var(--c), var(--c)) bottom right / 2px 1.75rem;
+    background-repeat: no-repeat;
   }
   .hero__photo :global(img) {
-    position: relative;
     width: 100%;
     height: auto;
     aspect-ratio: 1;
@@ -187,45 +400,129 @@ const rules = [
       gap: 5rem;
     }
     .hero__photo {
-      width: min(100%, 22rem);
-      margin-inline: auto 0.75rem;
+      width: min(100%, 24rem);
     }
   }
 
-  .abilities {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  .stats-band {
+    padding-block: clamp(2rem, 5vw, 3.5rem);
   }
-
   .stats {
     display: grid;
     gap: 0 2rem;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   }
 
+  /* Bloques de tarjetas */
+  .block-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    margin: 0 0 1.25rem;
+    font-size: 1.5rem;
+  }
+  .block-title span {
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .block-title--lab {
+    margin-top: 3.5rem;
+  }
+  .abilities {
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 44rem) {
+    .abilities {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .abilities :global(.card) {
+    height: 100%;
+  }
+  .abilities :global(.chips) {
+    margin-top: 1.25rem;
+  }
+
+  /* Reglas de troubleshooting */
   .rules {
     list-style: none;
-    margin: 0 0 2.5rem;
+    margin: 0 0 3rem;
     padding: 0;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   }
-  .rules li {
+  .rule {
+    display: grid;
+    gap: 1.25rem 2.5rem;
+    padding: 2rem 0;
     border-top: 1px solid var(--border);
-    padding-top: 1.5rem;
+  }
+  .rules > :last-child {
+    border-bottom: 1px solid var(--border);
   }
   .rules__n {
     display: block;
     color: var(--red);
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
     line-height: 1;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
-  .rules p {
+  .rule p {
     margin: 0;
   }
+  .rule__ex {
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+  }
+  .rule__ex:nth-of-type(2) {
+    border-left-color: var(--red);
+  }
+  .rule__ex h4 {
+    margin: 0 0 0.35rem;
+    color: var(--text);
+    font-size: var(--fs-ui);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  @media (min-width: 62rem) {
+    .rule {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
+    }
+  }
 
+  .method-foot {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .method-foot > * {
+    min-width: 0;
+  }
+  .priority {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--red);
+    border-radius: var(--radius);
+    background-image: linear-gradient(90deg, var(--red-glow-soft), transparent 60%);
+  }
+  .term-note {
+    margin: 0.75rem 0 0;
+    font-size: var(--fs-small);
+  }
+  @media (min-width: 62rem) {
+    .method-foot {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  .timeline-link {
+    margin: 2.5rem 0 0;
+  }
   .contact__actions {
     display: flex;
     flex-wrap: wrap;
