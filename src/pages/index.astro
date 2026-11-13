@@ -1,9 +1,48 @@
 ---
-/* Fase 1: encabezado provisional para validar estilo y textos. El resto llega en la Fase 2. */
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
 import Button from '../components/Button.astro';
+import ActionLink from '../components/ActionLink.astro';
+import Card from '../components/Card.astro';
 import Stat from '../components/Stat.astro';
-import { href, asset } from '../lib/url';
+import { href, asset, PROFILE } from '../lib/url';
+import foto from '../assets/foto.jpg';
+
+const abilities = [
+  {
+    icon: 'server',
+    title: 'Infraestructura y virtualización',
+    text: 'Proxmox VE con contenedores LXC y máquinas virtuales, cuentas separadas con 2FA y hardware validado antes de usarlo.',
+    to: '/bastion#hipervisor',
+  },
+  {
+    icon: 'network',
+    title: 'Redes y acceso seguro',
+    text: 'Tailscale como router de subred, ningún puerto abierto en el router y DNS propio con Pi-hole.',
+    to: '/bastion#red',
+  },
+  {
+    icon: 'pulse',
+    title: 'Monitorización y copias',
+    text: 'Alertas y restauraciones probadas con fallos reales. Una copia que decía «éxito» guardaba una máquina de tres, y lo detectó el informe automático.',
+    to: '/bastion#monitorizacion',
+    featured: true,
+  },
+  {
+    icon: 'bot',
+    title: 'Automatización e IA',
+    text: 'n8n y Gemini generan un informe semanal y responden por chat sobre el estado del servidor, con credenciales de solo lectura.',
+    to: '/bastion#automatizacion',
+  },
+] as const;
+
+const rules = [
+  ['01', 'Leo la salida literal', 'Un «copia correcta» no significa que se copió todo.'],
+  ['02', 'Recorro la red en orden', 'IP, puerta de enlace, internet por IP y, al final, DNS.'],
+  ['03', 'Verifico lo efectivo', 'Compruebo la configuración que se aplica, no la que escribí.'],
+  ['04', 'Reviso los registros', 'Responden lo que la prueba funcional no.'],
+] as const;
 ---
 
 <BaseLayout
@@ -12,17 +51,33 @@ import { href, asset } from '../lib/url';
   altHref={href('/', 'en')}
 >
   <section class="section hero">
-    <div class="container">
-      <span class="eyebrow">IT Support → Systems &amp; Security · AI-powered Automation</span>
-      <h1>Martín De Prada</h1>
-      <p class="lead">
-        Doy soporte IT en un centro logístico 24/7 y en casa administro mi propia infraestructura:
-        un servidor Proxmox sin puertos abiertos, monitorizado, con copias probadas y un agente de IA
-        que solo puede leer. Busco dar el salto a administración de sistemas.
-      </p>
-      <div class="hero__actions">
-        <Button href={href('/bastion')} icon="arrow">Ver Bastión</Button>
-        <Button href={asset('cv/CV_Martin_De_Prada_ES.pdf')} variant="ghost" icon="download" download>Descargar CV</Button>
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <span class="eyebrow">IT Support → Systems &amp; Security · AI-powered Automation</span>
+        <h1>Martín De Prada</h1>
+        <p class="lead">
+          Doy soporte IT en un centro logístico 24/7 y en casa construyo Bastión: un servidor Proxmox sin puertos
+          abiertos, con monitorización, copias probadas y un agente de IA que solo puede leer. Documenté 25 fallos
+          reales con su causa y su solución. Mi objetivo es llevar este trabajo a la nube.
+        </p>
+        <div class="hero__actions">
+          <Button href={href('/bastion')} icon="arrow">Ver Bastión</Button>
+          <Button href={asset('cv/CV_Martin_De_Prada_ES.pdf')} variant="ghost" icon="download" download>
+            Descargar CV
+          </Button>
+        </div>
+      </div>
+      <div class="hero__photo">
+        <Image
+          src={foto}
+          alt="Retrato de Martín De Prada"
+          width={480}
+          height={480}
+          widths={[240, 360, 480]}
+          sizes="(min-width: 52rem) 22rem, 16rem"
+          loading="eager"
+          fetchpriority="high"
+        />
       </div>
     </div>
   </section>
@@ -35,11 +90,66 @@ import { href, asset } from '../lib/url';
       <Stat value="3-2-1" label="copias diarias, restauración probada y copia cifrada fuera de casa" />
     </div>
   </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Qué sé hacer" title="Lo que puedo demostrar">
+        <p>Cada tarjeta lleva a la parte de Bastión donde está explicado cómo lo monté y cómo lo comprobé.</p>
+      </SectionHeader>
+      <div class="grid abilities">
+        {
+          abilities.map((a) => (
+            <Card title={a.title} icon={a.icon} href={href(a.to)} featured={'featured' in a}>
+              <p>{a.text}</p>
+            </Card>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeader eyebrow="Método" title="Cómo diagnostico">
+        <p>Cuatro reglas que salieron de los errores del proyecto y que sigo en cada incidencia.</p>
+      </SectionHeader>
+      <ol class="rules">
+        {
+          rules.map(([n, title, text]) => (
+            <li>
+              <span class="rules__n">{n}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <ActionLink href={href('/incidencias')}>Ver las incidencias</ActionLink>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact">
+      <SectionHeader eyebrow="Contacto" title="Hablemos">
+        <p>Madrid, España. Abierto a reubicación en Alemania y Países Bajos.</p>
+      </SectionHeader>
+      <div class="contact__actions">
+        <Button href={`mailto:${PROFILE.email}`} icon="mail">Escríbeme</Button>
+        <ActionLink href={PROFILE.linkedin}>LinkedIn</ActionLink>
+        <ActionLink href={PROFILE.github}>GitHub</ActionLink>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
   .hero {
-    padding-block: clamp(5rem, 12vw, 9rem);
+    padding-block: clamp(4rem, 10vw, 8rem);
+  }
+  .hero__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
   }
   .hero h1 {
     margin-bottom: 1.5rem;
@@ -50,9 +160,76 @@ import { href, asset } from '../lib/url';
     gap: 1rem;
     margin-top: 2.5rem;
   }
+  .hero__photo {
+    position: relative;
+    width: min(100%, 16rem);
+    margin-inline: 0.75rem auto;
+  }
+  .hero__photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translate(0.75rem, 0.75rem);
+    border: 1px solid var(--red);
+  }
+  .hero__photo :global(img) {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  @media (min-width: 52rem) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 5rem;
+    }
+    .hero__photo {
+      width: min(100%, 22rem);
+      margin-inline: auto 0.75rem;
+    }
+  }
+
+  .abilities {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+
   .stats {
     display: grid;
     gap: 0 2rem;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  }
+
+  .rules {
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  }
+  .rules li {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+  .rules__n {
+    display: block;
+    color: var(--red);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .rules p {
+    margin: 0;
+  }
+
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2rem;
   }
 </style>

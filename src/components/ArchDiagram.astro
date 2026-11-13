@@ -1,0 +1,213 @@
+---
+/**
+ * Diagrama de arquitectura por capas, en HTML y CSS para que se adapte a cualquier ancho.
+ * Muestra capas y flujos; no contiene direcciones ni nombres internos.
+ */
+const inside = [
+  { kind: 'Contenedor', name: 'Uptime Kuma', note: 'Monitorización' },
+  { kind: 'Contenedor', name: 'Pi-hole', note: 'DNS y filtrado' },
+  { kind: 'Anfitrión', name: 'Glances', note: 'Sensores y recursos' },
+];
+const docker = ['Nginx Proxy Manager', 'Homepage', 'n8n + agente de IA'];
+const outside = [
+  { name: 'ntfy', note: 'Alertas al móvil' },
+  { name: 'Healthchecks.io', note: 'Vigilante externo' },
+  { name: 'Gemini API', note: 'Resúmenes del agente' },
+  { name: 'Google Drive', note: 'Copia cifrada (rclone)' },
+];
+const flows = [
+  'n8n lee Proxmox, Uptime Kuma y Glances con tokens de solo lectura y pide los resúmenes a la API de Gemini.',
+  'Uptime Kuma y Proxmox envían sus alertas a ntfy.',
+  'El hipervisor manda un latido cada 5 minutos a Healthchecks.io; si deja de llegar, ese servicio avisa por ntfy.',
+  'Las copias diarias se cifran con rclone antes de salir a Google Drive.',
+];
+---
+
+<figure class="arch">
+  <div class="arch__tier">
+    <span class="arch__tag">Cliente</span>
+    <div class="node node--wide"><strong>Móvil o PC</strong><span>con cliente Tailscale</span></div>
+  </div>
+
+  <div class="arch__link"><span>Túnel WireGuard · ningún puerto abierto en el router</span></div>
+
+  <div class="arch__tier arch__box">
+    <span class="arch__tag arch__tag--red">Hipervisor · Proxmox VE · router de subred</span>
+    <div class="arch__grid">
+      {
+        inside.map((n) => (
+          <div class="node">
+            <small>{n.kind}</small>
+            <strong>{n.name}</strong>
+            <span>{n.note}</span>
+          </div>
+        ))
+      }
+      <div class="node node--docker">
+        <small>Máquina virtual</small>
+        <strong>Plataforma Docker</strong>
+        <ul>
+          {docker.map((d) => <li>{d}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="arch__link"><span>Alertas, latidos, consultas a la API y copias salen hacia</span></div>
+
+  <div class="arch__tier">
+    <span class="arch__tag">Servicios externos</span>
+    <div class="arch__grid arch__grid--out">
+      {
+        outside.map((n) => (
+          <div class="node">
+            <strong>{n.name}</strong>
+            <span>{n.note}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <figcaption>
+    <h3>Flujos principales</h3>
+    <ul>
+      {flows.map((f) => <li>{f}</li>)}
+    </ul>
+  </figcaption>
+</figure>
+
+<style>
+  .arch {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .arch__tier {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .arch__tag {
+    color: var(--text-muted);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .arch__tag--red {
+    color: var(--red-text);
+  }
+  .arch__box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--red);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+  .arch__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  }
+  .arch__grid--out {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  }
+  .node {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    line-height: 1.5;
+  }
+  .arch__tier:not(.arch__box) .node {
+    background: var(--surface);
+  }
+  .node--wide {
+    max-width: 22rem;
+  }
+  .node strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .node span,
+  .node small {
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+  }
+  .node small {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    color: var(--icon-neutral);
+    /* #6B6B6B sobre #1A1A1A no cumple AA para texto: se eleva el tono */
+    color: #9a9a9a;
+  }
+  .node--docker {
+    grid-column: span 2;
+  }
+  .node ul {
+    margin: 0.4rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .node li {
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.6rem;
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+  }
+  @media (max-width: 30rem) {
+    .node--docker {
+      grid-column: auto;
+    }
+  }
+
+  /* Conector vertical con etiqueta */
+  .arch__link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.25rem 0 0.25rem 1.5rem;
+    min-height: 3.5rem;
+    border-left: 1px solid var(--icon-neutral);
+    margin: 0 0 0.75rem 1.5rem;
+    position: relative;
+  }
+  .arch__link::after {
+    content: '';
+    position: absolute;
+    left: -5px;
+    bottom: -1px;
+    width: 9px;
+    height: 9px;
+    border-right: 1px solid var(--icon-neutral);
+    border-bottom: 1px solid var(--icon-neutral);
+    transform: rotate(45deg) translate(-3px, -3px);
+  }
+  .arch__link span {
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+  }
+
+  figcaption {
+    margin-top: 3rem;
+  }
+  figcaption ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+  figcaption li {
+    margin-bottom: 0.4rem;
+  }
+  figcaption li::marker {
+    color: var(--red-text);
+  }
+</style>
