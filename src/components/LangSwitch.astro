@@ -1,0 +1,116 @@
+---
+/**
+ * Desplegable de idioma accesible, con <details>: funciona con teclado y sin JavaScript.
+ * Un script mínimo lo cierra con Escape o al hacer clic fuera.
+ */
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Ruta equivalente en el otro idioma. */
+  altHref: string;
+}
+const { lang, altHref } = Astro.props;
+const current = Astro.url.pathname;
+const options = [
+  { code: 'es', label: 'Español', href: lang === 'es' ? current : altHref },
+  { code: 'en', label: 'English', href: lang === 'en' ? current : altHref },
+] as const;
+---
+
+<details class="lang">
+  <summary aria-label={lang === 'es' ? 'Idioma: Español' : 'Language: English'}>
+    <span aria-hidden="true">{lang.toUpperCase()}</span>
+    <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>
+  </summary>
+  <ul>
+    {
+      options.map((o) => (
+        <li>
+          <a href={o.href} lang={o.code} hreflang={o.code} aria-current={o.code === lang ? 'true' : undefined}>
+            {o.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</details>
+
+<style>
+  .lang {
+    position: relative;
+  }
+  .lang summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgb(20 20 20 / 0.6);
+    color: var(--text);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    list-style: none;
+    transition: border-color var(--t);
+  }
+  .lang summary::-webkit-details-marker {
+    display: none;
+  }
+  .lang summary:hover,
+  .lang[open] summary {
+    border-color: var(--red);
+  }
+  .lang svg {
+    transition: transform var(--t);
+  }
+  .lang[open] svg {
+    transform: rotate(180deg);
+  }
+  .lang ul {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.4rem);
+    z-index: 80;
+    min-width: 9rem;
+    margin: 0;
+    padding: 0.35rem;
+    list-style: none;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--red);
+    border-radius: var(--radius);
+  }
+  .lang a {
+    display: block;
+    padding: 0.55rem 0.75rem;
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+    font-weight: 500;
+  }
+  .lang a:hover,
+  .lang a[aria-current='true'] {
+    color: var(--text);
+    background: var(--surface);
+  }
+  .lang a[aria-current='true'] {
+    box-shadow: inset 2px 0 0 var(--red);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('details.lang').forEach((d) => {
+    const close = () => d.removeAttribute('open');
+    document.addEventListener('click', (e) => {
+      if (d.open && !d.contains(e.target as Node)) close();
+    });
+    d.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && d.open) {
+        close();
+        d.querySelector('summary')?.focus();
+      }
+    });
+  });
+</script>
