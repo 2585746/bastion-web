@@ -103,7 +103,7 @@ export const techGroups: TechGroup[] = [
 
 export const education = [
   { title: 'Técnico Superior en Administración de Sistemas Informáticos en Red (ASIR)', detail: 'Universae · cursando' },
-  { title: 'AWS Certified Cloud Practitioner', detail: 'En preparación, aún sin certificar' },
+  { title: 'Cisco CCNA (200-301)', detail: 'En preparación, aún sin certificar' },
   { title: 'Excel avanzado', detail: 'Formación complementaria' },
 ];
 
