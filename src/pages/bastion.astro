@@ -34,8 +34,7 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
         </p>
         <p>
           Lo construí para administrar sistemas Linux y Windows sin las limitaciones de permisos de mi puesto, para
-          practicar lo que estudio en ASIR y para tener servicios con uso real. Todo está documentado, incluidos 25
-          fallos reales con su causa y su solución.
+          practicar lo que estudio en ASIR y para tener servicios con uso real. Todo está documentado, incluidos 27 fallos reales con su causa y su solución.
         </p>
       </SectionHeader>
       <ActionLink href={href('/incidencias')}>Ver las incidencias</ActionLink>
@@ -117,7 +116,7 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
                       <li class={`item item--${i.status}`}>
                         <span class="item__mark" aria-hidden="true" />
                         <span class="sr-only">{statusLabel[i.status]}: </span>
-                        {i.text}
+                        <span class="item__text">{i.text}</span>
                       </li>
                     ))}
                   </ul>
@@ -260,6 +259,17 @@ import { phases, statusLabel, progress, UPDATED } from '../data/roadmap';
   }
   .item--done {
     color: var(--text);
+  }
+  /* Descartado por decisión: atenuado y tachado, con una marca en aspa */
+  .item--dropped {
+    color: var(--icon-neutral);
+  }
+  .item--dropped .item__mark {
+    border-color: var(--icon-neutral);
+    background: linear-gradient(135deg, transparent 45%, var(--icon-neutral) 45% 55%, transparent 55%);
+  }
+  .item--dropped .item__text {
+    text-decoration: line-through;
   }
 
   @media (max-width: 40rem) {
