@@ -272,3 +272,10 @@ code {
     scroll-behavior: auto !important;
   }
 }
+
+/* Enlaces dentro de párrafos: subrayado para distinguirlos sin depender solo del color */
+p a:not(.action):not(.btn) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
