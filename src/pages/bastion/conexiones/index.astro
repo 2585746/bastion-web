@@ -1,0 +1,25 @@
+---
+import BastionLayout from '../../../layouts/BastionLayout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import ArchDiagram from '../../../components/ArchDiagram.astro';
+import { href } from '../../../lib/url';
+---
+
+<BastionLayout
+  tab="conexiones"
+  title="Conexiones"
+  description="Cómo se conectan los componentes de Bastión: el túnel sin puertos abiertos, el hipervisor, los contenedores, la VM de Docker y los servicios externos."
+  altHref={href('/bastion', 'en')}
+>
+  <section class="section" id="arquitectura">
+    <div class="container">
+      <SectionHeader eyebrow="Conexiones" title="Cómo *encaja* todo" level={1}>
+        <p>
+          Un solo anfitrión con contenedores y máquinas virtuales, al que se llega únicamente por una red privada. Lo
+          que sale al exterior son alertas, latidos y consultas a APIs, y el router no tiene ningún puerto abierto.
+        </p>
+      </SectionHeader>
+      <ArchDiagram />
+    </div>
+  </section>
+</BastionLayout>

@@ -1,0 +1,167 @@
+---
+import BastionLayout from '../../../layouts/BastionLayout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import { href } from '../../../lib/url';
+import { phases, statusLabel, progress, UPDATED } from '../../../data/roadmap';
+---
+
+<BastionLayout
+  tab="hoja-de-ruta"
+  title="Hoja de ruta"
+  description="Estado por fases de Bastión: lo que está hecho, en curso, pendiente y descartado."
+  altHref={href('/bastion', 'en')}
+>
+  <section class="section" id="hoja-de-ruta">
+    <div class="container">
+      <SectionHeader eyebrow="Hoja de ruta" title="Estado *por fases*" level={1}>
+        <p>Actualizada el {UPDATED}. Las fases con trabajo hecho o en curso aparecen abiertas.</p>
+      </SectionHeader>
+      <ol class="phases">
+        {
+          phases.map((p) => {
+            const { done, total } = progress(p);
+            return (
+              <li>
+                <details open={p.status !== 'todo'}>
+                  <summary>
+                    <span class="phase__id">{p.id === 'base' ? 'Base' : `Fase ${p.id}`}</span>
+                    <span class="phase__title">{p.title}</span>
+                    <span class={`phase__status phase__status--${p.status}`}>{statusLabel[p.status]}</span>
+                    <span class="phase__count">
+                      {done} de {total}
+                    </span>
+                  </summary>
+                  <p class="phase__summary">{p.summary}</p>
+                  <ul class="items">
+                    {p.items.map((i) => (
+                      <li class={`item item--${i.status}`}>
+                        <span class="item__mark" aria-hidden="true" />
+                        <span class="sr-only">{statusLabel[i.status]}: </span>
+                        <span class="item__text">{i.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+  </section>
+</BastionLayout>
+
+<style>
+  /* Hoja de ruta */
+  .phases {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .phases > li {
+    border-top: 1px solid var(--border);
+  }
+  .phases > li:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  summary {
+    display: grid;
+    align-items: center;
+    gap: 0.25rem 1.5rem;
+    grid-template-columns: 5rem 1fr auto auto;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover .phase__title {
+    color: var(--red-text);
+  }
+  .phase__id {
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .phase__title {
+    color: var(--text);
+    font-weight: 600;
+    transition: color var(--t);
+  }
+  .phase__status {
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .phase__status--done,
+  .phase__status--doing {
+    color: var(--text);
+  }
+  .phase__count {
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+    min-width: 4rem;
+    text-align: right;
+  }
+  .phase__summary {
+    margin: 0 0 1rem 6.5rem;
+  }
+  .items {
+    list-style: none;
+    margin: 0 0 1.5rem 6.5rem;
+    padding: 0;
+  }
+  .item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    padding: 0.2rem 0;
+  }
+  .item__mark {
+    flex: none;
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 1px solid var(--icon-neutral);
+    transform: translateY(0.05rem);
+  }
+  .item--done .item__mark {
+    background: var(--red);
+    border-color: var(--red);
+  }
+  .item--doing .item__mark {
+    background: linear-gradient(90deg, var(--red) 50%, transparent 50%);
+    border-color: var(--red);
+  }
+  .item--done {
+    color: var(--text);
+  }
+  /* Descartado por decisión: atenuado y tachado, con una marca en aspa */
+  .item--dropped {
+    color: var(--icon-neutral);
+  }
+  .item--dropped .item__mark {
+    border-color: var(--icon-neutral);
+    background: linear-gradient(135deg, transparent 45%, var(--icon-neutral) 45% 55%, transparent 55%);
+  }
+  .item--dropped .item__text {
+    text-decoration: line-through;
+  }
+
+  @media (max-width: 40rem) {
+    summary {
+      grid-template-columns: 1fr auto;
+    }
+    .phase__id,
+    .phase__title {
+      grid-column: 1 / -1;
+    }
+    .phase__summary,
+    .items {
+      margin-left: 0;
+    }
+  }</style>

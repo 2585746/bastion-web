@@ -170,7 +170,7 @@ const terminal = [
           reales con su causa y su solución. Mi objetivo es llevar este trabajo a la nube.
         </p>
         <div class="hero__actions">
-          <Button href={href('/bastion')} icon="arrow">Ver Bastión</Button>
+          <Button href={href('/bastion')} external>Ver Bastión</Button>
           <Button href={asset('cv/CV_Martin_De_Prada_ES.pdf')} variant="ghost" icon="download" download>
             Descargar CV
           </Button>
@@ -229,7 +229,15 @@ const terminal = [
       <div class="grid abilities stagger">
         {
           lab.map((a) => (
-            <Card level={4} title={a.title} icon={a.icon} href={href(a.to)} featured={'featured' in a} cta="Ver en Bastión">
+            <Card
+              level={4}
+              title={a.title}
+              icon={a.icon}
+              href={href(a.to)}
+              external
+              featured={'featured' in a}
+              cta="Ver en Bastión"
+            >
               <ul class="lines">{a.lines.map((l) => <li>{l}</li>)}</ul>
               <ul class="chips">{a.chips.map((c) => <li class="chip">{c}</li>)}</ul>
             </Card>
@@ -295,7 +303,7 @@ const terminal = [
         <div class="priority reveal">
           <h3>Cómo priorizo</h3>
           <p>Priorizo según el impacto en la operación del centro, que funciona 24/7.</p>
-          <ActionLink href={href('/incidencias')}>Ver las incidencias</ActionLink>
+          <ActionLink href={href('/bastion/incidencias')} external>Ver las incidencias</ActionLink>
         </div>
         <div class="reveal">
           <Terminal title="bastion · extractos saneados" lines={terminal} />

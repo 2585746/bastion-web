@@ -1,0 +1,41 @@
+---
+import BastionLayout from '../../../layouts/BastionLayout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import Card from '../../../components/Card.astro';
+import { href } from '../../../lib/url';
+
+/** Esqueleto: grupos que mostrará el panel. No hay datos publicados todavía. */
+const groups = [
+  { icon: 'server', title: 'Infraestructura', text: 'Hipervisor, DNS y filtrado, monitorización y vigilancia externa.' },
+  { icon: 'container', title: 'Servicios', text: 'Plataforma Docker, proxy inverso, panel de inicio y automatización e IA.' },
+  { icon: 'pulse', title: 'Hardware', text: 'Temperatura de la CPU y uso de memoria y de disco.' },
+  { icon: 'backup', title: 'Copias', text: 'Resultado de la última copia local y de la copia cifrada fuera de casa.' },
+] as const;
+---
+
+<BastionLayout
+  tab="estado"
+  title="Estado"
+  description="Panel de solo lectura con el estado de los componentes y servicios de Bastión."
+  altHref={href('/bastion', 'en')}
+>
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Estado" title="*Monitorización* de Bastión" level={1}>
+        <p>
+          Esta página reunirá el estado de cada componente y de cada servicio de Bastión, en solo lectura y sin enlaces
+          a servicios internos. Todavía no hay datos publicados.
+        </p>
+      </SectionHeader>
+      <div class="grid stagger">
+        {
+          groups.map((g) => (
+            <Card level={4} title={g.title} icon={g.icon}>
+              <p>{g.text}</p>
+            </Card>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BastionLayout>

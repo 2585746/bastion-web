@@ -1,0 +1,49 @@
+---
+import BastionLayout from '../../../layouts/BastionLayout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import Card from '../../../components/Card.astro';
+import { href } from '../../../lib/url';
+
+/** Las cuatro reglas de diagnóstico del proyecto. */
+const rules = [
+  { icon: 'doc', title: '1 · Leer la salida literal', text: 'Un «correcto» o un «successful» no prueba nada.' },
+  { icon: 'network', title: '2 · Recorrer la red en orden', text: 'IP, puerta de enlace, internet por IP y, al final, DNS.' },
+  { icon: 'shield', title: '3 · Verificar lo efectivo', text: 'Se comprueba la configuración que se aplica, no la que se escribió.' },
+  { icon: 'bug', title: '4 · Revisar los registros', text: 'Responden lo que la prueba funcional no.' },
+] as const;
+---
+
+<BastionLayout
+  tab="incidencias"
+  title="Incidencias"
+  description="Las incidencias documentadas de Bastión, cada una con síntoma, diagnóstico, causa, solución y aprendizaje."
+  altHref={href('/bastion', 'en')}
+>
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Incidencias" title="27 fallos reales, *documentados*" level={1}>
+        <p>
+          Cada incidencia sigue el mismo formato: síntoma, diagnóstico, causa, solución y aprendizaje. El listado con
+          filtros por área y el detalle de cada una se publican en esta página.
+        </p>
+      </SectionHeader>
+      <h2 class="rules-title">Las cuatro reglas de diagnóstico</h2>
+      <div class="grid stagger">
+        {
+          rules.map((r) => (
+            <Card level={4} title={r.title} icon={r.icon}>
+              <p>{r.text}</p>
+            </Card>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BastionLayout>
+
+<style>
+  .rules-title {
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+  }
+</style>

@@ -1,5 +1,23 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+/**
+ * Redirección de la ruta antigua /incidencias/ al área Bastión.
+ * En un sitio estático se hace con meta refresh y canónica.
+ */
+import { href } from '../lib/url';
+const to = new URL(href('/bastion/incidencias'), Astro.site).href;
 ---
 
-<ComingSoon lang="es" path="/incidencias" title="Incidencias" />
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirigiendo a Incidencias</title>
+    <link rel="canonical" href={to} />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>Esta página se movió a <a href={to}>{to}</a>.</p>
+  </body>
+</html>
