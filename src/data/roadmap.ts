@@ -69,6 +69,19 @@ export const phases: Phase[] = [
     ],
   },
   {
+    id: 'I',
+    title: 'Publicar servicios: ¿abrir puertos o salir a la red?',
+    summary:
+      'Estudiar cómo publicar algo desde Bastión, con qué riesgo y qué cambiaría en esta web. La decisión actual sigue vigente.',
+    status: 'todo',
+    items: [
+      { text: 'Comparar tres opciones: seguir cerrado y publicar desde la nube, túnel saliente, o abrir puertos en una zona aislada', status: 'todo' },
+      { text: 'Escribir la decisión con su riesgo, su coste y su plan de vuelta atrás', status: 'todo' },
+      { text: 'Prueba de concepto con un servicio de usar y tirar', status: 'todo' },
+      { text: 'Adaptar esta web al resultado: alojamiento, despliegue y cifras', status: 'todo' },
+    ],
+  },
+  {
     id: 'B',
     title: 'Hardware',
     summary: 'Más memoria y discos dedicados.',
