@@ -1,5 +1,249 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Button from '../components/Button.astro';
+import ActionLink from '../components/ActionLink.astro';
+import { href, asset, PROFILE } from '../lib/url';
+import { jobs, techGroups, education, languages } from '../data/experience';
 ---
 
-<ComingSoon lang="es" path="/sobre-mi" title="Sobre mí" />
+<BaseLayout
+  title="Sobre mí"
+  description="Técnico de soporte IT y referente de IT del sitio en un centro de distribución 24/7. Experiencia, formación, tecnologías e idiomas de Martín De Prada."
+  altHref={href('/sobre-mi', 'en')}
+>
+  <section class="section hero-about">
+    <div class="container">
+      <SectionHeader eyebrow="Sobre mí" title="Martín De Prada" level={1}>
+        <p>
+          Soy técnico de soporte IT y referente de IT del sitio en mi turno en un centro de distribución 24/7 de alto
+          volumen, operado por GXO Logistics. Trabajo con Windows 10/11, Active Directory y Entra ID, switching y
+          VLAN, control de acceso a la red (802.1X, MAB), flotas de terminales con MDM y sistemas de escaneo y RFID.
+          Desarrollo herramientas web internas en Netlify y Retool para eliminar trabajo manual.
+        </p>
+        <p>
+          Fuera del trabajo diseño y opero <a href={href('/bastion')}>Bastión</a>, un laboratorio de infraestructura y
+          seguridad con 25 incidencias documentadas como síntoma, diagnóstico, causa, solución y aprendizaje. Mi
+          objetivo es una carrera orientada a la nube, en infraestructura híbrida, automatización y seguridad.
+        </p>
+      </SectionHeader>
+      <div class="cv-actions">
+        <Button href={asset('cv/CV_Martin_De_Prada_ES.pdf')} icon="download" download>CV en español</Button>
+        <Button href={asset('cv/CV_Martin_De_Prada_EN.pdf')} variant="ghost" icon="download" download>CV in English</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="experiencia">
+    <div class="container">
+      <SectionHeader num="01" eyebrow="Trayectoria" title="Experiencia profesional">
+        <p>Dos puestos, con lo que hice en cada uno.</p>
+      </SectionHeader>
+      <div class="jobs">
+        {
+          jobs.map((j) => (
+            <article class="job reveal" id={j.id}>
+              <header class="job__head">
+                <p class="job__period">{j.period}</p>
+                <h3>{j.role}</h3>
+                <p class="job__org">{j.org}</p>
+              </header>
+              <div class="job__blocks">
+                {j.blocks.map((b) => (
+                  <section>
+                    <h4>{b.title}</h4>
+                    <ul class="lines">
+                      {b.items.map((i) => (
+                        <li>{i}</li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tecnologias">
+    <div class="container">
+      <SectionHeader num="02" eyebrow="Tecnologías" title="Con qué trabajo">
+        <p>Agrupadas por área. No hay niveles ni porcentajes: lo que aparece lo uso y lo puedo demostrar.</p>
+      </SectionHeader>
+      <div class="tech">
+        {
+          techGroups.map((g) => (
+            <div class="tech__group reveal">
+              <h3>{g.title}</h3>
+              <ul class="chips">
+                {g.items.map((i) => (
+                  <li class="chip">{i}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="formacion">
+    <div class="container two">
+      <div>
+        <SectionHeader num="03" eyebrow="Formación" title="Estudios y certificaciones" />
+        <ul class="plain">
+          {
+            education.map((e) => (
+              <li>
+                <strong>{e.title}</strong>
+                <span>{e.detail}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <SectionHeader num="04" eyebrow="Idiomas" title="Idiomas" />
+        <ul class="plain">
+          {
+            languages.map((l) => (
+              <li>
+                <strong>{l.name}</strong>
+                <span>{l.level}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contacto">
+    <div class="container">
+      <SectionHeader num="05" eyebrow="Contacto" title="Hablemos">
+        <p>Madrid, España · abierto a reubicación en Alemania y Países Bajos.</p>
+      </SectionHeader>
+      <div class="contact__actions">
+        <Button href={`mailto:${PROFILE.email}`} icon="mail">Escríbeme</Button>
+        <ActionLink href={PROFILE.linkedin}>LinkedIn</ActionLink>
+        <ActionLink href={PROFILE.github}>GitHub</ActionLink>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-about {
+    position: relative;
+    overflow: clip;
+  }
+  .hero-about::before {
+    content: '';
+    position: absolute;
+    inset: -20% -10% auto auto;
+    width: 36rem;
+    height: 36rem;
+    max-width: 100%;
+    background: radial-gradient(closest-side, var(--red-glow), transparent);
+    pointer-events: none;
+  }
+  .hero-about .container {
+    position: relative;
+  }
+  .hero-about :global(.lead) {
+    max-width: 46rem;
+  }
+  .cv-actions,
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+  }
+
+  .jobs {
+    display: grid;
+    gap: 3rem;
+  }
+  .job {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--red);
+    border-radius: var(--radius);
+    scroll-margin-top: 6rem;
+  }
+  .job__period {
+    margin: 0 0 0.25rem;
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .job__head h3 {
+    font-size: 1.35rem;
+    margin-bottom: 0.25rem;
+  }
+  .job__org {
+    margin: 0 0 2rem;
+  }
+  .job__blocks {
+    display: grid;
+    gap: 2rem;
+  }
+  .job__blocks h4 {
+    margin: 0 0 0.75rem;
+    color: var(--text);
+    font-size: var(--fs-ui);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .job__blocks :global(.lines) {
+    margin-bottom: 0;
+  }
+
+  .tech {
+    display: grid;
+    gap: 2rem 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  }
+  .tech__group {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .tech__group h3 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .two {
+    display: grid;
+    gap: 3rem 4rem;
+  }
+  @media (min-width: 52rem) {
+    .two {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .plain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .plain li {
+    display: flex;
+    flex-direction: column;
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .plain li:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  .plain strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>
