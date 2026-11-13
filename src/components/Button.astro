@@ -6,14 +6,25 @@ interface Props {
   variant?: 'primary' | 'ghost';
   icon?: IconName;
   download?: boolean;
+  /** Abre en una pestaña nueva y añade el icono ↗. */
+  external?: boolean;
+  size?: 'md' | 'sm';
 }
 
-const { href, variant = 'primary', icon, download } = Astro.props;
+const { href, variant = 'primary', icon, download, external = false, size = 'md' } = Astro.props;
+const shownIcon = external ? 'external' : icon;
 ---
 
-<a class:list={['btn', `btn--${variant}`]} href={href} download={download}>
+<a
+  class:list={['btn', `btn--${variant}`, `btn--${size}`]}
+  href={href}
+  download={download}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+>
   <slot />
-  {icon && <Icon name={icon} size={16} />}
+  {shownIcon && <Icon name={shownIcon} size={16} />}
+  {external && <span class="sr-only"> (se abre en una pestaña nueva)</span>}
 </a>
 
 <style>
@@ -29,6 +40,11 @@ const { href, variant = 'primary', icon, download } = Astro.props;
     text-transform: uppercase;
     line-height: 1;
     transition: background var(--t), color var(--t), border-color var(--t);
+  }
+  .btn--sm {
+    padding: 0.7rem 1rem;
+    letter-spacing: 1.8px;
+    gap: 0.4rem;
   }
   .btn--primary {
     background: var(--red);

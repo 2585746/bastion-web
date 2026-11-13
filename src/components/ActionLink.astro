@@ -1,11 +1,15 @@
 ---
 interface Props {
   href: string;
+  /** Abre en una pestaña nueva y muestra ↗ en lugar de →. */
+  external?: boolean;
 }
-const { href } = Astro.props;
+const { href, external = false } = Astro.props;
 ---
 
-<a class="action" href={href}><slot /> <span aria-hidden="true">→</span></a>
+<a class="action" href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}
+  ><slot /> <span aria-hidden="true">{external ? '↗' : '→'}</span>{external && <span class="sr-only"> (se abre en una pestaña nueva)</span>}</a
+>
 
 <style>
   .action {

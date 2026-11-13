@@ -10,14 +10,21 @@ interface Props {
   cta?: string;
   /** Nivel del título (h3 por defecto). */
   level?: 3 | 4;
+  /** El enlace se abre en una pestaña nueva (↗). */
+  external?: boolean;
 }
 
-const { title, icon, href, featured = false, cta, level = 3 } = Astro.props;
+const { title, icon, href, featured = false, cta, level = 3, external = false } = Astro.props;
 const Title = level === 4 ? 'h4' : 'h3';
 const Tag = href ? 'a' : 'article';
 ---
 
-<Tag class:list={['card', 'reveal', { 'card--featured': featured }]} href={href}>
+<Tag
+  class:list={['card', 'reveal', { 'card--featured': featured }]}
+  href={href}
+  target={href && external ? '_blank' : undefined}
+  rel={href && external ? 'noopener' : undefined}
+>
   {
     icon && (
       <span class="card__iconbox">
@@ -27,7 +34,14 @@ const Tag = href ? 'a' : 'article';
   }
   <Title class="card__title">{title}</Title>
   <div class="card__body"><slot /></div>
-  {cta && <span class="card__cta">{cta} <span aria-hidden="true">→</span></span>}
+  {
+    cta && (
+      <span class="card__cta">
+        {cta} <span aria-hidden="true">{external ? '↗' : '→'}</span>
+        {external && <span class="sr-only"> (se abre en una pestaña nueva)</span>}
+      </span>
+    )
+  }
 </Tag>
 
 <style>
