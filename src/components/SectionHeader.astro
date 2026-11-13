@@ -3,12 +3,15 @@ interface Props {
   eyebrow?: string;
   title: string;
   level?: 1 | 2;
+  /** Numeración grande y decorativa en gris: "01", "02"… */
+  num?: string;
 }
-const { eyebrow, title, level = 2 } = Astro.props;
+const { eyebrow, title, level = 2, num } = Astro.props;
 const H = level === 1 ? 'h1' : 'h2';
 ---
 
 <header class="sh">
+  {num && <span class="sh__num" aria-hidden="true">{num}</span>}
   {eyebrow && <span class="eyebrow">{eyebrow}</span>}
   <H>{title}</H>
   <div class="lead"><slot /></div>
@@ -16,6 +19,24 @@ const H = level === 1 ? 'h1' : 'h2';
 
 <style>
   .sh {
+    position: relative;
     margin-bottom: 3rem;
+  }
+  .sh__num {
+    position: absolute;
+    top: -0.35em;
+    right: 0;
+    z-index: 0;
+    color: var(--num);
+    font-size: clamp(5rem, 14vw, 10rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    pointer-events: none;
+    user-select: none;
+  }
+  .sh > :not(.sh__num) {
+    position: relative;
+    z-index: 1;
   }
 </style>

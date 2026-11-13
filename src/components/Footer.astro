@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { t, type Lang } from '../i18n/ui';
-import { PROFILE, href } from '../lib/url';
+import { PROFILE } from '../lib/url';
 
 interface Props {
   lang: Lang;
@@ -20,9 +20,7 @@ const year = new Date().getFullYear();
       <li>
         <a href={PROFILE.linkedin} rel="me noopener"><Icon name="linkedin" size={20} label="LinkedIn" /></a>
       </li>
-      <li>
-        <a href={href('/rss.xml', lang)}><Icon name="rss" size={20} label="RSS" /></a>
-      </li>
+      {/* TODO (fase 4): mostrar el icono de RSS cuando exista el canal /rss.xml */}
     </ul>
   </div>
 </footer>

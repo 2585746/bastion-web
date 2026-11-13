@@ -6,6 +6,8 @@ import Button from '../components/Button.astro';
 import ActionLink from '../components/ActionLink.astro';
 import Card from '../components/Card.astro';
 import Stat from '../components/Stat.astro';
+import Terminal from '../components/Terminal.astro';
+import Timeline from '../components/Timeline.astro';
 import Icon, { type IconName } from '../components/Icon.astro';
 import { href } from '../lib/url';
 
@@ -59,7 +61,7 @@ const icons: IconName[] = [
     <div class="container">
       <h2 class="g-title">Tipografía</h2>
       <span class="eyebrow">Etiqueta destacada</span>
-      <h1 class="g-h1">Título de página · 800</h1>
+      <p class="g-h1">Título de página · 800</p>
       <h2>Título de sección · 800</h2>
       <h3>Título de tarjeta · 700</h3>
       <p class="lead">
@@ -95,7 +97,7 @@ const icons: IconName[] = [
           <p>Tarjeta destacada: gradiente rojo. Como máximo una por sección.</p>
         </Card>
         <Card title="Con enlace" icon="shield" href="#">
-          <p>Tarjeta enlazada: al pasar el cursor se eleva y el borde se aclara.</p>
+          <p>Tarjeta enlazada: al pasar el cursor se eleva y aparece un borde superior rojo.</p>
         </Card>
       </div>
     </div>
@@ -107,7 +109,7 @@ const icons: IconName[] = [
       <div class="stats">
         <Stat value="25" label="incidencias documentadas" />
         <Stat value="0" label="puertos abiertos" />
-        <Stat value="50 €" label="coste del servidor" />
+        <Stat value="3-2-1" label="copias (cifra no numérica: sin contador)" />
       </div>
 
       <h2 class="g-title">Íconos</h2>
@@ -121,6 +123,64 @@ const icons: IconName[] = [
           ))
         }
       </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeader num="01" eyebrow="Componentes nuevos" title="Separador con numeración">
+        <p>El número grande en gris es decorativo (aria-hidden) y no compite con el título.</p>
+      </SectionHeader>
+
+      <h2 class="g-title">Chips y líneas técnicas</h2>
+      <ul class="lines">
+        <li>Línea técnica con marcador cuadrado rojo.</li>
+        <li>Máximo tres por tarjeta, con tecnologías concretas.</li>
+      </ul>
+      <ul class="chips">
+        <li class="chip">Proxmox VE</li>
+        <li class="chip">Tailscale</li>
+        <li class="chip">Pi-hole</li>
+        <li class="chip">n8n</li>
+      </ul>
+
+      <h2 class="g-title">Tarjeta con evidencia</h2>
+      <div class="grid">
+        <Card level={4} title="Con llamada a la acción" icon="server" href="#" cta="Ver evidencia">
+          <ul class="lines"><li>Enlaza a la parte donde se puede comprobar.</li></ul>
+          <ul class="chips"><li class="chip">Chip</li></ul>
+        </Card>
+        <Card level={4} title="Destacada" icon="bot" href="#" featured cta="Ver evidencia">
+          <ul class="lines"><li>Como máximo una por bloque.</li></ul>
+          <ul class="chips"><li class="chip">Chip</li></ul>
+        </Card>
+      </div>
+
+      <h2 class="g-title">Terminal decorativa</h2>
+      <Terminal
+        title="ejemplo · extractos saneados"
+        lines={[
+          { kind: 'note', text: '# Sin IP ni nombres internos' },
+          { kind: 'cmd', text: 'sudo sshd -T | grep passwordauthentication' },
+          { kind: 'out', text: 'passwordauthentication no' },
+          { kind: 'ok', text: 'ok' },
+        ]}
+      />
+
+      <h2 class="g-title">Línea de tiempo</h2>
+      <Timeline
+        items={[
+          { period: 'Periodo', role: 'Puesto', org: 'Organización', points: ['Un punto breve con un dato concreto.'] },
+          { period: 'Periodo anterior', role: 'Puesto', org: 'Organización', points: ['Otro punto.'] },
+        ]}
+      />
+
+      <h2 class="g-title">Efectos</h2>
+      <p class="note">
+        Resplandores y degradados rojos de baja opacidad (<code>--red-glow</code>, <code>--red-glow-soft</code>); nunca
+        sombras pesadas. El revelado al hacer scroll (<code>.reveal</code>) y los contadores (<code>.count</code>) usan solo
+        CSS y desaparecen con <code>prefers-reduced-motion</code> o si el navegador no los admite.
+      </p>
     </div>
   </section>
 </BaseLayout>

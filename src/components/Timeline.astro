@@ -1,0 +1,79 @@
+---
+export interface TimelineItem {
+  period: string;
+  role: string;
+  org: string;
+  points: string[];
+}
+interface Props {
+  items: TimelineItem[];
+}
+const { items } = Astro.props;
+---
+
+<ol class="tl">
+  {
+    items.map((i) => (
+      <li class="tl__item reveal">
+        <span class="tl__node" aria-hidden="true" />
+        <p class="tl__period">{i.period}</p>
+        <h3>{i.role}</h3>
+        <p class="tl__org">{i.org}</p>
+        <ul class="lines">
+          {i.points.map((p) => (
+            <li>{p}</li>
+          ))}
+        </ul>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .tl {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 2rem;
+  }
+  .tl::before {
+    content: '';
+    position: absolute;
+    left: 0.4rem;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: linear-gradient(180deg, var(--red), var(--border) 85%);
+  }
+  .tl__item {
+    position: relative;
+    padding-bottom: 2.5rem;
+  }
+  .tl__item:last-child {
+    padding-bottom: 0;
+  }
+  .tl__node {
+    position: absolute;
+    left: -2rem;
+    top: 0.35rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    background: var(--red);
+    box-shadow: 0 0 0 4px var(--bg), 0 0 14px 2px var(--red-glow);
+  }
+  .tl__period {
+    margin: 0 0 0.25rem;
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .tl__org {
+    margin: 0 0 1rem;
+    color: var(--text-muted);
+  }
+  h3 {
+    margin-bottom: 0.15rem;
+  }
+</style>

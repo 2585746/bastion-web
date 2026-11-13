@@ -160,12 +160,115 @@ code {
 }
 .skip-link:focus { top: 1rem; color: var(--text); }
 
+/* Variables de efectos: resplandores y degradados rojos de baja opacidad, nunca sombras pesadas */
+:root {
+  --red-glow: rgb(224 43 47 / 0.18);
+  --red-glow-soft: rgb(224 43 47 / 0.08);
+  --dot: rgb(255 255 255 / 0.07);
+  --num: #262626;
+}
+
+/* Chips de tecnologías */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chip {
+  display: inline-block;
+  padding: 0.15rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: var(--fs-ui);
+  line-height: 1.7;
+  white-space: nowrap;
+}
+
+/* Líneas técnicas con marcador rojo */
+.lines {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.lines li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.6;
+}
+.lines li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--red);
+}
+
+/* Revelado al hacer scroll: solo CSS y solo si el navegador lo admite */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+}
+
+/* Contadores: el valor real está en el texto; la animación solo recorre números */
+@property --n {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .count {
+    animation: count 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  @supports (animation-timeline: view()) {
+    .count {
+      animation-timeline: view();
+      animation-range: entry 10% entry 90%;
+    }
+  }
+  @keyframes count {
+    from {
+      --n: 0;
+    }
+  }
+}
+.count {
+  counter-reset: n var(--n);
+}
+.count::after {
+  content: counter(n);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }

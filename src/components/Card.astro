@@ -6,20 +6,27 @@ interface Props {
   icon?: IconName;
   href?: string;
   featured?: boolean;
+  /** Texto de la llamada a la acción al pie de una tarjeta enlazada. */
+  cta?: string;
+  /** Nivel del título (h3 por defecto). */
+  level?: 3 | 4;
 }
 
-const { title, icon, href, featured = false } = Astro.props;
+const { title, icon, href, featured = false, cta, level = 3 } = Astro.props;
+const Title = level === 4 ? 'h4' : 'h3';
 const Tag = href ? 'a' : 'article';
 ---
 
-<Tag class:list={['card', { 'card--featured': featured }]} href={href}>
+<Tag class:list={['card', 'reveal', { 'card--featured': featured }]} href={href}>
   {icon && <Icon name={icon} size={28} class="card__icon" />}
-  <h3 class="card__title">{title}</h3>
+  <Title class="card__title">{title}</Title>
   <div class="card__body"><slot /></div>
+  {cta && <span class="card__cta">{cta} <span aria-hidden="true">→</span></span>}
 </Tag>
 
 <style>
   .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -28,12 +35,30 @@ const Tag = href ? 'a' : 'article';
     border: 1px solid var(--border);
     border-radius: var(--radius);
     color: var(--text-muted);
-    transition: border-color var(--t), transform var(--t);
+    overflow: hidden;
+    transition: border-color var(--t), transform var(--t), background var(--t);
   }
-  a.card:hover {
+  /* Borde superior rojo que crece al pasar el cursor o al enfocar */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s ease;
+  }
+  a.card:hover,
+  a.card:focus-visible {
     border-color: var(--icon-neutral);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     color: var(--text-muted);
+    background: linear-gradient(180deg, var(--red-glow-soft), var(--surface) 55%);
+  }
+  a.card:hover::before,
+  a.card:focus-visible::before {
+    transform: scaleX(1);
   }
   .card :global(.card__icon) {
     color: var(--red-text);
@@ -42,8 +67,27 @@ const Tag = href ? 'a' : 'article';
   .card__title {
     margin-bottom: 0.5rem;
   }
-  .card__body :global(p:last-child) {
+  .card__body {
+    flex: 1;
+  }
+  .card__body :global(p:last-child),
+  .card__body :global(.lines:last-child) {
     margin-bottom: 0;
+  }
+  .card__cta {
+    margin-top: 1.25rem;
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .card__cta span {
+    display: inline-block;
+    transition: transform var(--t);
+  }
+  a.card:hover .card__cta span {
+    transform: translateX(4px);
   }
 
   .card--featured {
@@ -51,12 +95,26 @@ const Tag = href ? 'a' : 'article';
     border-color: transparent;
     color: var(--text);
   }
+  .card--featured::before {
+    background: var(--text);
+  }
   .card--featured :global(.card__icon),
-  .card--featured .card__body {
+  .card--featured .card__body,
+  .card--featured .card__cta {
     color: var(--text);
   }
-  a.card--featured:hover {
+  .card--featured :global(.chip) {
+    background: rgb(0 0 0 / 0.22);
+    border-color: rgb(255 255 255 / 0.3);
+    color: var(--text);
+  }
+  .card--featured :global(.lines li::before) {
+    background: var(--text);
+  }
+  a.card--featured:hover,
+  a.card--featured:focus-visible {
     color: var(--text);
     border-color: transparent;
+    background: var(--red-gradient);
   }
 </style>
