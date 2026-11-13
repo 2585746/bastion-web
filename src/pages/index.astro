@@ -108,37 +108,35 @@ const lab = [
 
 /**
  * Cuatro reglas con un ejemplo de mi trabajo y otro de Bastión.
- * Los ejemplos de Bastión salen de las incidencias 7, 13 y 24 del documento del proyecto.
- * TODO: los ejemplos «work» describen cómo aplico la regla a mis tareas del banco de hechos;
- * sustituirlos por un caso concreto del trabajo si Martín lo aporta.
+ * «work»: solo tareas que constan en los CV. «lab»: incidencias 7, 13 y 24 del documento del proyecto.
  */
 const rules = [
   {
     n: '01',
     title: 'Leo la salida literal',
     text: 'Un «correcto» o un «successful» no prueba nada: leo qué dice exactamente.',
-    work: 'Ante un fallo de NAC (802.1X, MAB) parto del error de autenticación exacto, incluidos los de VLAN, y no de «el equipo no tiene red».',
+    work: 'Control de acceso a la red (NAC, 802.1X, MAB): registro de MAC y diagnóstico de autenticación, incluidos los errores de VLAN.',
     lab: 'La notificación de la copia diaria decía «correcta». Leí el detalle y la orden: solo se había copiado una de las tres máquinas.',
   },
   {
     n: '02',
     title: 'Recorro la red en orden',
     text: 'IP, puerta de enlace, internet por IP y, al final, DNS.',
-    work: 'Con un equipo sin conexión sigo el camino: puerto del switch y VLAN, después DHCP y, por último, DNS.',
+    work: 'Puertos de switch y VLAN, DHCP/DNS, LAN/Wi-Fi y puntos de acceso, junto al equipo corporativo de redes.',
     lab: 'Con «Could not resolve host», la IP, la ruta y el ping por IP respondían: fallaba solo la resolución de nombres. Al corregir el DNS aparecieron 191 actualizaciones que el primer «sistema actualizado» no vio.',
   },
   {
     n: '03',
     title: 'Verifico lo efectivo',
     text: 'Compruebo la configuración que se aplica, no la que escribí.',
-    work: 'Con cuentas y permisos en Active Directory y Entra ID compruebo lo que se aplica de verdad en el equipo, por ejemplo con gpresult /r, y no solo a qué grupo añadí al usuario.',
+    work: 'En la aplicación de asignación de equipos que construí en Retool, cada equipo pasa un check previo al uso, con histórico y trazabilidad.',
     lab: 'El endurecimiento de SSH no surtía efecto: en sshd_config.d gana el primer archivo que define un valor. Lo vi con sshd -T, no leyendo mi archivo.',
   },
   {
     n: '04',
     title: 'Reviso los registros',
     text: 'Responden lo que la prueba funcional no.',
-    work: 'En la aplicación de tickets que construí, el histórico completo de cada incidencia permite ver qué se hizo antes de volver a tocar un equipo.',
+    work: 'La aplicación de tickets de IT que construí en Netlify guarda el histórico completo de cada incidencia y petición.',
     lab: 'Para saber si SSH entraba con clave o con contraseña miré el registro (Accepted publickey frente a password): conectar con éxito no lo distinguía.',
   },
 ] as const;
@@ -272,14 +270,31 @@ const terminal = [
         }
       </ol>
 
+      <div class="levels">
+        <div class="level reveal">
+          <span class="level__tag">Nivel 1</span>
+          <h3>Soporte presencial a usuarios</h3>
+          <ul class="lines">
+            <li>Hardware, Windows, Microsoft 365 y aplicaciones de negocio, en oficina y en planta.</li>
+            <li>Imagen y despliegue de equipos; cuentas, grupos y permisos en Active Directory y Entra ID.</li>
+            <li>Impresoras Zebra y Ricoh, y terminales Zebra y Bluebird.</li>
+          </ul>
+        </div>
+        <div class="level level--l2 reveal">
+          <span class="level__tag">Nivel 2</span>
+          <h3>Redes, sistemas de planta y proveedores</h3>
+          <ul class="lines">
+            <li>NAC (802.1X, MAB), puertos de switch y VLAN, DHCP/DNS y Wi-Fi, con el equipo corporativo de redes.</li>
+            <li>Puestos críticos por VPN F5, comunicaciones de PLC y del sorter pick-to-light con el fabricante, y CCTV en Genetec.</li>
+            <li>Flota de terminales bajo MDM y casos con proveedores, garantías y RMA hasta el cierre.</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="method-foot">
         <div class="priority reveal">
           <h3>Cómo priorizo</h3>
-          <p>
-            Por impacto en la operación de un centro que funciona 24/7. Primero lo que detiene un puesto crítico:
-            fichadores, terminales de planta, y las comunicaciones del PLC y del sorter. Después lo que frena a un
-            usuario, y al final lo que puede esperar a un hueco.
-          </p>
+          <p>Priorizo según el impacto en la operación del centro, que funciona 24/7.</p>
           <ActionLink href={href('/incidencias')}>Ver las incidencias</ActionLink>
         </div>
         <div class="reveal">
@@ -493,6 +508,39 @@ const terminal = [
     }
   }
 
+  .levels {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: minmax(0, 1fr);
+    margin-bottom: 2.5rem;
+  }
+  @media (min-width: 52rem) {
+    .levels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .level {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--icon-neutral);
+    border-radius: var(--radius);
+  }
+  .level--l2 {
+    border-top-color: var(--red);
+  }
+  .level__tag {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .level :global(.lines) {
+    margin-bottom: 0;
+  }
   .method-foot {
     display: grid;
     gap: 2.5rem;
