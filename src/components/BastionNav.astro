@@ -1,0 +1,159 @@
+---
+/**
+ * Encabezado propio del área Bastión (un «mini sitio»): marca, vuelta al portafolio, idioma
+ * y subpestañas fijas al hacer scroll con la pestaña activa marcada en rojo.
+ */
+import Logo from './Logo.astro';
+import LangSwitch from './LangSwitch.astro';
+import { href } from '../lib/url';
+import type { Lang } from '../i18n/ui';
+
+export type BastionTab = 'funcionamiento' | 'conexiones' | 'estado' | 'incidencias' | 'hoja-de-ruta';
+
+interface Props {
+  lang: Lang;
+  altHref: string;
+  current: BastionTab;
+}
+const { lang, altHref, current } = Astro.props;
+
+const tabs: { id: BastionTab; label: string; path: string }[] = [
+  { id: 'funcionamiento', label: 'Funcionamiento', path: '/bastion' },
+  { id: 'conexiones', label: 'Conexiones', path: '/bastion/conexiones' },
+  { id: 'estado', label: 'Estado', path: '/bastion/estado' },
+  { id: 'incidencias', label: 'Incidencias', path: '/bastion/incidencias' },
+  { id: 'hoja-de-ruta', label: 'Hoja de ruta', path: '/bastion/hoja-de-ruta' },
+];
+---
+
+<header class="bhead">
+  <div class="container bhead__inner">
+    <a class="bhead__brand" href={href('/bastion', lang)}>
+      <Logo size={30} />
+      <span>Bastión</span>
+    </a>
+    <a class="bhead__back" href={href('/', lang)}><span aria-hidden="true">←</span> Portafolio</a>
+    <div class="bhead__lang"><LangSwitch lang={lang} altHref={altHref} /></div>
+  </div>
+</header>
+<nav class="btabs" aria-label="Bastión">
+  <ul class="container">
+    {
+      tabs.map((t) => (
+        <li>
+          <a href={href(t.path, lang)} aria-current={t.id === current ? 'page' : undefined}>
+            {t.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .bhead {
+    position: sticky;
+    top: 0;
+    z-index: 51;
+    background: rgb(20 20 20 / 0.92);
+    backdrop-filter: blur(12px);
+  }
+  .bhead__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 4rem;
+  }
+  .bhead__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .bhead__back {
+    color: var(--text-muted);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--border);
+  }
+  .bhead__back:hover {
+    color: var(--text);
+  }
+  .bhead__lang {
+    margin-left: auto;
+  }
+
+  .btabs {
+    position: sticky;
+    top: 4rem;
+    z-index: 50;
+    background: rgb(26 26 26 / 0.92);
+    backdrop-filter: blur(12px);
+    border-block: 1px solid var(--border);
+  }
+  .btabs ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin-block: 0;
+    padding-block: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .btabs ul::-webkit-scrollbar {
+    display: none;
+  }
+  .btabs a {
+    position: relative;
+    display: block;
+    padding: 1rem 1.1rem;
+    color: var(--text-muted);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .btabs a::after {
+    content: '';
+    position: absolute;
+    left: 1.1rem;
+    right: 1.1rem;
+    bottom: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t);
+  }
+  .btabs a:hover {
+    color: var(--text);
+  }
+  .btabs a:hover::after,
+  .btabs a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+  .btabs a[aria-current='page'] {
+    color: var(--text);
+    background: linear-gradient(180deg, transparent, var(--red-glow-soft));
+  }
+  .btabs a[aria-current='page']::after {
+    box-shadow: 0 0 10px var(--red-glow);
+  }
+
+  @media (max-width: 40rem) {
+    .bhead__inner {
+      gap: 0.75rem;
+    }
+    .bhead__back {
+      padding-left: 0.75rem;
+    }
+  }
+</style>

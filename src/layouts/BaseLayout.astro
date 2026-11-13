@@ -6,6 +6,7 @@ import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/800.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
+import BastionNav, { type BastionTab } from '../components/BastionNav.astro';
 import Footer from '../components/Footer.astro';
 import { t, type Lang } from '../i18n/ui';
 import { asset } from '../lib/url';
@@ -19,9 +20,12 @@ interface Props {
   noindex?: boolean;
   /** Muestra la barra de progreso de lectura (páginas largas). */
   progress?: boolean;
+  /** «bastion» sustituye el menú del portafolio por el encabezado y las pestañas del área Bastión. */
+  variant?: 'site' | 'bastion';
+  tab?: BastionTab;
 }
 
-const { title, description, lang = 'es', altHref, noindex = false, progress = false } = Astro.props;
+const { title, description, lang = 'es', altHref, noindex = false, progress = false, variant = 'site', tab = 'funcionamiento' } = Astro.props;
 const fullTitle = title === 'Martín De Prada' ? title : `${title} · Martín De Prada`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const alt = new URL(altHref, Astro.site);
@@ -53,7 +57,7 @@ const ogImage = new URL(asset('og.png'), Astro.site);
   <body>
     {progress && <div class="progress" aria-hidden="true" />}
     <a class="skip-link" href="#contenido">{t(lang, 'nav.skip')}</a>
-    <Nav lang={lang} altHref={altHref} />
+    {variant === 'bastion' ? <BastionNav lang={lang} altHref={altHref} current={tab} /> : <Nav lang={lang} altHref={altHref} />}
     <main id="contenido">
       <slot />
     </main>

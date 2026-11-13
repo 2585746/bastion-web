@@ -1,0 +1,23 @@
+---
+/**
+ * Layout del área Bastión: encabezado propio y subpestañas.
+ * Se navega en la misma pestaña; el portafolio abre esta área en una pestaña nueva.
+ */
+import BaseLayout from './BaseLayout.astro';
+import type { BastionTab } from '../components/BastionNav.astro';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  tab: BastionTab;
+  altHref: string;
+  lang?: Lang;
+  progress?: boolean;
+}
+const { title, description, tab, altHref, lang = 'es', progress = false } = Astro.props;
+---
+
+<BaseLayout title={`${title} · Bastión`} description={description} lang={lang} altHref={altHref} variant="bastion" tab={tab} progress={progress}>
+  <slot />
+</BaseLayout>
