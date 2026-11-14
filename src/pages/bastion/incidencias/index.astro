@@ -11,6 +11,36 @@ const rules = [
   { icon: 'shield', title: '3 · Verificar lo efectivo', text: 'Se comprueba la configuración que se aplica, no la que se escribió.' },
   { icon: 'bug', title: '4 · Revisar los registros', text: 'Responden lo que la prueba funcional no.' },
 ] as const;
+
+interface Incidencia {
+  id: number;
+  title: string;
+  category: 'Linux' | 'Docker' | 'Redes' | 'Proxmox' | 'Ciberseguridad';
+  date: string;
+  originalDate: string;
+  area: string;
+  symptom: string;
+  diagnosis: string;
+  cause: string;
+  solution: string;
+  learning: string;
+}
+
+const incidencias: Incidencia[] = [
+  {
+    id: 26,
+    title: 'Bloqueo 403: access_denied al autorizar rclone con Google Drive',
+    category: 'Ciberseguridad',
+    date: '14/11/2026',
+    originalDate: '13/11/2026',
+    area: 'Google Cloud / rclone',
+    symptom: 'Al abrir el enlace de rclone authorize "drive" en el navegador del PC usando el Client ID propio, Google bloquea el inicio de sesión con Error 403: access_denied indicando que "RCLONE no ha completado el proceso de verificación de Google". Al ir a Google Auth Platform para publicar la app, el botón Publicar app aparece deshabilitado.',
+    diagnosis: 'Lectura literal de los dos mensajes en pantalla (regla 1): el error 403 indica que "la app se está probando y solo pueden acceder a ella los testers aprobados", y el recuadro emergente del botón deshabilitado indica que faltan las URL de página principal y política de privacidad en la sección de marca.',
+    cause: 'Un proyecto OAuth externo nuevo en Google Auth Platform nace en estado Prueba con la lista de usuarios de prueba vacía (bloqueando incluso al propio creador del proyecto) y no permite pasar a estado Producción hasta rellenar los campos obligatorios de marca y dominio autorizado. Además, al cerrarse el proceso rclone authorize tras el primer fallo, recargar la pestaña devolvió ERR_CONNECTION_REFUSED en 127.0.0.1.',
+    solution: 'Rellenar en Información de la marca las URL requeridas (apuntando al perfil de GitHub) y el dominio autorizado (github.com), pasar la aplicación a Producción en Público (lo que evita además que el token caduque a los 7 días) y relanzar rclone authorize en la PowerShell del PC para que vuelva a escuchar en 127.0.0.1.',
+    learning: 'Ser el propietario del proyecto en Google Cloud no te incluye automáticamente como usuario autorizado en una pantalla OAuth en modo de prueba; y para tareas desatendidas por systemd, publicar la app en producción evita que el token de refresco caduque cada semana.',
+  },
+];
 ---
 
 <BastionLayout
@@ -37,6 +67,35 @@ const rules = [
           ))
         }
       </div>
+
+      <div class="incidencias-section">
+        <h2 class="incidencias-title">Listado de incidencias</h2>
+        <div class="incidencias-list">
+          {
+            incidencias.map((inc) => (
+              <Card level={3} class="incidencia-card">
+                <div class="incidencia-header">
+                  <span class="incidencia-id">Incidencia {inc.id}</span>
+                  <span class="badge">{inc.category}</span>
+                  <span class="incidencia-date">{inc.date}</span>
+                </div>
+                <h3 class="incidencia-card-title">{inc.title}</h3>
+                <div class="incidencia-meta">
+                  <span><strong>Fecha original:</strong> {inc.originalDate}</span>
+                  <span><strong>Área:</strong> {inc.area}</span>
+                </div>
+                <div class="incidencia-body">
+                  <p><strong>Síntoma:</strong> {inc.symptom}</p>
+                  <p><strong>Diagnóstico:</strong> {inc.diagnosis}</p>
+                  <p><strong>Causa:</strong> {inc.cause}</p>
+                  <p><strong>Solución:</strong> {inc.solution}</p>
+                  <p><strong>Aprendizaje:</strong> {inc.learning}</p>
+                </div>
+              </Card>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </section>
 </BastionLayout>
@@ -45,5 +104,80 @@ const rules = [
   .rules-title {
     margin-bottom: 1.25rem;
     font-size: 1.25rem;
+  }
+
+  .incidencias-section {
+    margin-top: 3rem;
+  }
+
+  .incidencias-title {
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+  }
+
+  .incidencias-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .incidencia-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .incidencia-id {
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: var(--color-badge-bg, rgba(99, 102, 241, 0.1));
+    color: var(--color-badge-text, #6366f1);
+  }
+
+  .incidencia-date {
+    margin-left: auto;
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+  }
+
+  .incidencia-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .incidencia-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+
+  .incidencia-body p {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .incidencia-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .incidencia-body strong {
+    color: var(--color-text-heading, #0f172a);
   }
 </style>
