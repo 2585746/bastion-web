@@ -1,34 +1,7 @@
----
-import BastionLayout from '../../../layouts/BastionLayout.astro';
-import SectionHeader from '../../../components/SectionHeader.astro';
-import Card from '../../../components/Card.astro';
-import { href } from '../../../lib/url';
----
-
-<BastionLayout
-  tab="incidencias"
-  title="Incidencias del sistema"
-  description="Registro real de fallos y aprendizajes del proyecto Bastión."
-  altHref={href('/bastion/incidencias', 'en')}
->
-  <section class="section">
-    <div class="container">
-      <SectionHeader eyebrow="Incidencias" title="Fallos reales, documentados" level={1} />
-      <p>
-        Cada incidencia sigue el mismo formato: síntoma, diagnóstico, causa, solución y aprendizaje.
-      </p>
-
-      <!-- AQUÍ SE INSERTARÁN AUTOMÁTICAMENTE LAS INCIDENCIAS -->
-      <div class="incidencias-grid" style="margin-top: 2rem;">
-        <Card level={3}>
-          <h3>Incidencia 26 — Bloqueo OAuth 403</h3>
-          <p><strong>Área:</strong> Google Cloud / rclone</p>
-          <p><strong>Síntoma:</strong> Bloqueo access_denied al autorizar rclone con el Client ID propio.</p>
-          <p><strong>Causa:</strong> Proyecto OAuth en modo de prueba sin usuarios autorizados ni URLs de marca.</p>
-          <p><strong>Solución:</strong> Rellenar URLs de marca, dominio autorizado y pasar la app a producción.</p>
-        </Card>
-      </div>
-
-    </div>
-  </section>
-</BastionLayout>
+<Card level={3}>
+  <h3>Incidencia 27 — El script backup-to-drive.sh sube las copias pero no envía la notificación a ntfy</h3>
+  <p><strong>Área / Categoría:</strong> Copias / ntfy</p>
+  <p><strong>Síntoma:</strong> La primera ejecución manual de <code>backup-to-drive.sh</code> sube los 10 archivos (18,21 GiB) a Google Drive y devuelve el prompt, pero no llega ninguna notificación al móvil.</p>
+  <p><strong>Causa:</strong> Error en el patrón de <code>grep</code> que buscaba barras invertidas literales en la salida JSON de <code>rclone size</code> (haciendo fallar el script por <code>set -euo pipefail</code>) y la variable <code>NTFY_URL</code> conservaba un marcador de posición.</p>
+  <p><strong>Solución:</strong> Se corrigió la expresión a <code>grep -o '"count":[0-9]*'</code>, se configuró el tema real en <code>NTFY_URL</code> y se reejecutó el script enviando la notificación correctamente.</p>
+</Card>
