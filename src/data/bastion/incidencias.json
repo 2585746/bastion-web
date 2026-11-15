@@ -1,5 +1,18 @@
 [
   {
+    "id": 1,
+    "title": "La VM no arranca",
+    "category": "Proxmox",
+    "date": "2026-11-15",
+    "originalDate": "Oct 2026",
+    "area": "Hyper-V",
+    "symptom": "Aparece el mensaje \"El hipervisor no está en ejecución\" al encender la VM.",
+    "diagnosis": "No documentado.",
+    "cause": "Virtualización (SVM) desactivada en la BIOS.",
+    "solution": "Activar SVM en la BIOS.",
+    "learning": "Tras modificar la BIOS, realizar un apagado completo y no un reinicio."
+  },
+  {
     "id": 26,
     "title": "Bloqueo 403: access_denied al autorizar rclone con Google Drive",
     "category": "Ciberseguridad",
