@@ -1,223 +1,41 @@
----
-import BastionLayout from '../../../layouts/BastionLayout.astro';
-import SectionHeader from '../../../components/SectionHeader.astro';
-import Card from '../../../components/Card.astro';
-import { href } from '../../../lib/url';
-import data from '../../../data/bastion/incidencias.json';
-
-/**
- * Diseño fijo de la página de Incidencias.
- * Los datos viven en src/data/bastion/incidencias.json, que es lo único que modifica la automatización (n8n).
- * Este archivo se edita solo a mano.
- */
-
-const CATEGORIAS = ['Proxmox', 'Linux', 'Redes', 'Docker', 'Ciberseguridad'] as const;
-type Categoria = (typeof CATEGORIAS)[number];
-
-interface Incidencia {
-  id: number;
-  title: string;
-  category: Categoria;
-  date: string;
-  originalDate: string;
-  area: string;
-  symptom: string;
-  diagnosis: string;
-  cause: string;
-  solution: string;
-  learning: string;
-}
-
-const incidencias = (data as Incidencia[]).slice().sort((a, b) => b.id - a.id);
-const presentes = CATEGORIAS.filter((c) => incidencias.some((i) => i.category === c));
-const slug = (c: string) => c.toLowerCase();
-
-/** Las cuatro reglas de diagnóstico del proyecto. */
-const rules = [
-  { icon: 'doc', title: '1 · Leer la salida literal', text: 'Un «correcto» o un «successful» no prueba nada.' },
-  { icon: 'network', title: '2 · Recorrer la red en orden', text: 'IP, puerta de enlace, internet por IP y, al final, DNS.' },
-  { icon: 'shield', title: '3 · Verificar lo efectivo', text: 'Se comprueba la configuración que se aplica, no la que se escribió.' },
-  { icon: 'bug', title: '4 · Revisar los registros', text: 'Responden lo que la prueba funcional no.' },
-] as const;
-
-const apartados = [
-  ['symptom', 'Síntoma'],
-  ['diagnosis', 'Diagnóstico'],
-  ['cause', 'Causa'],
-  ['solution', 'Solución'],
-  ['learning', 'Aprendizaje'],
-] as const;
----
-
-<BastionLayout
-  tab="incidencias"
-  title="Incidencias"
-  description="Las incidencias documentadas de Bastión, cada una con síntoma, diagnóstico, causa, solución y aprendizaje."
-  altHref={href('/bastion', 'en')}
->
-  <section class="section">
-    <div class="container">
-      <SectionHeader eyebrow="Incidencias" title="Fallos reales, *documentados*" level={1}>
-        <p>
-          Cada incidencia sigue el mismo formato: síntoma, diagnóstico, causa, solución y aprendizaje. Se publican a
-          medida que se revisan.
-        </p>
-      </SectionHeader>
-
-      <h2 class="rules-title">Las cuatro reglas de diagnóstico</h2>
-      <div class="grid stagger">
-        {
-          rules.map((r) => (
-            <Card level={4} title={r.title} icon={r.icon}>
-              <p>{r.text}</p>
-            </Card>
-          ))
-        }
-      </div>
-
-      <div class="inc">
-        <h2 class="rules-title">Listado <span class="inc__count">({incidencias.length} publicadas)</span></h2>
-
-        {
-          incidencias.length === 0 ? (
-            <p class="inc__empty">Todavía no hay incidencias publicadas.</p>
-          ) : (
-            <div class="inc__filters" role="radiogroup" aria-label="Filtrar por categoría">
-              <input type="radio" name="cat" id="cat-todas" value="todas" checked />
-              <label for="cat-todas">Todas</label>
-              {presentes.map((c) => (
-                <>
-                  <input type="radio" name="cat" id={`cat-${slug(c)}`} value={slug(c)} />
-                  <label for={`cat-${slug(c)}`}>{c}</label>
-                </>
-              ))}
-
-              <ol class="inc__list">
-                {incidencias.map((inc) => (
-                  <li class="inc__item" data-cat={slug(inc.category)}>
-                    <Card level={3} title={`${inc.id} · ${inc.title}`}>
-                      <ul class="chips inc__chips">
-                        <li class="chip chip--cat">{inc.category}</li>
-                        <li class="chip">{inc.area}</li>
-                        <li class="chip">{inc.originalDate}</li>
-                      </ul>
-                      <dl class="inc__body">
-                        {apartados.map(([k, label]) => (
-                          <>
-                            <dt>{label}</dt>
-                            <dd>{inc[k]}</dd>
-                          </>
-                        ))}
-                      </dl>
-                    </Card>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )
-        }
-      </div>
-    </div>
-  </section>
-</BastionLayout>
-
-<style>
-  .rules-title {
-    margin-bottom: 1.25rem;
-    font-size: 1.25rem;
+[
+  {
+    "id": 1,
+    "title": "La VM no arranca",
+    "category": "Proxmox",
+    "date": "2026-11-15",
+    "originalDate": "Oct 2026",
+    "area": "Hyper-V",
+    "symptom": "Aparece el mensaje \"El hipervisor no está en ejecución\" al encender la VM.",
+    "diagnosis": "No documentado.",
+    "cause": "La virtualización (SVM) estaba desactivada en la BIOS.",
+    "solution": "Activar la virtualización (SVM) en la BIOS.",
+    "learning": "Tras modificar la BIOS, realizar un apagado completo en lugar de un reinicio."
+  },
+  {
+    "id": 26,
+    "title": "Bloqueo 403: access_denied al autorizar rclone con Google Drive",
+    "category": "Ciberseguridad",
+    "date": "2026-11-14",
+    "originalDate": "13/11/2026",
+    "area": "Google Cloud / rclone",
+    "symptom": "Al autorizar rclone con un Client ID propio, Google bloquea el inicio de sesión con «Error 403: access_denied» y el botón «Publicar app» de Google Auth Platform aparece deshabilitado.",
+    "diagnosis": "Lectura literal de los dos mensajes (regla 1): la app estaba en modo de prueba y solo admitía testers aprobados, y el botón deshabilitado indicaba que faltaban las URL obligatorias de la sección de marca.",
+    "cause": "Un proyecto OAuth externo nuevo nace en estado Prueba con la lista de usuarios vacía, lo que bloquea incluso a su creador, y no puede pasar a Producción hasta completar los campos de marca y dominio autorizado. Además, el proceso de autorización local se había cerrado tras el primer fallo.",
+    "solution": "Completar la información de marca y el dominio autorizado, pasar la aplicación a Producción (así el token tampoco caduca a los 7 días) y relanzar la autorización de rclone para que volviera a escuchar en local.",
+    "learning": "Ser el propietario del proyecto no te convierte en usuario autorizado de una pantalla OAuth en modo de prueba; y para tareas desatendidas conviene publicar la app en producción para que el token de refresco no caduque cada semana."
+  },
+  {
+    "id": 27,
+    "title": "El script de copia a Drive sube los archivos pero no envía la notificación",
+    "category": "Linux",
+    "date": "2026-11-14",
+    "originalDate": "13/11/2026",
+    "area": "Copias / ntfy",
+    "symptom": "La primera ejecución manual del script de copia sube los 10 archivos (18,21 GiB) a Google Drive y termina, pero no llega ninguna notificación al móvil.",
+    "diagnosis": "Revisión del registro del script (regla 4) y de su código (regla 3).",
+    "cause": "Dos fallos en el bloque de notificación: el patrón de grep buscaba barras invertidas literales en la salida JSON de rclone size, y con set -euo pipefail ese fallo detenía el script; además, la URL de notificación conservaba un marcador de posición.",
+    "solution": "Corregir el patrón de grep, poner el destino real de la notificación y volver a ejecutar el script: la notificación llegó en segundos con el recuento de archivos.",
+    "learning": "Con set -euo pipefail, un comando que falla dentro de una sustitución $(...) detiene el script antes de la línea siguiente; las notificaciones hay que probarlas de extremo a extremo."
   }
-  .inc {
-    margin-top: 3rem;
-  }
-  .inc__count {
-    color: var(--text-muted);
-    font-weight: 400;
-    font-size: var(--fs-body);
-  }
-  .inc__empty {
-    color: var(--text-muted);
-  }
-
-  /* Filtros sin JavaScript: radios + :has() */
-  .inc__filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-  }
-  .inc__filters input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-  .inc__filters label {
-    padding: 0.4rem 0.9rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text-muted);
-    font-size: var(--fs-ui);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition:
-      color var(--t),
-      border-color var(--t),
-      background var(--t);
-  }
-  .inc__filters label:hover {
-    color: var(--text);
-    border-color: var(--red);
-  }
-  .inc__filters input:checked + label {
-    background: var(--red);
-    border-color: var(--red);
-    color: var(--text);
-  }
-  .inc__filters input:focus-visible + label {
-    outline: 2px solid var(--red-text);
-    outline-offset: 2px;
-  }
-
-  .inc__list {
-    flex-basis: 100%;
-    list-style: none;
-    margin: 1.5rem 0 0;
-    padding: 0;
-    display: grid;
-    gap: 1.5rem;
-  }
-  .inc__filters:has(input[value='proxmox']:checked) .inc__item:not([data-cat='proxmox']),
-  .inc__filters:has(input[value='linux']:checked) .inc__item:not([data-cat='linux']),
-  .inc__filters:has(input[value='redes']:checked) .inc__item:not([data-cat='redes']),
-  .inc__filters:has(input[value='docker']:checked) .inc__item:not([data-cat='docker']),
-  .inc__filters:has(input[value='ciberseguridad']:checked) .inc__item:not([data-cat='ciberseguridad']) {
-    display: none;
-  }
-
-  .inc__chips {
-    margin-bottom: 1rem;
-  }
-  .chip--cat {
-    border-color: var(--red);
-    color: var(--red-text);
-    font-weight: 600;
-  }
-  .inc__body {
-    margin: 0;
-  }
-  .inc__body dt {
-    color: var(--red-text);
-    font-size: var(--fs-ui);
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 0.9rem;
-  }
-  .inc__body dd {
-    margin: 0.25rem 0 0;
-    line-height: 1.8;
-    color: var(--text-muted);
-  }
-</style>
+]
