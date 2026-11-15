@@ -1,0 +1,28 @@
+[
+  {
+    "id": 26,
+    "title": "Bloqueo 403: access_denied al autorizar rclone con Google Drive",
+    "category": "Ciberseguridad",
+    "date": "2026-11-14",
+    "originalDate": "13/11/2026",
+    "area": "Google Cloud / rclone",
+    "symptom": "Al autorizar rclone con un Client ID propio, Google bloquea el inicio de sesión con «Error 403: access_denied» y el botón «Publicar app» de Google Auth Platform aparece deshabilitado.",
+    "diagnosis": "Lectura literal de los dos mensajes (regla 1): la app estaba en modo de prueba y solo admitía testers aprobados, y el botón deshabilitado indicaba que faltaban las URL obligatorias de la sección de marca.",
+    "cause": "Un proyecto OAuth externo nuevo nace en estado Prueba con la lista de usuarios vacía, lo que bloquea incluso a su creador, y no puede pasar a Producción hasta completar los campos de marca y dominio autorizado. Además, el proceso de autorización local se había cerrado tras el primer fallo.",
+    "solution": "Completar la información de marca y el dominio autorizado, pasar la aplicación a Producción (así el token tampoco caduca a los 7 días) y relanzar la autorización de rclone para que volviera a escuchar en local.",
+    "learning": "Ser el propietario del proyecto no te convierte en usuario autorizado de una pantalla OAuth en modo de prueba; y para tareas desatendidas conviene publicar la app en producción para que el token de refresco no caduque cada semana."
+  },
+  {
+    "id": 27,
+    "title": "El script de copia a Drive sube los archivos pero no envía la notificación",
+    "category": "Linux",
+    "date": "2026-11-14",
+    "originalDate": "13/11/2026",
+    "area": "Copias / ntfy",
+    "symptom": "La primera ejecución manual del script de copia sube los 10 archivos (18,21 GiB) a Google Drive y termina, pero no llega ninguna notificación al móvil.",
+    "diagnosis": "Revisión del registro del script (regla 4) y de su código (regla 3).",
+    "cause": "Dos fallos en el bloque de notificación: el patrón de grep buscaba barras invertidas literales en la salida JSON de rclone size, y con set -euo pipefail ese fallo detenía el script; además, la URL de notificación conservaba un marcador de posición.",
+    "solution": "Corregir el patrón de grep, poner el destino real de la notificación y volver a ejecutar el script: la notificación llegó en segundos con el recuento de archivos.",
+    "learning": "Con set -euo pipefail, un comando que falla dentro de una sustitución $(...) detiene el script antes de la línea siguiente; las notificaciones hay que probarlas de extremo a extremo."
+  }
+]
