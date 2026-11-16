@@ -4,7 +4,13 @@ import SectionHeader from '../../components/SectionHeader.astro';
 import ActionLink from '../../components/ActionLink.astro';
 import Card from '../../components/Card.astro';
 import { href } from '../../lib/url';
-import { layers, decisions } from '../../data/bastion';
+import { layers, decisions, facts } from '../../data/bastion';
+import incidencias from '../../data/bastion/incidencias.json';
+
+/* Las cifras salen de los datos, no se escriben a mano: así no se desfasan de la página de incidencias. */
+const publicadas = incidencias.length;
+const [y, m, d] = facts.asOf.split('-');
+const fecha = `${d}/${m}/${y}`;
 ---
 
 <BastionLayout
@@ -14,47 +20,59 @@ import { layers, decisions } from '../../data/bastion';
   altHref={href('/bastion', 'en')}
   progress
 >
-  <section class="section">
-    <div class="container">
-      <SectionHeader eyebrow="Funcionamiento" title="*Bastión*, de punta a punta" level={1}>
+  <section class="section" aria-labelledby="t-bastion">
+    <div class="container intro">
+      <SectionHeader eyebrow="Funcionamiento" title="*Bastión*, de punta a punta" level={1} id="t-bastion">
         <p>
-          Bastión es el servidor que administro en casa para practicar con infraestructura real y no solo con
-          ejercicios. Empezó en octubre de 2026 como un Ubuntu Server dentro de mi PC y hoy es una plataforma
-          Proxmox con DNS propio, monitorización, copias probadas, servicios en Docker y un agente de IA.
-        </p>
-        <p>
-          Lo construí para administrar sistemas Linux y Windows sin las limitaciones de permisos de mi puesto, para
-          practicar lo que estudio en ASIR y para tener servicios con uso real. Todo está documentado, incluidos 27 fallos reales con su causa y su solución.
+          Soy técnico de soporte IT y estudiante de ASIR. Bastión es el servidor que administro en casa para practicar
+          con infraestructura real, sin las limitaciones de permisos de mi puesto. Empezó en octubre de 2026 como un
+          Ubuntu Server dentro de mi PC y hoy es una plataforma Proxmox con DNS propio, monitorización, copias
+          probadas, servicios en Docker y un agente de IA.
         </p>
       </SectionHeader>
-      <ActionLink href={href('/bastion/incidencias')}>Ver las incidencias</ActionLink>
+
+      <section class="guardia" aria-labelledby="t-guardia">
+        <h2 class="guardia__head" id="t-guardia">
+          Entrada de guardia <time datetime={facts.asOf}>{fecha}</time>
+        </h2>
+        <dl class="guardia__log">
+          <div><dt>Puertos abiertos en el router</dt><dd>0</dd></div>
+          <div><dt>Incidencias publicadas</dt><dd>{publicadas}</dd></div>
+          <div><dt>Monitores activos</dt><dd>{facts.monitores}</dd></div>
+          <div><dt>Copias</dt><dd>restauración probada</dd></div>
+          <div><dt>Agente de IA</dt><dd>solo lectura</dd></div>
+        </dl>
+        <ActionLink href={href('/bastion/incidencias')}>Ver las incidencias</ActionLink>
+      </section>
     </div>
   </section>
 
-
-  <section class="section" id="capas">
+  <section class="section" id="capas" aria-labelledby="t-capas">
     <div class="container">
-      <SectionHeader eyebrow="Capas" title="Qué hay en *cada capa*">
-        <p>Qué monté, cómo lo comprobé y qué falló por el camino.</p>
+      <SectionHeader eyebrow="Capas" title="Qué hay en *cada capa*" id="t-capas">
+        <p>Qué hace cada parte, en una línea. El detalle técnico está plegado en cada tarjeta.</p>
       </SectionHeader>
-      <div class="grid stagger">
+      <ul class="grid stagger layers" role="list">
         {
           layers.map((l) => (
-            <div id={l.id} class="layer">
+            <li id={l.id} class:list={['layer', { 'layer--featured': l.featured }]}>
               <Card title={l.title} icon={l.icon} featured={l.featured}>
-                <p>{l.text}</p>
+                <p class="layer__summary">{l.summary}</p>
+                <details class="layer__more">
+                  <summary>Detalle técnico</summary>
+                  <p>{l.text}</p>
+                </details>
               </Card>
-            </div>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 
-
-  <section class="section section--alt" id="decisiones">
+  <section class="section section--alt" id="decisiones" aria-labelledby="t-decisiones">
     <div class="container">
-      <SectionHeader eyebrow="Decisiones de diseño" title="Qué decidí y *por qué*">
+      <SectionHeader eyebrow="Decisiones de diseño" title="Qué decidí y *por qué*" id="t-decisiones">
         <p>Cada decisión tiene una razón, y varias salieron de un fallo concreto.</p>
       </SectionHeader>
       <dl class="decisions">
@@ -67,23 +85,166 @@ import { layers, decisions } from '../../data/bastion';
           ))
         }
       </dl>
+
+      <div class="cierre">
+        <p>Los fallos que llevaron a estas decisiones están publicados, y el estado de cada servicio se puede consultar.</p>
+        <ul class="cierre__links" role="list">
+          <li><ActionLink href={href('/bastion/incidencias')}>Ver las incidencias</ActionLink></li>
+          <li><ActionLink href={href('/bastion/estado')}>Ver el estado actual</ActionLink></li>
+        </ul>
+      </div>
     </div>
   </section>
-
 </BastionLayout>
 
 <style>
+  /* Cabecera: presentación a la izquierda, entrada de guardia a la derecha */
+  .intro {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .intro :global(.sh) {
+    margin-bottom: 0;
+  }
+  @media (min-width: 60rem) {
+    .intro {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      align-items: end;
+      gap: 4rem;
+    }
+  }
+
+  /* Entrada de guardia: un registro con fecha, cifras en monoespaciado porque son datos */
+  .guardia {
+    padding: 1.5rem 1.5rem 1.75rem;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--red);
+    border-radius: var(--radius);
+  }
+  .guardia__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin: 0 0 0.75rem;
+    color: var(--text);
+    font-size: var(--fs-ui);
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
+  .guardia__head time {
+    color: var(--red-text);
+    font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .guardia__log {
+    margin: 0 0 1.25rem;
+  }
+  .guardia__log div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .guardia__log dt {
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+  .guardia__log dd {
+    margin: 0;
+    color: var(--text);
+    font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+    font-size: var(--fs-small);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  /* Capas */
+  .layers {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
   .layer {
     display: flex;
     scroll-margin-top: 9rem;
   }
+  @media (max-width: 40rem) {
+    .layer {
+      scroll-margin-top: 4.5rem;
+    }
+  }
   @media (min-width: 52rem) {
-    .layer:last-child {
+    .layer--featured {
       grid-column: 1 / -1;
     }
   }
   .layer :global(.card) {
     flex: 1;
+  }
+
+  /* Resumen visible y detalle técnico plegado */
+  .layer__summary {
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .layer__more {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+  .layer__more summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    list-style: none;
+    color: var(--red-text);
+    font-size: var(--fs-ui);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .layer__more summary::-webkit-details-marker {
+    display: none;
+  }
+  .layer__more summary:hover {
+    color: var(--text);
+  }
+  /* Signo más dibujado con dos líneas; al abrir desaparece la vertical */
+  .layer__more summary::after {
+    content: '';
+    flex: none;
+    width: 0.7rem;
+    height: 0.7rem;
+    background:
+      linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat;
+    transition: background-size var(--t);
+  }
+  .layer__more[open] summary::after {
+    background-size: 100% 1px, 0 100%;
+  }
+  .layer__more p {
+    margin: 0.75rem 0 0;
+    font-size: var(--fs-small);
+    overflow-wrap: break-word;
+  }
+  .layer :global(.card--featured) .layer__summary,
+  .layer :global(.card--featured) .layer__more summary,
+  .layer :global(.card--featured) .layer__more p {
+    color: var(--text);
+  }
+  .layer :global(.card--featured) .layer__more {
+    border-top-color: rgb(255 255 255 / 0.3);
   }
 
   /* Decisiones */
@@ -114,4 +275,20 @@ import { layers, decisions } from '../../data/bastion';
     }
   }
 
+  /* Cierre: el siguiente paso después de leer las decisiones */
+  .cierre {
+    margin-top: 3rem;
+  }
+  .cierre p {
+    max-width: 40rem;
+    color: var(--text);
+  }
+  .cierre__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 </style>

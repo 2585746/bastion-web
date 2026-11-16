@@ -148,12 +148,38 @@ const tabs: { id: BastionTab; label: string; path: string }[] = [
     box-shadow: 0 0 10px var(--red-glow);
   }
 
+  /* Pantallas estrechas y zoom alto: solo las pestañas quedan fijas, para no comerse la zona de lectura */
   @media (max-width: 40rem) {
+    .bhead {
+      position: relative;
+    }
+    .btabs {
+      top: 0;
+    }
     .bhead__inner {
       gap: 0.75rem;
     }
     .bhead__back {
       padding-left: 0.75rem;
+    }
+    /* Pista de que las pestañas siguen a la derecha: el borde se desvanece */
+    .btabs ul {
+      mask-image: linear-gradient(90deg, #000 calc(100% - 3rem), transparent);
+    }
+    /* Al llegar al final del desplazamiento, la pista desaparece */
+    @supports (animation-timeline: scroll(self inline)) {
+      .btabs ul {
+        animation: tabs-end linear both;
+        animation-timeline: scroll(self inline);
+      }
+      @keyframes tabs-end {
+        90% {
+          mask-image: linear-gradient(90deg, #000 calc(100% - 3rem), transparent);
+        }
+        to {
+          mask-image: linear-gradient(90deg, #000 100%, transparent);
+        }
+      }
     }
   }
 </style>

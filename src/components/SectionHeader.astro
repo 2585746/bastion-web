@@ -6,15 +6,17 @@ interface Props {
   level?: 1 | 2;
   /** Numeración grande y decorativa en gris: "01", "02"… */
   num?: string;
+  /** Id del título, para que la sección lo use con aria-labelledby. */
+  id?: string;
 }
-const { eyebrow, title, level = 2, num } = Astro.props;
+const { eyebrow, title, level = 2, num, id } = Astro.props;
 const H = level === 1 ? 'h1' : 'h2';
 const parts = title.split(/\*([^*]+)\*/);
 ---
 
 <header class="sh" data-num={num}>
   {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-  <H>{parts.map((p, i) => (i % 2 ? <em class="hl">{p}</em> : p))}</H>
+  <H id={id}>{parts.map((p, i) => (i % 2 ? <em class="hl">{p}</em> : p))}</H>
   <div class="lead"><slot /></div>
 </header>
 
