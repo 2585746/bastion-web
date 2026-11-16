@@ -26,6 +26,19 @@
     "learning": "Leer bien la sintaxis antes de dudar de la contraseña."
   },
   {
+    "id": 3,
+    "title": "SSH figura como \"inactive (dead)\" pero funciona",
+    "category": "Linux",
+    "date": "2026-11-16",
+    "originalDate": "Oct 2026",
+    "area": "SSH",
+    "symptom": "El servicio SSH figura como \"inactive (dead)\" pero funciona.",
+    "diagnosis": "No documentado.",
+    "cause": "Activación por socket de systemd (TriggeredBy: ssh.socket): el servicio arranca solo cuando llega una conexión.",
+    "solution": "No documentado.",
+    "learning": "Comprobar los puertos en escucha con ss -tln, no solo el estado del servicio."
+  },
+  {
     "id": 26,
     "title": "Bloqueo 403: access_denied al autorizar rclone con Google Drive",
     "category": "Ciberseguridad",
