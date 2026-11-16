@@ -13,6 +13,19 @@
     "learning": "Tras modificar la BIOS, realizar un apagado completo y no un reinicio."
   },
   {
+    "id": 2,
+    "title": "\"Permission denied\" con la contraseña correcta",
+    "category": "Ciberseguridad",
+    "date": "2026-11-16",
+    "originalDate": "Oct 2026",
+    "area": "SSH",
+    "symptom": "Error \"Permission denied\" al introducir la contraseña correcta.",
+    "diagnosis": "No documentado.",
+    "cause": "Sintaxis incorrecta del comando SSH.",
+    "solution": "No documentado.",
+    "learning": "Leer bien la sintaxis antes de dudar de la contraseña."
+  },
+  {
     "id": 26,
     "title": "Bloqueo 403: access_denied al autorizar rclone con Google Drive",
     "category": "Ciberseguridad",
