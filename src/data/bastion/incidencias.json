@@ -39,6 +39,19 @@
     "learning": "Comprobar los puertos en escucha con ss -tln, no solo el estado del servicio."
   },
   {
+    "id": 4,
+    "title": "Archivo bloqueado por un nano huérfano",
+    "category": "Linux",
+    "date": "2026-11-17",
+    "originalDate": "Oct 2026",
+    "area": "Linux",
+    "symptom": "No documentado.",
+    "diagnosis": "No documentado.",
+    "cause": "Sesión SSH cortada sin cerrar el editor. El proceso de nano quedó abierto con el archivo.",
+    "solution": "No documentado.",
+    "learning": "No documentado."
+  },
+  {
     "id": 26,
     "title": "Bloqueo 403: access_denied al autorizar rclone con Google Drive",
     "category": "Ciberseguridad",
