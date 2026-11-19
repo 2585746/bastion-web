@@ -1,7 +1,7 @@
 ---
 /**
  * Encabezado propio del área Bastión (un «mini sitio»): marca, vuelta al portafolio, idioma
- * y subpestañas fijas al hacer scroll con la pestaña activa marcada en rojo.
+ * y subpestañas fijas al hacer scroll con la pestaña activa marcada con el indicador lima.
  */
 import Logo from './Logo.astro';
 import LangSwitch from './LangSwitch.astro';
@@ -29,7 +29,7 @@ const tabs: { id: BastionTab; label: string; path: string }[] = [
 <header class="bhead">
   <div class="container bhead__inner">
     <a class="bhead__brand" href={href('/bastion', lang)}>
-      <Logo size={30} />
+      <Logo size={22} />
       <span>Bastión</span>
     </a>
     <a class="bhead__back" href={href('/', lang)}><span aria-hidden="true">←</span> Portafolio</a>
@@ -55,36 +55,36 @@ const tabs: { id: BastionTab; label: string; path: string }[] = [
     position: sticky;
     top: 0;
     z-index: 51;
-    background: rgb(20 20 20 / 0.92);
+    background: rgb(8 9 10 / 0.86);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   .bhead__inner {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    min-height: 4rem;
+    gap: 1rem;
+    min-height: 3.5rem;
   }
   .bhead__brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    color: var(--text);
-    font-size: 1.05rem;
-    font-weight: 800;
-    letter-spacing: 3px;
-    text-transform: uppercase;
+    gap: 0.625rem;
+    color: var(--color-paper);
+    font-size: var(--text-body);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-body);
+  }
+  .bhead__brand:hover {
+    color: var(--color-paper);
   }
   .bhead__back {
-    color: var(--text-muted);
-    font-size: var(--fs-ui);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding-left: 1.25rem;
-    border-left: 1px solid var(--border);
+    color: var(--color-fog);
+    font-size: var(--text-caption);
+    padding-left: 1rem;
+    border-left: 1px solid var(--color-graphite);
   }
   .bhead__back:hover {
-    color: var(--text);
+    color: var(--color-paper);
   }
   .bhead__lang {
     margin-left: auto;
@@ -92,11 +92,12 @@ const tabs: { id: BastionTab; label: string; path: string }[] = [
 
   .btabs {
     position: sticky;
-    top: 4rem;
+    top: 3.5rem;
     z-index: 50;
-    background: rgb(26 26 26 / 0.92);
+    background: rgb(8 9 10 / 0.86);
     backdrop-filter: blur(12px);
-    border-block: 1px solid var(--border);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-graphite);
   }
   .btabs ul {
     display: flex;
@@ -113,39 +114,31 @@ const tabs: { id: BastionTab; label: string; path: string }[] = [
   .btabs a {
     position: relative;
     display: block;
-    padding: 1rem 1.1rem;
-    color: var(--text-muted);
-    font-size: var(--fs-ui);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    padding: 0.875rem 0.75rem;
+    color: var(--color-fog);
+    font-size: var(--text-caption);
     white-space: nowrap;
   }
-  .btabs a::after {
-    content: '';
-    position: absolute;
-    left: 1.1rem;
-    right: 1.1rem;
-    bottom: 0;
-    height: 2px;
-    background: var(--red);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--t);
-  }
   .btabs a:hover {
-    color: var(--text);
-  }
-  .btabs a:hover::after,
-  .btabs a[aria-current='page']::after {
-    transform: scaleX(1);
+    color: var(--color-paper);
   }
   .btabs a[aria-current='page'] {
-    color: var(--text);
-    background: linear-gradient(180deg, transparent, var(--red-glow-soft));
+    color: var(--color-paper);
+    font-weight: var(--fw-medium);
   }
+  /* Indicador de pestaña activa: la única línea lima del área */
   .btabs a[aria-current='page']::after {
-    box-shadow: 0 0 10px var(--red-glow);
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: -1px;
+    height: 2px;
+    border-radius: var(--radius-sm);
+    background: var(--color-acid-lime);
+  }
+  .btabs a:focus-visible {
+    outline-offset: -2px;
   }
 
   /* Pantallas estrechas y zoom alto: solo las pestañas quedan fijas, para no comerse la zona de lectura */

@@ -1,9 +1,7 @@
 ---
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/500.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
-import '@fontsource/poppins/800.css';
+// Fuentes autoalojadas: Inter Variable para todo el texto y JetBrains Mono solo para datos técnicos
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import BastionNav, { type BastionTab } from '../components/BastionNav.astro';
@@ -43,7 +41,7 @@ const ogImage = new URL(asset('og.png'), Astro.site);
     <link rel="alternate" hreflang={lang} href={canonical} />
     <link rel="alternate" hreflang={lang === 'es' ? 'en' : 'es'} href={alt} />
     <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
-    <meta name="theme-color" content="#141414" />
+    <meta name="theme-color" content="#08090a" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -62,21 +60,5 @@ const ogImage = new URL(asset('og.png'), Astro.site);
       <slot />
     </main>
     <Footer lang={lang} />
-    <script>
-      // Brillo de las tarjetas que sigue al cursor: solo con ratón y sin movimiento reducido
-      if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.addEventListener(
-          'pointermove',
-          (e) => {
-            const card = (e.target as Element).closest<HTMLElement>('.card');
-            if (!card) return;
-            const r = card.getBoundingClientRect();
-            card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-            card.style.setProperty('--my', `${e.clientY - r.top}px`);
-          },
-          { passive: true },
-        );
-      }
-    </script>
   </body>
 </html>

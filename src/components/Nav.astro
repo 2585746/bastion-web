@@ -14,7 +14,7 @@ interface Props {
 const { lang, altHref } = Astro.props;
 const current = Astro.url.pathname.replace(/\/$/, '');
 
-/** Enlaces del portafolio. Bastión es un área propia y va aparte, como botón. */
+/** Enlaces del portafolio. Bastión es un área propia y va aparte, como pastilla neutra. */
 const items = [
   { key: 'nav.home', path: '/' },
   { key: 'nav.blog', path: '/blog' },
@@ -25,7 +25,7 @@ const items = [
 <header class="nav">
   <div class="container nav__inner">
     <a class="nav__brand" href={href('/', lang)}>
-      <Logo size={30} />
+      <Logo size={22} />
       <span class="nav__name">Martín De Prada</span>
     </a>
 
@@ -48,10 +48,10 @@ const items = [
     </nav>
 
     <div class="nav__actions">
-      <Button href={href('/bastion', lang)} external size="sm">{t(lang, 'nav.bastion')}</Button>
+      <Button href={href('/bastion', lang)} external size="sm" variant="neutral">{t(lang, 'nav.bastion')}</Button>
       <LangSwitch lang={lang} altHref={altHref} />
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
-        <Icon name="menu" size={22} />
+        <Icon name="menu" size={20} />
         <span class="sr-only">{t(lang, 'nav.menu')}</span>
       </button>
     </div>
@@ -59,108 +59,89 @@ const items = [
 </header>
 
 <style>
+  /* Barra fija arriba: logo a la izquierda, enlaces y acciones a la derecha */
   .nav {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgb(20 20 20 / 0.6);
-    backdrop-filter: blur(6px);
-    border-bottom: 1px solid transparent;
-  }
-  /* Al hacer scroll el fondo gana opacidad y desenfoque. Solo CSS; sin soporte queda el estado inicial. */
-  @supports (animation-timeline: scroll()) {
-    .nav {
-      animation: nav-scrolled linear both;
-      animation-timeline: scroll(root block);
-      animation-range: 0 140px;
-    }
-    @keyframes nav-scrolled {
-      to {
-        background: rgb(20 20 20 / 0.92);
-        backdrop-filter: blur(14px);
-        border-bottom-color: var(--border);
-      }
-    }
+    background: rgb(8 9 10 / 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-graphite);
   }
   .nav__inner {
     display: flex;
     align-items: center;
     gap: 1rem;
-    min-height: 4.5rem;
+    min-height: 4rem;
   }
   .nav__brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    color: var(--text);
-    font-weight: 700;
-    font-size: 0.95rem;
+    gap: 0.625rem;
+    color: var(--color-paper);
+    font-weight: var(--fw-medium);
+    font-size: var(--text-body);
+    letter-spacing: var(--tracking-body);
+  }
+  .nav__brand:hover {
+    color: var(--color-paper);
   }
   .nav__menu {
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
   }
   .nav__menu ul {
     display: flex;
-    gap: 2rem;
+    gap: 0.25rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
   .nav__menu a {
-    position: relative;
-    color: var(--text-muted);
-    font-size: var(--fs-ui);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-mist);
+    font-size: var(--text-caption);
+    border-radius: var(--radius-md);
   }
-  .nav__menu a:hover,
+  .nav__menu a:hover {
+    color: var(--color-paper);
+    text-decoration: underline;
+    text-decoration-color: var(--color-smoke);
+    text-underline-offset: 4px;
+  }
   .nav__menu a[aria-current='page'] {
-    color: var(--text);
-  }
-  /* Indicador de la sección activa: barra roja que crece desde la izquierda */
-  .nav__menu a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.45rem;
-    height: 2px;
-    background: var(--red);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--t);
-  }
-  .nav__menu a:hover::after,
-  .nav__menu a[aria-current='page']::after {
-    transform: scaleX(1);
-  }
-  .nav__menu a[aria-current='page']::after {
-    box-shadow: 0 0 10px var(--red-glow);
+    color: var(--color-paper);
+    background: var(--surface-tint);
   }
   .nav__actions {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
   .nav__toggle {
     display: none;
     background: none;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.5rem;
-    border-radius: var(--radius);
+    border: 0;
+    box-shadow: inset 0 0 0 1px var(--color-graphite);
+    color: var(--color-mist);
+    padding: 0.4375rem;
+    border-radius: var(--radius-md);
     cursor: pointer;
+  }
+  .nav__toggle:hover {
+    color: var(--color-paper);
+    background: var(--surface-tint);
   }
 
   @media (max-width: 860px) {
     .nav__menu {
       position: absolute;
       inset: 100% 0 auto 0;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
+      background: var(--color-void);
+      border-bottom: 1px solid var(--color-graphite);
       display: none;
     }
     .nav__menu.is-open {
@@ -168,19 +149,12 @@ const items = [
     }
     .nav__menu ul {
       flex-direction: column;
-      gap: 0;
-      padding: 0.5rem var(--gutter) 1.5rem;
+      gap: 0.125rem;
+      padding: 0.5rem var(--gutter) 1rem;
     }
     .nav__menu li a {
-      display: block;
-      padding: 0.9rem 0;
-    }
-    .nav__menu a::after {
-      display: none;
-    }
-    .nav__menu a[aria-current='page'] {
-      box-shadow: inset 3px 0 0 var(--red);
-      padding-left: 0.9rem;
+      padding: 0.75rem;
+      font-size: var(--text-body-sm);
     }
     .nav__actions {
       margin-left: auto;

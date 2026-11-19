@@ -25,7 +25,7 @@ Portafolio de Martín De Prada y bitácora de **Bastión**, su laboratorio de in
 
 - [Astro](https://astro.build) 7, sitio estático (`output: 'static'`).
 - TypeScript estricto y `astro check` en cada compilación.
-- CSS propio con variables, sin frameworks. Tipografía Poppins con `@fontsource/poppins` (sin peticiones a terceros).
+- CSS propio con variables, sin frameworks. Tipografía Inter Variable y JetBrains Mono autoalojadas con `@fontsource-variable` (sin peticiones a terceros). El sistema visual está descrito en `DESIGN.md`.
 - Sin analítica, sin cookies y sin recursos externos. JavaScript mínimo: solo el menú móvil.
 - Efectos de movimiento solo con CSS (`animation-timeline`, `@property`), con alternativa sin animación y respeto de `prefers-reduced-motion`.
 

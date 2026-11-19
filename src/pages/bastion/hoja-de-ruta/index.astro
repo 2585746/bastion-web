@@ -59,10 +59,10 @@ import { phases, statusLabel, progress, UPDATED } from '../../../data/roadmap';
     padding: 0;
   }
   .phases > li {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-graphite);
   }
   .phases > li:last-child {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-graphite);
   }
   summary {
     display: grid;
@@ -77,39 +77,50 @@ import { phases, statusLabel, progress, UPDATED } from '../../../data/roadmap';
     display: none;
   }
   summary:hover .phase__title {
-    color: var(--red-text);
+    color: var(--color-mist);
   }
   .phase__id {
-    color: var(--red-text);
-    font-size: var(--fs-ui);
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    color: var(--color-fog);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-mono);
   }
   .phase__title {
-    color: var(--text);
-    font-weight: 600;
+    color: var(--color-paper);
+    font-weight: var(--fw-medium);
     transition: color var(--t);
   }
+  /* Estado de la fase como badge: verde si está hecha; el resto, neutro */
   .phase__status {
-    font-size: var(--fs-ui);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-muted);
+    justify-self: start;
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-badge);
+    background: var(--surface-tint);
+    color: var(--color-fog);
+    font-size: var(--text-label);
+    line-height: 1.4;
+    white-space: nowrap;
   }
-  .phase__status--done,
+  .phase__status--done {
+    color: var(--color-pulse-green);
+    box-shadow: inset 0 0 0 1px rgb(39 166 68 / 0.4);
+  }
   .phase__status--doing {
-    color: var(--text);
+    color: var(--color-paper);
+    box-shadow: inset 0 0 0 1px var(--color-smoke);
   }
   .phase__count {
-    font-size: var(--fs-small);
-    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-fog);
     min-width: 4rem;
     text-align: right;
   }
   .phase__summary {
     margin: 0 0 1rem 6.5rem;
+    color: var(--color-mist);
+    font-size: var(--text-body-sm);
   }
   .items {
     list-style: none;
@@ -119,37 +130,45 @@ import { phases, statusLabel, progress, UPDATED } from '../../../data/roadmap';
   .item {
     display: flex;
     align-items: baseline;
-    gap: 0.9rem;
-    padding: 0.2rem 0;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
+    color: var(--color-fog);
+    font-size: var(--text-body-sm);
+    line-height: 1.5;
   }
   .item__mark {
     flex: none;
-    width: 0.6rem;
-    height: 0.6rem;
-    border: 1px solid var(--icon-neutral);
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: var(--radius-sm);
+    box-shadow: inset 0 0 0 1px var(--color-fog);
     transform: translateY(0.05rem);
   }
+  .item--done {
+    color: var(--color-mist);
+  }
   .item--done .item__mark {
-    background: var(--red);
-    border-color: var(--red);
+    background: var(--color-pulse-green);
+    box-shadow: none;
+  }
+  .item--doing {
+    color: var(--color-paper);
   }
   .item--doing .item__mark {
-    background: linear-gradient(90deg, var(--red) 50%, transparent 50%);
-    border-color: var(--red);
-  }
-  .item--done {
-    color: var(--text);
+    background: linear-gradient(90deg, var(--color-pulse-green) 50%, transparent 50%);
+    box-shadow: inset 0 0 0 1px var(--color-pulse-green);
   }
   /* Descartado por decisión: atenuado y tachado, con una marca en aspa */
   .item--dropped {
-    color: var(--icon-neutral);
+    color: var(--color-fog);
   }
   .item--dropped .item__mark {
-    border-color: var(--icon-neutral);
-    background: linear-gradient(135deg, transparent 45%, var(--icon-neutral) 45% 55%, transparent 55%);
+    box-shadow: inset 0 0 0 1px var(--color-ash);
+    background: linear-gradient(135deg, transparent 45%, var(--color-ash) 45% 55%, transparent 55%);
   }
   .item--dropped .item__text {
     text-decoration: line-through;
+    text-decoration-color: var(--color-ash);
   }
 
   @media (max-width: 40rem) {
@@ -164,4 +183,5 @@ import { phases, statusLabel, progress, UPDATED } from '../../../data/roadmap';
     .items {
       margin-left: 0;
     }
-  }</style>
+  }
+</style>

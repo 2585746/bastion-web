@@ -1,10 +1,13 @@
 ---
 interface Props {
   eyebrow?: string;
-  /** Las palabras entre asteriscos van en rojo: «Lo que *puedo demostrar*». */
+  /**
+   * Las palabras entre asteriscos se destacan en blanco papel y el resto del título queda en gris niebla:
+   * «Lo que *puedo demostrar*». Sin asteriscos, todo el título va en blanco.
+   */
   title: string;
   level?: 1 | 2;
-  /** Numeración grande y decorativa en gris: "01", "02"… */
+  /** Numeración de sección en monoespaciado junto al rótulo: "01", "02"… */
   num?: string;
   /** Id del título, para que la sección lo use con aria-labelledby. */
   id?: string;
@@ -12,36 +15,49 @@ interface Props {
 const { eyebrow, title, level = 2, num, id } = Astro.props;
 const H = level === 1 ? 'h1' : 'h2';
 const parts = title.split(/\*([^*]+)\*/);
+const twoTone = parts.length > 1;
 ---
 
-<header class="sh" data-num={num}>
-  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-  <H id={id}>{parts.map((p, i) => (i % 2 ? <em class="hl">{p}</em> : p))}</H>
+<header class="sh">
+  {
+    (eyebrow || num) && (
+      <span class="eyebrow">
+        {num && <span class="sh__num" aria-hidden="true">{num}</span>}
+        {eyebrow}
+      </span>
+    )
+  }
+  <H id={id} class:list={{ 'sh__two': twoTone }}>{parts.map((p, i) => (i % 2 ? <em class="hl">{p}</em> : p))}</H>
   <div class="lead"><slot /></div>
 </header>
 
 <style>
   .sh {
-    position: relative;
     margin-bottom: 3rem;
   }
-  /* Numeración decorativa como contenido generado: no es texto del documento */
-  .sh[data-num]::before {
-    content: attr(data-num);
-    position: absolute;
-    top: -0.35em;
-    right: 0;
-    z-index: 0;
-    color: var(--num);
-    font-size: clamp(4rem, 11vw, 8rem);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    pointer-events: none;
-    user-select: none;
+  .sh :is(h1, h2) {
+    margin-bottom: 1.25rem;
   }
-  .sh > * {
-    position: relative;
-    z-index: 1;
+  .sh__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-fog);
+    padding: 0 0.375rem;
+    border-radius: var(--radius-badge);
+    box-shadow: var(--shadow-subtle);
+  }
+  /* Titular a dos tonos: lo destacado en blanco papel, el resto en gris niebla */
+  .sh__two {
+    color: var(--color-fog);
+  }
+  .sh__two :global(.hl) {
+    color: var(--color-paper);
+  }
+  .lead:empty {
+    display: none;
+  }
+  .lead :global(p:last-child) {
+    margin-bottom: 0;
   }
 </style>

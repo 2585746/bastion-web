@@ -12,16 +12,34 @@ import Logo from '../components/Logo.astro';
 import Icon, { type IconName } from '../components/Icon.astro';
 import { href } from '../lib/url';
 
-const colors = [
-  ['--bg', '#141414', 'Fondo principal'],
-  ['--bg-alt', '#1A1A1A', 'Bloques alternos'],
-  ['--surface', '#1F1F1F', 'Tarjetas'],
-  ['--border', '#2A2A2A', 'Bordes'],
-  ['--red', '#E02B2F', 'Acento: fondos y cifras'],
-  ['--red-text', '#FF4A4E', 'Acento: texto pequeño (AA)'],
-  ['--text', '#FFFFFF', 'Texto principal'],
-  ['--text-muted', '#B5B5B5', 'Texto secundario'],
-  ['--icon-neutral', '#6B6B6B', 'Íconos neutros'],
+const neutrals = [
+  ['--color-void', '#08090A', 'Lienzo de la página'],
+  ['--color-carbon', '#0F1011', 'Tarjetas y barras'],
+  ['--color-obsidian', '#161718', 'Superficies elevadas'],
+  ['--color-graphite', '#23252A', 'Bordes y divisores'],
+  ['--color-smoke', '#383B3F', 'Líneas de más contraste'],
+  ['--color-ash', '#62666D', 'Iconos inactivos (no texto)'],
+  ['--color-fog', '#8A8F98', 'Texto terciario, metadatos'],
+  ['--color-mist', '#D0D6E0', 'Texto de cuerpo'],
+  ['--color-bone', '#E5E5E6', 'Rellenos casi blancos'],
+  ['--color-paper', '#FFFFFF', 'Titulares'],
+] as const;
+
+const accents = [
+  ['--color-acid-lime', '#E4F222', 'Única acción: botón principal y pestaña activa'],
+  ['--color-pulse-green', '#27A644', 'Estado: correcto, hecho'],
+  ['--color-coral-red', '#EB5757', 'Estado: fallo, aviso'],
+] as const;
+
+const type = [
+  ['Display', 'clamp(2.75rem, 8vw, 4.5rem) · 510 · −0,022em'],
+  ['Título de sección', 'clamp(2rem, 5vw, 3rem) · 510 · −0,022em'],
+  ['Subtítulo', '24 px · 400 · −0,012em'],
+  ['Título de tarjeta', '17 px · 590'],
+  ['Cuerpo', '16 px · 400 · interlineado 1,5'],
+  ['Cuerpo pequeño', '15 px · 400 · −0,011em'],
+  ['Rótulo', '13 px · 510'],
+  ['Mono', 'JetBrains Mono 12–13 px · solo datos'],
 ] as const;
 
 const icons: IconName[] = [
@@ -34,14 +52,32 @@ const icons: IconName[] = [
 <BaseLayout title="Guía de estilo" description="Componentes del sistema de diseño." altHref={href('/estilo', 'en')} noindex>
   <section class="section">
     <div class="container">
-      <SectionHeader eyebrow="Sistema de diseño" title="Guía de estilo" level={1}>
-        <p>Todos los componentes del sitio. Si una pantalla tiene mucho rojo, está mal.</p>
+      <SectionHeader eyebrow="Sistema de diseño" title="Guía de *estilo*" level={1}>
+        <p>
+          Instrumento de precisión de medianoche: superficies casi negras, texto blanco papel, líneas finas en lugar de
+          sombras y un solo acento lima para la acción principal de cada vista. Si una pantalla tiene dos botones lima,
+          está mal.
+        </p>
       </SectionHeader>
 
-      <h2 class="g-title">Colores</h2>
+      <h2 class="g-title">Neutros</h2>
       <div class="swatches">
         {
-          colors.map(([v, hex, use]) => (
+          neutrals.map(([v, hex, use]) => (
+            <div class="swatch">
+              <span class="swatch__chip" style={`background: var(${v})`} />
+              <code>{v}</code>
+              <span class="swatch__hex">{hex}</span>
+              <span class="swatch__use">{use}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <h2 class="g-title">Acento y estados</h2>
+      <div class="swatches">
+        {
+          accents.map(([v, hex, use]) => (
             <div class="swatch">
               <span class="swatch__chip" style={`background: var(${v})`} />
               <code>{v}</code>
@@ -52,24 +88,37 @@ const icons: IconName[] = [
         }
       </div>
       <p class="note">
-        Nota de accesibilidad: el rojo <code>#E02B2F</code> sobre el fondo oscuro tiene un contraste de 4,0:1, por
-        debajo del mínimo AA (4,5:1) para texto pequeño. Se usa tal cual en botones, fondos y cifras grandes, y en
-        su variante <code>#FF4A4E</code> (5,6:1) para etiquetas y enlaces.
+        Contraste sobre <code>#08090A</code>: el cuerpo en <code>#D0D6E0</code> supera 14:1 y el texto terciario en
+        <code>#8A8F98</code> ronda 6:1, ambos por encima de AA. <code>#62666D</code> queda por debajo de 4,5:1, así que
+        solo se usa en iconos y trazos, nunca en texto importante. El verde y el coral de estado superan 5:1 y se usan
+        como etiquetas, no como acciones.
       </p>
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <h2 class="g-title">Tipografía</h2>
-      <span class="eyebrow">Etiqueta destacada</span>
-      <p class="g-h1">Título de página · 800</p>
-      <h2>Título de sección · 800</h2>
-      <h3>Título de tarjeta · 700</h3>
+      <span class="eyebrow">Rótulo · 13 px · 510</span>
+      <p class="g-display">Display · 510</p>
+      <h2>Título de sección · 510</h2>
+      <h2 class="sh__demo">Titular a <em class="hl">dos tonos</em></h2>
+      <h3>Título de tarjeta</h3>
       <p class="lead">
-        Párrafo de 15 px, peso 400 e interlineado 1.8 en gris secundario. Frases cortas y concretas, cada
-        afirmación apoyada en algo verificable. Código en línea: <code>sshd -T</code>.
+        Inter Variable autoalojada con <code>cv01</code>, <code>ss03</code> y <code>zero</code> activados. Pesos 400, 510
+        y 590 como máximo. Frases cortas y concretas, cada afirmación apoyada en algo verificable. Código en línea:
+        <code>sshd -T</code>.
       </p>
+      <dl class="type-scale">
+        {
+          type.map(([name, spec]) => (
+            <div>
+              <dt>{name}</dt>
+              <dd>{spec}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 
@@ -78,28 +127,34 @@ const icons: IconName[] = [
       <h2 class="g-title">Botones y enlaces</h2>
       <div class="row">
         <Button href="#">Botón principal</Button>
-        <Button href="#" icon="arrow">Con ícono</Button>
-        <Button href="#" variant="ghost" icon="download">Secundario</Button>
+        <Button href="#" variant="ghost" icon="download">Fantasma</Button>
+        <Button href="#" variant="neutral" size="sm">Pastilla neutra</Button>
       </div>
       <div class="row">
         <ActionLink href="#">Enlace de acción</ActionLink>
-        <a href="#">Enlace en texto</a>
+        <p class="inline-demo"><a href="#">Enlace en texto</a></p>
       </div>
+      <p class="note">
+        Lima <code>#E4F222</code> con texto <code>#08090A</code>, radio 6 px, 14 px a 510: el único relleno de color y uno
+        solo por vista. El fantasma lleva un contorno de 1 px en <code>#23252A</code>; la pastilla neutra blanca se usa para
+        la llamada de la barra de navegación.
+      </p>
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <h2 class="g-title">Tarjetas</h2>
       <div class="grid">
         <Card title="Monitorización" icon="pulse">
-          <p>Tarjeta estándar: ícono de línea en rojo, título blanco y texto gris.</p>
+          <p>Marco de vitrina: fondo carbón, línea interior de 1 px y radio de 12 px. Sin sombra exterior.</p>
         </Card>
         <Card title="Agente de IA" icon="bot" featured>
-          <p>Tarjeta destacada: gradiente rojo. Como máximo una por sección.</p>
+          <p>Destacada: superficie elevada y línea de más contraste. Como máximo una por sección.</p>
         </Card>
-        <Card title="Con enlace" icon="shield" href="#">
-          <p>Tarjeta enlazada: al pasar el cursor se eleva y aparece un borde superior rojo.</p>
+        <Card level={4} title="Con llamada a la acción" icon="shield" href="#" cta="Ver evidencia">
+          <ul class="lines"><li>Al pasar el cursor, la superficie sube un nivel y la línea gana contraste.</li></ul>
+          <ul class="chips"><li class="chip">Badge</li></ul>
         </Card>
       </div>
     </div>
@@ -107,6 +162,18 @@ const icons: IconName[] = [
 
   <section class="section">
     <div class="container">
+      <h2 class="g-title">Badges, pastillas y listas</h2>
+      <ul class="chips">
+        <li class="chip">Proxmox VE</li>
+        <li class="chip">Tailscale</li>
+        <li class="chip chip--ok">Hecho</li>
+        <li class="chip chip--bad">Fallo</li>
+      </ul>
+      <ul class="lines demo-lines">
+        <li>Línea técnica con un guion fino como marcador.</li>
+        <li>Máximo tres por tarjeta, con tecnologías concretas.</li>
+      </ul>
+
       <h2 class="g-title">Cifras</h2>
       <div class="stats">
         <Stat value="27" label="incidencias documentadas" />
@@ -119,7 +186,7 @@ const icons: IconName[] = [
         {
           icons.map((n) => (
             <li>
-              <Icon name={n} size={28} />
+              <Icon name={n} size={22} />
               <span>{n}</span>
             </li>
           ))
@@ -128,37 +195,13 @@ const icons: IconName[] = [
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
-      <SectionHeader num="01" eyebrow="Componentes nuevos" title="Separador con numeración">
-        <p>El número grande en gris es decorativo (contenido generado por CSS) y no compite con el título.</p>
+      <SectionHeader num="01" eyebrow="Componentes" title="Encabezado con *numeración*">
+        <p>El número va en monoespaciado dentro de un badge, junto al rótulo; no compite con el título.</p>
       </SectionHeader>
 
-      <h2 class="g-title">Chips y líneas técnicas</h2>
-      <ul class="lines">
-        <li>Línea técnica con marcador cuadrado rojo.</li>
-        <li>Máximo tres por tarjeta, con tecnologías concretas.</li>
-      </ul>
-      <ul class="chips">
-        <li class="chip">Proxmox VE</li>
-        <li class="chip">Tailscale</li>
-        <li class="chip">Pi-hole</li>
-        <li class="chip">n8n</li>
-      </ul>
-
-      <h2 class="g-title">Tarjeta con evidencia</h2>
-      <div class="grid">
-        <Card level={4} title="Con llamada a la acción" icon="server" href="#" cta="Ver evidencia">
-          <ul class="lines"><li>Enlaza a la parte donde se puede comprobar.</li></ul>
-          <ul class="chips"><li class="chip">Chip</li></ul>
-        </Card>
-        <Card level={4} title="Destacada" icon="bot" href="#" featured cta="Ver evidencia">
-          <ul class="lines"><li>Como máximo una por bloque.</li></ul>
-          <ul class="chips"><li class="chip">Chip</li></ul>
-        </Card>
-      </div>
-
-      <h2 class="g-title">Terminal decorativa</h2>
+      <h2 class="g-title">Terminal</h2>
       <Terminal
         title="ejemplo · extractos saneados"
         lines={[
@@ -183,27 +226,22 @@ const icons: IconName[] = [
         <Logo size={32} />
         <Logo size={20} />
       </div>
-      <p class="note">Torre con almenas y una «B» de línea fina. Se usa en el menú, el favicon y la imagen para redes (<code>public/og.png</code>, 1200×630).</p>
+      <p class="note">Torre con almenas y una «B» de línea fina, en blanco hueso. Junto al nombre en Inter 16 px a 510. Se usa en el menú y el favicon.</p>
 
-      <h2 class="g-title">Titulares</h2>
-      <p class="note">Las palabras entre asteriscos en el título de <code>SectionHeader</code> salen en rojo: <em class="hl">así</em>. Las cifras grandes usan un degradado de blanco a gris.</p>
-
-      <h2 class="g-title">Atmósfera</h2>
-      <p class="note">Cada sección lleva una malla de degradados rojos de muy baja opacidad que cambia de posición (tres variantes), un grano sutil hecho con un SVG inline y, entre secciones, una línea de luz roja que se desvanece por los extremos.</p>
-
-      <h2 class="g-title">Navegación de página</h2>
+      <h2 class="g-title">Forma, espacio y profundidad</h2>
       <p class="note">
-        <code>SubNav</code> es el menú de anclas de Bastión y Sobre mí: barra de chips bajo el menú en pantallas estrechas y riel de puntos
-        numerados en el margen izquierdo desde 80 rem. Marca la sección visible con un script de pocas líneas. La barra de progreso de
-        lectura (<code>progress</code> en <code>BaseLayout</code>) es solo CSS.
+        Radios: 12 px en tarjetas (nunca más), 6 px en botones y campos, 4 px en badges, 9999 px en pastillas. Base de
+        4 px, ancho máximo de 1200 px, 96 px entre secciones y 24 px de relleno en tarjetas. La separación la dan las
+        líneas finas (<code>#23252A</code> y <code>#383B3F</code>) y las sombras interiores; no hay sombras para separar
+        tarjetas del lienzo ni degradados decorativos.
       </p>
 
-      <h2 class="g-title">Efectos</h2>
+      <h2 class="g-title">Navegación y movimiento</h2>
       <p class="note">
-        Resplandores y degradados rojos de baja opacidad (<code>--red-glow</code>, <code>--red-glow-soft</code>); nunca
-        sombras pesadas. Las tarjetas son de cristal oscuro: borde con degradado y brillo que sigue al cursor (solo con ratón y sin movimiento reducido).
-        El escalonado de entrada se activa con la clase <code>stagger</code> en la cuadrícula. El revelado al hacer scroll (<code>.reveal</code>) y los contadores (<code>.count</code>) usan solo
-        CSS y desaparecen con <code>prefers-reduced-motion</code> o si el navegador no los admite.
+        Barra fija arriba con el logo a la izquierda y los enlaces a la derecha. En Bastión, la pestaña activa lleva el
+        indicador lima. <code>SubNav</code> es el menú de anclas de Sobre mí: pastillas bajo el menú en pantallas
+        estrechas y un riel de números desde 80 rem. El revelado al hacer scroll (<code>.reveal</code>), los contadores
+        (<code>.count</code>) y la barra de progreso son solo CSS y desaparecen con <code>prefers-reduced-motion</code>.
       </p>
     </div>
   </section>
@@ -211,60 +249,114 @@ const icons: IconName[] = [
 
 <style>
   .g-title {
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin: 3rem 0 1.5rem;
+    font-size: var(--text-caption);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-body);
+    color: var(--color-fog);
+    margin: 3rem 0 1rem;
   }
   .g-title:first-of-type {
     margin-top: 0;
   }
-  .g-h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+  .g-display {
+    color: var(--color-paper);
+    font-size: clamp(2.75rem, 8vw, 4.5rem);
+    font-weight: var(--fw-medium);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    margin-bottom: 1.5rem;
+  }
+  .sh__demo {
+    color: var(--color-fog);
+  }
+  .sh__demo .hl {
+    color: var(--color-paper);
   }
   .swatches {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr));
   }
   .swatch {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    font-size: var(--fs-small);
+    gap: 0.25rem;
+    font-size: var(--text-caption);
+  }
+  .swatch code {
+    justify-self: start;
+    width: fit-content;
   }
   .swatch__chip {
     height: 4rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-subtle);
     margin-bottom: 0.5rem;
   }
   .swatch__hex {
-    color: var(--text);
+    color: var(--color-paper);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+  }
+  .swatch__use {
+    color: var(--color-fog);
   }
   .note {
-    margin-top: 2rem;
-    font-size: var(--fs-small);
+    margin-top: 1.5rem;
+    color: var(--color-mist);
+    font-size: var(--text-body-sm);
+    line-height: 1.6;
     max-width: 44rem;
+  }
+  .type-scale {
+    margin: 2rem 0 0;
+    max-width: 40rem;
+  }
+  .type-scale div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-graphite);
+  }
+  .type-scale dt {
+    color: var(--color-paper);
+    font-size: var(--text-body-sm);
+  }
+  .type-scale dd {
+    margin: 0;
+    color: var(--color-fog);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    text-align: right;
   }
   .row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .inline-demo {
+    margin: 0;
+  }
+  .demo-lines {
+    margin-top: 1.5rem;
   }
   .stats {
     display: grid;
     gap: 0 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 44rem) {
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   .icons {
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
     list-style: none;
     padding: 0;
     margin: 0;
@@ -274,14 +366,15 @@ const icons: IconName[] = [
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    padding: 1.25rem 0.5rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--red-text);
+    padding: 1rem 0.5rem;
+    background: var(--surface-carbon);
+    box-shadow: var(--shadow-subtle);
+    border-radius: var(--radius-md);
+    color: var(--color-mist);
   }
   .icons span {
-    color: var(--text-muted);
-    font-size: var(--fs-ui);
+    color: var(--color-fog);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
   }
 </style>

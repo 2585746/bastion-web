@@ -116,11 +116,10 @@ const fecha = `${d}/${m}/${y}`;
 
   /* Entrada de guardia: un registro con fecha, cifras en monoespaciado porque son datos */
   .guardia {
-    padding: 1.5rem 1.5rem 1.75rem;
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-top: 2px solid var(--red);
-    border-radius: var(--radius);
+    padding: var(--card-padding);
+    background: var(--surface-carbon);
+    box-shadow: var(--shadow-subtle);
+    border-radius: var(--radius-xl);
   }
   .guardia__head {
     display: flex;
@@ -128,19 +127,19 @@ const fecha = `${d}/${m}/${y}`;
     align-items: baseline;
     justify-content: space-between;
     gap: 0.25rem 1rem;
-    margin: 0 0 0.75rem;
-    color: var(--text);
-    font-size: var(--fs-ui);
-    font-weight: 700;
-    letter-spacing: 2px;
-    line-height: 1.6;
-    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+    color: var(--color-paper);
+    font-size: var(--text-ui);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-body);
+    line-height: 1.5;
   }
   .guardia__head time {
-    color: var(--red-text);
-    font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
-    font-weight: 400;
-    letter-spacing: 0;
+    color: var(--color-fog);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--fw-regular);
+    letter-spacing: var(--tracking-mono);
   }
   .guardia__log {
     margin: 0 0 1.25rem;
@@ -150,18 +149,20 @@ const fecha = `${d}/${m}/${y}`;
     justify-content: space-between;
     align-items: baseline;
     gap: 1rem;
-    padding: 0.55rem 0;
-    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-graphite);
   }
   .guardia__log dt {
-    font-size: var(--fs-small);
+    color: var(--color-fog);
+    font-size: var(--text-caption);
     line-height: 1.5;
   }
   .guardia__log dd {
     margin: 0;
-    color: var(--text);
-    font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
-    font-size: var(--fs-small);
+    color: var(--color-paper);
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+    letter-spacing: var(--tracking-mono);
     font-variant-numeric: tabular-nums;
     text-align: right;
   }
@@ -174,14 +175,14 @@ const fecha = `${d}/${m}/${y}`;
   }
   .layer {
     display: flex;
-    scroll-margin-top: 9rem;
+    scroll-margin-top: 8rem;
   }
   @media (max-width: 40rem) {
     .layer {
       scroll-margin-top: 4.5rem;
     }
   }
-  @media (min-width: 52rem) {
+  @media (min-width: 44rem) {
     .layer--featured {
       grid-column: 1 / -1;
     }
@@ -192,13 +193,13 @@ const fecha = `${d}/${m}/${y}`;
 
   /* Resumen visible y detalle técnico plegado */
   .layer__summary {
-    color: var(--text);
+    color: var(--color-paper);
     line-height: 1.6;
   }
   .layer__more {
     margin-top: 1rem;
     padding-top: 0.75rem;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-graphite);
   }
   .layer__more summary {
     display: flex;
@@ -207,24 +208,22 @@ const fecha = `${d}/${m}/${y}`;
     gap: 1rem;
     cursor: pointer;
     list-style: none;
-    color: var(--red-text);
-    font-size: var(--fs-ui);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    color: var(--color-mist);
+    font-size: var(--text-caption);
+    font-weight: var(--fw-medium);
   }
   .layer__more summary::-webkit-details-marker {
     display: none;
   }
   .layer__more summary:hover {
-    color: var(--text);
+    color: var(--color-paper);
   }
   /* Signo más dibujado con dos líneas; al abrir desaparece la vertical */
   .layer__more summary::after {
     content: '';
     flex: none;
-    width: 0.7rem;
-    height: 0.7rem;
+    width: 0.625rem;
+    height: 0.625rem;
     background:
       linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
       linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat;
@@ -235,16 +234,12 @@ const fecha = `${d}/${m}/${y}`;
   }
   .layer__more p {
     margin: 0.75rem 0 0;
-    font-size: var(--fs-small);
+    color: var(--color-mist);
+    font-size: var(--text-body-sm);
     overflow-wrap: break-word;
   }
-  .layer :global(.card--featured) .layer__summary,
-  .layer :global(.card--featured) .layer__more summary,
-  .layer :global(.card--featured) .layer__more p {
-    color: var(--text);
-  }
   .layer :global(.card--featured) .layer__more {
-    border-top-color: rgb(255 255 255 / 0.3);
+    border-top-color: var(--color-smoke);
   }
 
   /* Decisiones */
@@ -256,18 +251,21 @@ const fecha = `${d}/${m}/${y}`;
     gap: 0.5rem 3rem;
     grid-template-columns: 1fr;
     padding: 1.5rem 0;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-graphite);
   }
   .decision:last-child {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-graphite);
   }
   .decision dt {
-    color: var(--text);
-    font-weight: 600;
+    color: var(--color-paper);
+    font-weight: var(--fw-medium);
     line-height: 1.5;
   }
   .decision dd {
     margin: 0;
+    color: var(--color-mist);
+    font-size: var(--text-body-sm);
+    line-height: 1.6;
   }
   @media (min-width: 52rem) {
     .decision {
@@ -281,12 +279,12 @@ const fecha = `${d}/${m}/${y}`;
   }
   .cierre p {
     max-width: 40rem;
-    color: var(--text);
+    color: var(--color-paper);
   }
   .cierre__links {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem 2.5rem;
+    gap: 1rem 2rem;
     margin: 0;
     padding: 0;
     list-style: none;

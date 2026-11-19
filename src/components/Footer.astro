@@ -15,10 +15,10 @@ const year = new Date().getFullYear();
     <p class="footer__note">© {year} {PROFILE.name} · {t(lang, 'footer.static')}</p>
     <ul class="footer__links">
       <li>
-        <a href={PROFILE.github} rel="me noopener"><Icon name="github" size={20} label="GitHub" /></a>
+        <a href={PROFILE.github} rel="me noopener"><Icon name="github" size={18} label="GitHub" /></a>
       </li>
       <li>
-        <a href={PROFILE.linkedin} rel="me noopener"><Icon name="linkedin" size={20} label="LinkedIn" /></a>
+        <a href={PROFILE.linkedin} rel="me noopener"><Icon name="linkedin" size={18} label="LinkedIn" /></a>
       </li>
       {/* TODO (fase 4): mostrar el icono de RSS cuando exista el canal /rss.xml */}
     </ul>
@@ -27,7 +27,7 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-graphite);
     padding-block: 2.5rem;
   }
   .footer__inner {
@@ -39,19 +39,27 @@ const year = new Date().getFullYear();
   }
   .footer__note {
     margin: 0;
-    font-size: var(--fs-small);
+    color: var(--color-fog);
+    font-size: var(--text-caption);
   }
   .footer__links {
     display: flex;
-    gap: 1.25rem;
+    gap: 0.5rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
   .footer__links a {
-    color: var(--icon-neutral);
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    color: var(--color-fog);
+    transition: color var(--t), background var(--t);
   }
   .footer__links a:hover {
-    color: var(--red-text);
+    color: var(--color-paper);
+    background: var(--surface-tint);
   }
 </style>

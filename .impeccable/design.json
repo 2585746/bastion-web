@@ -1,97 +1,238 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-16T00:00:00Z",
+  "generatedAt": "2026-11-19T00:00:00Z",
   "title": "Design System: Bastión",
   "extensions": {
     "colorMeta": {
-      "red": { "role": "primary", "displayName": "Rojo de Señal", "canonical": "#e02b2f", "tonalRamp": ["#3a0c0d", "#5e1214", "#8a191c", "#b81f23", "#e02b2f", "#ee6366", "#f6a1a3", "#fbd6d7"] },
-      "red-dark": { "role": "primary", "displayName": "Rojo Oscuro de Pulsación", "canonical": "#b81f23" },
-      "red-text": { "role": "primary", "displayName": "Rojo de Texto", "canonical": "#ff4a4e" },
-      "bg": { "role": "neutral", "displayName": "Negro de Guardia", "canonical": "#141414", "tonalRamp": ["#0a0a0a", "#141414", "#1a1a1a", "#1f1f1f", "#2a2a2a", "#6b6b6b", "#b5b5b5", "#ffffff"] },
-      "bg-alt": { "role": "neutral", "displayName": "Negro Alterno", "canonical": "#1a1a1a" },
-      "surface": { "role": "neutral", "displayName": "Grafito de Superficie", "canonical": "#1f1f1f" },
-      "border": { "role": "neutral", "displayName": "Línea de Grafito", "canonical": "#2a2a2a" },
-      "text": { "role": "neutral", "displayName": "Blanco", "canonical": "#ffffff" },
-      "text-muted": { "role": "neutral", "displayName": "Gris de Lectura", "canonical": "#b5b5b5" },
-      "icon-neutral": { "role": "neutral", "displayName": "Gris de Icono", "canonical": "#6b6b6b" }
+      "void": {
+        "role": "neutral",
+        "displayName": "Void",
+        "canonical": "#08090a",
+        "tonalRamp": [
+          "#08090a",
+          "#0f1011",
+          "#161718",
+          "#23252a",
+          "#383b3f",
+          "#62666d",
+          "#8a8f98",
+          "#d0d6e0",
+          "#e5e5e6",
+          "#ffffff"
+        ]
+      },
+      "carbon": {
+        "role": "neutral",
+        "displayName": "Carbon",
+        "canonical": "#0f1011"
+      },
+      "obsidian": {
+        "role": "neutral",
+        "displayName": "Obsidian",
+        "canonical": "#161718"
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#23252a"
+      },
+      "smoke": {
+        "role": "neutral",
+        "displayName": "Smoke",
+        "canonical": "#383b3f"
+      },
+      "ash": {
+        "role": "neutral",
+        "displayName": "Ash",
+        "canonical": "#62666d"
+      },
+      "fog": {
+        "role": "neutral",
+        "displayName": "Fog",
+        "canonical": "#8a8f98"
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "#d0d6e0"
+      },
+      "bone": {
+        "role": "neutral",
+        "displayName": "Bone",
+        "canonical": "#e5e5e6"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff"
+      },
+      "acid-lime": {
+        "role": "primary",
+        "displayName": "Acid Lime",
+        "canonical": "#e4f222"
+      },
+      "pulse-green": {
+        "role": "status",
+        "displayName": "Pulse Green",
+        "canonical": "#27a644"
+      },
+      "coral-red": {
+        "role": "status",
+        "displayName": "Coral Red",
+        "canonical": "#eb5757"
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "h1 de cabecera." },
-      "headline": { "displayName": "Headline", "purpose": "h2 de sección." },
-      "title": { "displayName": "Title", "purpose": "h3 de tarjetas." },
-      "body": { "displayName": "Body", "purpose": "Texto corrido en gris de lectura." },
-      "label": { "displayName": "Label", "purpose": "Eyebrow, botones, CTA y chips en mayúsculas." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "h1 del hero."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "h1 de página y h2 de sección, a dos tonos."
+      },
+      "subheading": {
+        "displayName": "Subheading",
+        "purpose": "Títulos de bloque y de regla."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Títulos de tarjeta."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto corrido en mist."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Rótulos, pestañas y botones pequeños."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "IDs, fechas, cifras de registro y metadatos."
+      }
     },
     "shadows": [
-      { "name": "progress-glow", "value": "0 0 12px rgb(224 43 47 / 0.18)", "purpose": "Brillo de la barra de progreso de lectura." }
+      {
+        "name": "subtle",
+        "value": "inset 0 0 0 1px #23252a",
+        "purpose": "Borde de tarjetas y marcos."
+      },
+      {
+        "name": "strong",
+        "value": "inset 0 0 0 1px #383b3f",
+        "purpose": "Hover y tarjeta destacada."
+      },
+      {
+        "name": "button",
+        "value": "0 5px 2px rgb(0 0 0 / .01), 0 3px 2px rgb(0 0 0 / .04), 0 1px 1px rgb(0 0 0 / .07)",
+        "purpose": "Solo el botón lima."
+      },
+      {
+        "name": "xl",
+        "value": "0 4px 32px rgb(8 9 10 / .6)",
+        "purpose": "Desplegable de idioma."
+      }
     ],
     "motion": [
-      { "name": "t", "value": "0.3s ease", "purpose": "Transición estándar de estados." },
-      { "name": "count", "value": "1.4s cubic-bezier(0.2, 0.7, 0.2, 1)", "purpose": "Contadores de cifras." }
+      {
+        "name": "t",
+        "value": "0.16s ease",
+        "purpose": "Transición estándar de estados."
+      },
+      {
+        "name": "count",
+        "value": "1.2s cubic-bezier(0.2, 0.7, 0.2, 1)",
+        "purpose": "Contadores de cifras."
+      }
     ],
-    "breakpoints": []
+    "breakpoints": [
+      "36rem",
+      "44rem",
+      "52rem",
+      "62rem",
+      "80rem"
+    ]
   },
   "components": [
     {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Acción principal con relleno rojo.",
-      "html": "<a class=\"ds-btn-primary\" href=\"#\">Ver el proyecto</a>",
-      "css": ".ds-btn-primary{display:inline-flex;align-items:center;padding:1rem 1.75rem;background:#e02b2f;color:#fff;border:1px solid #e02b2f;border-radius:2px;font:600 .75rem/1 Poppins,system-ui,sans-serif;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:background .3s ease,border-color .3s ease}.ds-btn-primary:hover{background:#b81f23;border-color:#b81f23}.ds-btn-primary:focus-visible{outline:2px solid #ff4a4e;outline-offset:3px}"
+      "description": "Acción principal en lima; una por vista.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Ver Bastión</a>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;padding:10px 16px;background:#e4f222;color:#08090a;border-radius:6px;font:510 14px/1.2 \"Inter Variable\",system-ui,sans-serif;font-feature-settings:\"cv01\",\"ss03\",\"zero\";letter-spacing:-.011em;text-decoration:none}.ds-btn-primary:hover{background:#eef56a}.ds-btn-primary:focus-visible{outline:2px solid #d0d6e0;outline-offset:3px}"
     },
     {
       "name": "Ghost Button",
       "kind": "button",
       "refersTo": "button-ghost",
-      "description": "Acción secundaria con borde.",
+      "description": "Acción secundaria con contorno fino.",
       "html": "<a class=\"ds-btn-ghost\" href=\"#\">Descargar CV</a>",
-      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;padding:1rem 1.75rem;background:transparent;color:#fff;border:1px solid #2a2a2a;border-radius:2px;font:600 .75rem/1 Poppins,system-ui,sans-serif;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:border-color .3s ease}.ds-btn-ghost:hover{border-color:#b5b5b5}.ds-btn-ghost:focus-visible{outline:2px solid #ff4a4e;outline-offset:3px}"
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;padding:10px 16px;background:transparent;color:#d0d6e0;box-shadow:inset 0 0 0 1px #23252a;border-radius:6px;font:510 14px/1.2 \"Inter Variable\",system-ui,sans-serif;text-decoration:none}.ds-btn-ghost:hover{background:rgb(255 255 255/.05);color:#fff;box-shadow:inset 0 0 0 1px #383b3f}"
     },
     {
-      "name": "Chip",
+      "name": "Badge",
       "kind": "chip",
-      "refersTo": "chip",
-      "description": "Etiqueta de tecnología.",
-      "html": "<span class=\"ds-chip\">Proxmox</span>",
-      "css": ".ds-chip{display:inline-block;padding:.15rem .65rem;border:1px solid #2a2a2a;border-radius:2px;background:#141414;color:#b5b5b5;font:400 .75rem/1.7 Poppins,system-ui,sans-serif;white-space:nowrap}"
+      "refersTo": "badge",
+      "description": "Etiqueta de tecnología o metadato.",
+      "html": "<span class=\"ds-badge\">Proxmox</span>",
+      "css": ".ds-badge{display:inline-block;padding:2px 6px;border-radius:4px;background:rgb(255 255 255/.05);color:#8a8f98;font:400 12px/1.4 \"Inter Variable\",system-ui,sans-serif;white-space:nowrap}"
     },
     {
       "name": "Card",
       "kind": "card",
       "refersTo": "card",
-      "description": "Tarjeta de cristal oscuro con borde de degradado y borde superior rojo al pasar el cursor.",
+      "description": "Marco de vitrina: carbón, línea interior y radio de 12 px.",
       "html": "<a class=\"ds-card\" href=\"#\"><h3>Monitorización</h3><p>Estado de los servicios del homelab.</p></a>",
-      "css": ".ds-card{position:relative;display:block;padding:2rem;border:1px solid transparent;border-radius:2px;background:linear-gradient(180deg,rgb(31 31 31/.96),rgb(24 24 24/.96)) padding-box,linear-gradient(150deg,rgb(255 255 255/.16),rgb(224 43 47/.32) 38%,rgb(255 255 255/.05) 75%) border-box;color:#b5b5b5;font:400 .9375rem/1.8 Poppins,system-ui,sans-serif;text-decoration:none;overflow:hidden;transition:transform .3s ease}.ds-card h3{margin:0 0 .5rem;color:#fff;font-size:1.125rem;font-weight:700}.ds-card p{margin:0}.ds-card::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:#e02b2f;transform:scaleX(0);transform-origin:left;transition:transform .45s ease}.ds-card:hover,.ds-card:focus-visible{transform:translateY(-4px)}.ds-card:hover::before,.ds-card:focus-visible::before{transform:scaleX(1)}"
+      "css": ".ds-card{display:block;padding:24px;border-radius:12px;background:#0f1011;box-shadow:inset 0 0 0 1px #23252a;color:#d0d6e0;font:400 15px/1.6 \"Inter Variable\",system-ui,sans-serif;text-decoration:none;transition:background .16s ease,box-shadow .16s ease}.ds-card h3{margin:0 0 8px;color:#fff;font-size:17px;font-weight:590}.ds-card p{margin:0}.ds-card:hover{background:#161718;box-shadow:inset 0 0 0 1px #383b3f}"
     }
   ],
   "narrative": {
-    "northStar": "El Cuaderno del Centro de Operaciones",
-    "overview": "La web se lee como un cuaderno de guardia de un centro de operaciones de noche: fondo casi negro, texto atenuado y un único rojo que señala lo que importa. La tipografía y la estructura llevan el peso; la decoración es luz, no adorno. Es un sistema técnico y seguro: rótulos pequeños en mayúsculas espaciadas, marcadores cuadrados rojos y esquinas casi rectas.\n\nLas tarjetas son cristal oscuro: borde de degradado fino, brillo rojo que sigue al cursor y un leve ascenso al enlazarlas. El resto del sistema es plano; las capas de gris separan, y los resplandores rojos son de muy baja opacidad.",
+    "northStar": "Instrumento de precisión de medianoche",
+    "overview": "La web se lee como un instrumento de medida en una sala a oscuras: lienzo casi negro, texto blanco papel con tracking cerrado y nada que no aporte información. La única textura visual son las propias piezas de interfaz, enmarcadas con líneas de 1 px. Hay un solo color de acción, el lima, y aparece una vez por vista.",
     "keyCharacteristics": [
-      "Tema oscuro con un único acento rojo (#e02b2f); nada de segundo color.",
-      "Poppins autoalojada, titulares en 800 con tracking negativo, rótulos en mayúsculas.",
-      "Esquinas de 2px en todo; sin redondeo decorativo.",
-      "Cristal oscuro solo en tarjetas; luz roja tenue como único efecto.",
-      "El movimiento es CSS puro y respeta prefers-reduced-motion."
+      "Lienzo #08090a y superficies en cuatro niveles.",
+      "Inter Variable autoalojada con cv01, ss03 y zero; pesos 400, 510 y 590 como máximo.",
+      "JetBrains Mono autoalojada solo para datos técnicos.",
+      "Líneas finas e inset en lugar de sombras; radios de 12, 6 y 4 px y pastillas.",
+      "Lima #e4f222 solo en el botón principal y la pestaña activa.",
+      "Verde y coral solo como etiquetas de estado."
     ],
     "rules": [
-      { "name": "The One Voice Rule", "body": "El rojo es la única voz de color. No se añade un segundo acento ni se usa el rojo como relleno de grandes superficies salvo la tarjeta destacada.", "section": "colors" },
-      { "name": "The Small Red Rule", "body": "El texto rojo pequeño usa siempre #ff4a4e; #e02b2f queda para fondos y cifras grandes.", "section": "colors" },
-      { "name": "The Caps Label Rule", "body": "Todo rótulo de interfaz (eyebrow, botón, CTA) va en mayúsculas de 12px con 2px de tracking; los titulares nunca.", "section": "typography" },
-      { "name": "The Glass-Only-On-Cards Rule", "body": "El cristal (borde degradado, brillo del cursor, ascenso) es exclusivo de las tarjetas. Ningún otro elemento lo imita.", "section": "elevation" }
+      {
+        "name": "The One Lime Rule",
+        "body": "Un solo botón lima por vista.",
+        "section": "colors"
+      },
+      {
+        "name": "The Status-Not-Action Rule",
+        "body": "Verde y coral marcan estados, nunca acciones.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Tone Headline Rule",
+        "body": "Las palabras entre asteriscos van en paper y el resto del titular en fog.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono-Is-Data Rule",
+        "body": "JetBrains Mono nunca en titulares ni texto de marketing.",
+        "section": "typography"
+      }
     ],
     "dos": [
-      "Do usar el rojo solo como señal; texto rojo pequeño en #ff4a4e.",
-      "Do mantener las esquinas en 2px y los bordes en 1px.",
-      "Do poner rótulos en mayúsculas de 12px con tracking de 2px.",
-      "Do respetar prefers-reduced-motion en toda animación."
+      "Do usar Inter con cv01, ss03 y zero.",
+      "Do reservar el lima para una sola acción por vista.",
+      "Do separar con líneas de 1 px e inset.",
+      "Do respetar prefers-reduced-motion."
     ],
     "donts": [
-      "Don't añadir sombras negras ni elevaciones fuera de las tarjetas.",
-      "Don't introducir un segundo color de acento.",
-      "Don't usar recursos de terceros: la fuente es autoalojada y el grano es un SVG inline.",
-      "Don't redondear esquinas más de 2px."
+      "Don't usar pesos de 700 o más.",
+      "Don't poner degradados en botones, tarjetas o texto.",
+      "Don't redondear tarjetas más de 12 px ni hacer cuadrículas de tres columnas.",
+      "Don't usar #62666d para texto importante.",
+      "Don't pedir fuentes a terceros."
     ]
   }
 }
