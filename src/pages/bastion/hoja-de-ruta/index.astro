@@ -8,13 +8,16 @@ import { phases, statusLabel, progress, UPDATED } from '../../../data/roadmap';
 <BastionLayout
   tab="hoja-de-ruta"
   title="Hoja de ruta"
-  description="Estado por fases de Bastión: lo que está hecho, en curso, pendiente y descartado."
+  description="Hoja de ruta de Bastión por fases: qué está hecho, qué está en curso, qué falta (SOC, Active Directory, Ansible, nube) y qué se descartó."
   altHref={href('/bastion', 'en')}
 >
   <section class="section" id="hoja-de-ruta">
     <div class="container">
-      <SectionHeader eyebrow="Hoja de ruta" title="Estado *por fases*" level={1}>
-        <p>Actualizada el {UPDATED}. Las fases con trabajo hecho o en curso aparecen abiertas.</p>
+      <SectionHeader eyebrow="Hoja de ruta" title="Qué está hecho y *qué falta*" level={1}>
+        <p>
+          Actualizada el {UPDATED}. Las fases con trabajo hecho o en curso aparecen abiertas. El SOC, Active Directory en
+          Proxmox, Ansible y los laboratorios en Azure y AWS todavía no están hechos.
+        </p>
       </SectionHeader>
       <ol class="phases">
         {

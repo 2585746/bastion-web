@@ -1,21 +1,59 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
 import ActionLink from '../../components/ActionLink.astro';
-import { href } from '../../lib/url';
+import { href, asset, PROFILE } from '../../lib/url';
 ---
 
 <BaseLayout
   lang="en"
-  title="Martín De Prada"
-  description="IT support technician building Bastion, a documented infrastructure and security lab with automation and AI."
+  title="IT support and a Proxmox home lab"
+  description="Martín De Prada, IT support technician at a 24/7 distribution center in Madrid. He runs Bastion, a Proxmox home server with no ports open on the router, phone alerts, restore-tested backups and published failure write-ups."
   altHref={href('/')}
 >
   <section class="section">
     <div class="container">
-      <span class="eyebrow">Coming in phase 5</span>
-      <h1>English version in progress</h1>
-      <p class="lead">The full English site will be written, not machine-translated.</p>
-      <ActionLink href={href('/')}>Spanish version</ActionLink>
+      <span class="eyebrow">Martín De Prada · IT support · Madrid, Spain</span>
+      <h1>IT support at a 24/7 distribution center. At home, a server I run and document.</h1>
+      <p class="lead">
+        The server is Bastion: Proxmox with no ports open on the home router, alerts to my phone, backups I restored to
+        check they actually work, and an AI agent that can read but not change anything. One backup job reported
+        success while saving one machine out of three. The weekly AI report flagged it; I fixed it and wrote it up.
+      </p>
+      <p class="lead">
+        I'm studying systems and network administration (ASIR, a Spanish higher technician diploma) and want to move from
+        support into systems, cloud and security. Open to relocating to Germany or the Netherlands. My English is
+        intermediate; I use it every day with technical and vendor documentation.
+      </p>
+      <p class="lead">
+        The detailed write-up of Bastion is in Spanish for now. The English pages are being written from scratch, not
+        machine-translated.
+      </p>
+      <div class="en-actions">
+        <Button href={asset('cv/CV_Martin_De_Prada_EN.pdf')} icon="download" download>Download my CV (PDF)</Button>
+        <ActionLink href={`mailto:${PROFILE.email}`}>Email me</ActionLink>
+        <ActionLink href={href('/bastion')}>See Bastion (in Spanish)</ActionLink>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Titular de frase completa: mismo tamaño que el de la portada en español para que quepa en móvil */
+  h1 {
+    max-width: 22ch;
+    font-size: clamp(2rem, 5.5vw, 3.5rem);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  .lead {
+    max-width: 46rem;
+  }
+  .en-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    margin-top: 2rem;
+  }
+</style>

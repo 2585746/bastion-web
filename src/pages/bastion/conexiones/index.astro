@@ -8,15 +8,19 @@ import { href } from '../../../lib/url';
 <BastionLayout
   tab="conexiones"
   title="Conexiones"
-  description="Cómo se conectan los componentes de Bastión: el túnel sin puertos abiertos, el hipervisor, los contenedores, la VM de Docker y los servicios externos."
+  description="Diagrama de Bastión: cómo se llega al servidor por Tailscale sin abrir puertos, qué corre en el hipervisor y en la VM de Docker, y qué sale hacia servicios externos."
   altHref={href('/bastion', 'en')}
 >
   <section class="section" id="arquitectura">
     <div class="container">
-      <SectionHeader eyebrow="Conexiones" title="Cómo *encaja* todo" level={1}>
+      <SectionHeader eyebrow="Conexiones" title="Cómo se conecta todo, *sin abrir puertos*" level={1}>
         <p>
-          Un solo anfitrión con contenedores y máquinas virtuales, al que se llega únicamente por una red privada. Lo
-          que sale al exterior son alertas, latidos y consultas a APIs, y el router no tiene ningún puerto abierto.
+          Un solo anfitrión con contenedores y máquinas virtuales, al que solo se llega por una red privada. Desde casa
+          solo salen alertas, latidos, consultas a APIs y copias cifradas. El router no tiene ningún puerto abierto.
+        </p>
+        <p>
+          El diagrama no incluye la prueba de concepto del túnel WireGuard: un contenedor de casa abre la conexión hacia
+          un servidor en la nube para publicar un servicio de prueba, también sin abrir puertos.
         </p>
       </SectionHeader>
       <ArchDiagram />

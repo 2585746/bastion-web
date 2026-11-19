@@ -19,7 +19,7 @@ export interface Phase {
   items: RoadmapItem[];
 }
 
-export const UPDATED = '13/11/2026';
+export const UPDATED = '19/11/2026';
 
 export const statusLabel: Record<Status, string> = {
   done: 'Hecho',
@@ -33,7 +33,7 @@ export const phases: Phase[] = [
   {
     id: 'base',
     title: 'Infraestructura base',
-    summary: 'Lo que ya está en marcha y verificado.',
+    summary: 'Lo que ya funciona y está comprobado.',
     status: 'done',
     items: [
       { text: 'Hipervisor validado con Memtest86+ y SMART, y Proxmox VE 9.2 en UEFI', status: 'done' },
@@ -41,18 +41,18 @@ export const phases: Phase[] = [
       { text: 'DNS propio con Pi-hole y nombres locales', status: 'done' },
       { text: 'Uptime Kuma con 9 monitores activos, ntfy y Healthchecks.io como vigilante externo', status: 'done' },
       { text: 'Glances en el anfitrión para el hardware', status: 'done' },
-      { text: 'Copias diarias de las tres máquinas con restauración probada', status: 'done' },
+      { text: 'Copias diarias de todas las máquinas, con restauración probada', status: 'done' },
       { text: 'VM de Docker endurecida con Docker Compose', status: 'done' },
-      { text: 'Nginx Proxy Manager y Homepage; Paperless y GLPI apagados a propósito', status: 'done' },
+      { text: 'Nginx Proxy Manager, Homepage y GLPI; Paperless apagado a propósito', status: 'done' },
       { text: 'n8n con informe semanal de Gemini y agente de operaciones por chat de solo lectura', status: 'done' },
-      { text: 'Inventario y 27 incidencias documentadas', status: 'done' },
+      { text: 'Inventario y registro de incidencias con formato fijo', status: 'done' },
     ],
   },
   {
     id: 'A',
     title: 'Cerrar la infraestructura',
-    summary: 'Dejar la base completa y publicar la documentación.',
-    status: 'doing',
+    summary: 'Dejar la base completa y la documentación en GitHub. Fase cerrada.',
+    status: 'done',
     items: [
       { text: 'A1 · Copia cifrada fuera de casa con rclone (regla 3-2-1)', status: 'done' },
       { text: 'A2 · Tarea de copias en modo «Todo», que incluye también las máquinas futuras', status: 'done' },
@@ -60,18 +60,18 @@ export const phases: Phase[] = [
       { text: 'A4 · Paperless apagado a propósito y retirado de Homepage y de Uptime Kuma', status: 'done' },
       { text: 'A5 · Acceso SSH del hipervisor solo con clave (descartado por decisión el 13/11/2026)', status: 'dropped' },
       { text: 'A6 · Retirar el correo local de Proxmox, que nunca entregó nada', status: 'done' },
-      { text: 'A7 · Subir la documentación de Bastión a GitHub con la estructura nueva', status: 'todo' },
+      { text: 'A7 · Subir la documentación de Bastión a GitHub con la estructura nueva', status: 'done' },
     ],
   },
   {
     id: 'B',
     title: 'Hardware',
-    summary: 'Más memoria y discos dedicados.',
-    status: 'todo',
+    summary: 'Más memoria y un disco para las copias. La memoria ya está; el disco de copias murió y falta comprar otro.',
+    status: 'doing',
     items: [
-      { text: 'B1 · Ampliar la memoria a 24 GB', status: 'todo' },
-      { text: 'B2 · Disco propio para las máquinas virtuales y mover la VM de Docker', status: 'todo' },
-      { text: 'B3 · Disco de 2 TB para copias, con retención de 7 diarias y 2 semanales', status: 'todo' },
+      { text: 'B1 · Ampliar la memoria a 24 GB', status: 'done' },
+      { text: 'B2 · Disco propio para las máquinas virtuales (descartado: siguen en el disco del sistema)', status: 'dropped' },
+      { text: 'B3 · Disco de 2 TB para copias, con 7 diarias y 2 semanales (el anterior murió el 18/11/2026; falta comprar otro)', status: 'todo' },
       { text: 'B4 · Pasta térmica, Memtest86+ y SMART largo del disco nuevo', status: 'todo' },
     ],
   },
@@ -79,9 +79,9 @@ export const phases: Phase[] = [
     id: 'C',
     title: 'Linux y Ansible',
     summary: 'Configuración reproducible de todas las máquinas.',
-    status: 'todo',
+    status: 'doing',
     items: [
-      { text: 'C1 · Doce clases de Linux en un contenedor de prácticas', status: 'todo' },
+      { text: 'C1 · Estudio de Linux con un curso, en un contenedor de prácticas ya creado', status: 'doing' },
       { text: 'C2 · Ansible: inventario, playbook de actualizaciones y bootstrap', status: 'todo' },
       { text: 'C3 · Playbooks publicados en GitHub', status: 'todo' },
     ],
@@ -92,7 +92,7 @@ export const phases: Phase[] = [
     summary: 'Lo que deba ser público vive en la nube, no en casa.',
     status: 'doing',
     items: [
-      { text: 'D1 · Presupuesto y alerta de gasto en Google Cloud (a la espera de la verificación de la cuenta)', status: 'doing' },
+      { text: 'D1 · Presupuesto y alertas de gasto en Google Cloud (facturación a la espera de la verificación de la cuenta)', status: 'doing' },
       { text: 'D2 · Este sitio en GitHub Pages con dominio propio (portafolio hecho; blog e incidencias pendientes)', status: 'done' },
       { text: 'D3 · Máquina virtual en Google Cloud unida a la red privada', status: 'todo' },
       { text: 'D4 · Dominio propio con HTTPS: hecho en GitHub Pages, pendiente en la máquina de la nube', status: 'doing' },
@@ -103,12 +103,12 @@ export const phases: Phase[] = [
     id: 'I',
     title: 'Publicar servicios: ¿abrir puertos o salir a la red?',
     summary:
-      'Estudiar cómo publicar algo desde Bastión, con qué riesgo y qué cambiaría en esta web. La decisión actual sigue vigente.',
-    status: 'todo',
+      'Decidido y probado: un túnel WireGuard que sale de casa hacia un servidor en la nube con Caddy. Funciona como prueba de concepto con un subdominio de prueba, y el router sigue sin puertos abiertos.',
+    status: 'doing',
     items: [
-      { text: 'I1 · Comparar tres opciones: seguir cerrado y publicar desde la nube, túnel saliente, o abrir puertos en una zona aislada', status: 'todo' },
-      { text: 'I2 · Escribir la decisión con su riesgo, su coste y su plan de vuelta atrás', status: 'todo' },
-      { text: 'I3 · Prueba de concepto con un servicio de usar y tirar', status: 'todo' },
+      { text: 'I1 · Comparar tres opciones: seguir cerrado y publicar desde la nube, túnel saliente, o abrir puertos en una zona aislada', status: 'done' },
+      { text: 'I2 · Escribir la decisión con su riesgo, su coste y su plan de vuelta atrás: túnel saliente propio; Cloudflare descartado por ahora', status: 'done' },
+      { text: 'I3 · Prueba de concepto con un servicio de usar y tirar en un subdominio de prueba', status: 'done' },
       { text: 'I4 · Adaptar esta web al resultado: alojamiento, despliegue y cifras', status: 'todo' },
     ],
   },

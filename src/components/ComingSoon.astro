@@ -17,21 +17,27 @@ const es = lang === 'es';
 <BaseLayout
   lang={lang}
   title={title}
-  description={es ? `${title}: sección en construcción.` : `${title}: section in progress.`}
+  description={es ? `${title}: todavía sin contenido publicado.` : `${title}: English version not written yet.`}
   altHref={href(path, es ? 'en' : 'es')}
 >
   <section class="section">
     <div class="container">
-      <span class="eyebrow">{es ? 'En construcción' : 'In progress'}</span>
+      <span class="eyebrow">{es ? 'Todavía vacío' : 'Not in English yet'}</span>
       <h1>{title}</h1>
       <p class="lead">
         {
           es
-            ? 'Esta sección se está construyendo y documentando por fases. Vuelve pronto.'
-            : 'This section is being built and documented in phases. Check back soon.'
+            ? 'Aquí todavía no hay nada publicado. Mientras tanto, lo que he montado y cómo lo resolví está en Bastión.'
+            : "This page isn't in English yet. I'm writing the English version from scratch rather than machine-translating it. The Spanish page has the full detail."
         }
       </p>
-      <ActionLink href={href('/', lang)}>{es ? 'Volver al inicio' : 'Back to home'}</ActionLink>
+      {
+        es ? (
+          <ActionLink href={href('/bastion')}>Ver Bastión</ActionLink>
+        ) : (
+          <ActionLink href={href(path)}>Read the Spanish page</ActionLink>
+        )
+      }
     </div>
   </section>
 </BaseLayout>

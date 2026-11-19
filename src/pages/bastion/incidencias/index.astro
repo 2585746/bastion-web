@@ -52,19 +52,20 @@ const apartados = [
 <BastionLayout
   tab="incidencias"
   title="Incidencias"
-  description="Las incidencias documentadas de Bastión, cada una con síntoma, diagnóstico, causa, solución y aprendizaje."
+  description="Fallos reales de Bastión, el laboratorio de Martín De Prada, cada uno con síntoma, diagnóstico, causa, solución y aprendizaje."
   altHref={href('/bastion', 'en')}
 >
   <section class="section">
     <div class="container">
-      <SectionHeader eyebrow="Incidencias" title="Fallos reales, *documentados*" level={1}>
+      <SectionHeader eyebrow="Incidencias" title="Qué falló, *por qué y cómo lo arreglé*" level={1}>
         <p>
-          Cada incidencia sigue el mismo formato: síntoma, diagnóstico, causa, solución y aprendizaje. Se publican a
-          medida que se revisan.
+          Cada fallo con el mismo formato: síntoma, diagnóstico, causa, solución y aprendizaje. En el registro del
+          proyecto hay más; los publico a medida que los reviso. Los primeros son de octubre de 2026, cuando empecé, y
+          algunos apartados quedaron sin documentar: lo indico tal cual.
         </p>
       </SectionHeader>
 
-      <h2 class="rules-title">Las cuatro reglas de diagnóstico</h2>
+      <h2 class="rules-title">Las cuatro reglas con las que diagnostico</h2>
       <div class="grid stagger">
         {
           rules.map((r) => (

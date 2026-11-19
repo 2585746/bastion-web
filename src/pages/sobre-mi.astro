@@ -10,7 +10,7 @@ import { jobs, techGroups, education, languages } from '../data/experience';
 
 <BaseLayout
   title="Sobre mí"
-  description="Técnico de soporte IT y referente de IT del sitio en un centro de distribución 24/7. Experiencia, formación, tecnologías e idiomas de Martín De Prada."
+  description="Martín De Prada: técnico de soporte IT y referente de IT del sitio en su turno en un centro de distribución 24/7, estudiante de ASIR. Experiencia, tecnologías, formación, idiomas y CV."
   altHref={href('/sobre-mi', 'en')}
   progress
 >
@@ -26,15 +26,16 @@ import { jobs, techGroups, education, languages } from '../data/experience';
     <div class="container">
       <SectionHeader eyebrow="Sobre mí" title="Martín De Prada" level={1}>
         <p>
-          Soy técnico de soporte IT y referente de IT del sitio en mi turno en un centro de distribución 24/7 de alto
-          volumen, operado por GXO Logistics. Trabajo con Windows 10/11, Active Directory y Entra ID, switching y
+          Soy técnico de soporte IT y, en mi turno, el referente de IT del sitio en un centro de distribución 24/7 de
+          alto volumen, operado por GXO Logistics. Trabajo con Windows 10/11, Active Directory y Entra ID, switching y
           VLAN, control de acceso a la red (802.1X, MAB), flotas de terminales con MDM y sistemas de escaneo y RFID.
-          Desarrollo herramientas web internas en Netlify y Retool para eliminar trabajo manual.
+          Cuando una tarea manual se repite, construyo una herramienta interna en Netlify o Retool para quitarla.
         </p>
         <p>
-          Fuera del trabajo diseño y opero <a href={href('/bastion')} target="_blank" rel="noopener">Bastión<span aria-hidden="true"> ↗</span><span class="sr-only"> (se abre en una pestaña nueva)</span></a>, un laboratorio de infraestructura y
-          seguridad con 27 incidencias documentadas como síntoma, diagnóstico, causa, solución y aprendizaje. Mi
-          objetivo es una carrera orientada a la nube, en infraestructura híbrida, automatización y seguridad.
+          Fuera del trabajo monto y administro <a href={href('/bastion')} target="_blank" rel="noopener">Bastión<span aria-hidden="true"> ↗</span><span class="sr-only"> (se abre en una pestaña nueva)</span></a>, mi laboratorio de infraestructura y
+          seguridad. Cada fallo queda escrito con síntoma, diagnóstico, causa, solución y aprendizaje, y los publico a
+          medida que los reviso. Estudio ASIR y quiero orientar mi carrera a la nube: infraestructura híbrida,
+          automatización y seguridad.
         </p>
       </SectionHeader>
       <div class="cv-actions">
@@ -47,7 +48,7 @@ import { jobs, techGroups, education, languages } from '../data/experience';
   <section class="section section--alt" id="experiencia">
     <div class="container">
       <SectionHeader num="01" eyebrow="Trayectoria" title="Experiencia *profesional*">
-        <p>Dos puestos, con lo que hice en cada uno.</p>
+        <p>Dos puestos y lo que hice en cada uno.</p>
       </SectionHeader>
       <div class="jobs">
         {
@@ -80,7 +81,7 @@ import { jobs, techGroups, education, languages } from '../data/experience';
   <section class="section" id="tecnologias">
     <div class="container">
       <SectionHeader num="02" eyebrow="Tecnologías" title="Con qué *trabajo*">
-        <p>Agrupadas por área. No hay niveles ni porcentajes: lo que aparece lo uso y lo puedo demostrar.</p>
+        <p>Por área y sin barras de nivel ni porcentajes: si aparece aquí, lo he usado en el trabajo o en Bastión.</p>
       </SectionHeader>
       <div class="tech">
         {
@@ -132,11 +133,11 @@ import { jobs, techGroups, education, languages } from '../data/experience';
 
   <section class="section" id="contacto">
     <div class="container">
-      <SectionHeader num="05" eyebrow="Contacto" title="*Hablemos*">
-        <p>Madrid, España · abierto a reubicación en Alemania y Países Bajos.</p>
+      <SectionHeader num="05" eyebrow="Contacto" title="¿Buscas a alguien para soporte o sistemas? *Escríbeme*">
+        <p>Madrid, España. Abierto a reubicación en Alemania y Países Bajos.</p>
       </SectionHeader>
       <div class="contact__actions">
-        <Button href={`mailto:${PROFILE.email}`} icon="mail">Escríbeme</Button>
+        <Button href={`mailto:${PROFILE.email}`} icon="mail">Escribirme un correo</Button>
         <ActionLink href={PROFILE.linkedin}>LinkedIn</ActionLink>
         <ActionLink href={PROFILE.github}>GitHub</ActionLink>
       </div>

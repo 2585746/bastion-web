@@ -16,18 +16,22 @@ const fecha = `${d}/${m}/${y}`;
 <BastionLayout
   tab="funcionamiento"
   title="Funcionamiento"
-  description="Cómo funciona Bastión, el laboratorio de infraestructura y seguridad que administro en casa: Proxmox sin puertos abiertos, monitorización, copias probadas y un agente de IA de solo lectura."
+  description="Bastión, el laboratorio que Martín De Prada administra en casa: Proxmox sin puertos abiertos en el router, DNS propio, alertas al móvil, copias restauradas, servicios en Docker y un agente de IA de solo lectura. Qué hay, por qué y qué falta."
   altHref={href('/bastion', 'en')}
   progress
 >
   <section class="section" aria-labelledby="t-bastion">
     <div class="container intro">
-      <SectionHeader eyebrow="Funcionamiento" title="*Bastión*, de punta a punta" level={1} id="t-bastion">
+      <SectionHeader eyebrow="Funcionamiento" title="Un servidor en casa, *sin puertos abiertos*" level={1} id="t-bastion">
         <p>
           Soy técnico de soporte IT y estudiante de ASIR. Bastión es el servidor que administro en casa para practicar
           con infraestructura real, sin las limitaciones de permisos de mi puesto. Empezó en octubre de 2026 como un
-          Ubuntu Server dentro de mi PC y hoy es una plataforma Proxmox con DNS propio, monitorización, copias
-          probadas, servicios en Docker y un agente de IA.
+          Ubuntu Server dentro de mi PC. Hoy es un Proxmox en un OptiPlex de segunda mano que costó 50 €, con DNS
+          propio, alertas al móvil, copias restauradas, servicios en Docker y un agente de IA que solo puede leer.
+        </p>
+        <p>
+          No es un entorno de producción: es un laboratorio. Lo que todavía no está hecho, como el SOC o Active
+          Directory, figura como pendiente en la <a href={href('/bastion/hoja-de-ruta')}>hoja de ruta</a>.
         </p>
       </SectionHeader>
 
@@ -42,7 +46,7 @@ const fecha = `${d}/${m}/${y}`;
           <div><dt>Copias</dt><dd>restauración probada</dd></div>
           <div><dt>Agente de IA</dt><dd>solo lectura</dd></div>
         </dl>
-        <ActionLink href={href('/bastion/incidencias')}>Ver las incidencias</ActionLink>
+        <ActionLink href={href('/bastion/incidencias')}>Leer los fallos publicados</ActionLink>
       </section>
     </div>
   </section>
@@ -50,7 +54,7 @@ const fecha = `${d}/${m}/${y}`;
   <section class="section" id="capas" aria-labelledby="t-capas">
     <div class="container">
       <SectionHeader eyebrow="Capas" title="Qué hay en *cada capa*" id="t-capas">
-        <p>Qué hace cada parte, en una línea. El detalle técnico está plegado en cada tarjeta.</p>
+        <p>Qué hace cada parte, en una línea. Abre «Detalle técnico» para ver cómo está montada y cómo lo comprobé.</p>
       </SectionHeader>
       <ul class="grid stagger layers" role="list">
         {
@@ -73,7 +77,7 @@ const fecha = `${d}/${m}/${y}`;
   <section class="section section--alt" id="decisiones" aria-labelledby="t-decisiones">
     <div class="container">
       <SectionHeader eyebrow="Decisiones de diseño" title="Qué decidí y *por qué*" id="t-decisiones">
-        <p>Cada decisión tiene una razón, y varias salieron de un fallo concreto.</p>
+        <p>Cada decisión tiene una razón. Varias las aprendí después de un fallo concreto.</p>
       </SectionHeader>
       <dl class="decisions">
         {
@@ -87,10 +91,13 @@ const fecha = `${d}/${m}/${y}`;
       </dl>
 
       <div class="cierre">
-        <p>Los fallos que llevaron a estas decisiones están publicados, y el estado de cada servicio se puede consultar.</p>
+        <p>
+          Los fallos detrás de estas decisiones se publican con su síntoma, su causa y su solución. Lo que falta por
+          hacer está en la hoja de ruta.
+        </p>
         <ul class="cierre__links" role="list">
-          <li><ActionLink href={href('/bastion/incidencias')}>Ver las incidencias</ActionLink></li>
-          <li><ActionLink href={href('/bastion/estado')}>Ver el estado actual</ActionLink></li>
+          <li><ActionLink href={href('/bastion/incidencias')}>Leer los fallos publicados</ActionLink></li>
+          <li><ActionLink href={href('/bastion/hoja-de-ruta')}>Ver qué falta por hacer</ActionLink></li>
         </ul>
       </div>
     </div>
