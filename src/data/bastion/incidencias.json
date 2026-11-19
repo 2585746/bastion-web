@@ -42,14 +42,14 @@
     "id": 4,
     "title": "Archivo bloqueado por un nano huérfano",
     "category": "Linux",
-    "date": "2026-11-19",
+    "date": "2026-11-17",
     "originalDate": "Oct 2026",
     "area": "Linux",
-    "symptom": "Un archivo aparece bloqueado y no se puede editar.",
+    "symptom": "No documentado.",
     "diagnosis": "No documentado.",
-    "cause": "La sesión SSH se cortó sin cerrar el editor y el proceso de nano quedó abierto con el archivo.",
+    "cause": "Sesión SSH cortada sin cerrar el editor. El proceso de nano quedó abierto con el archivo.",
     "solution": "No documentado.",
-    "learning": "Un corte de sesión deja procesos huérfanos: comprobar qué proceso tiene abierto el archivo antes de culpar al archivo."
+    "learning": "No documentado."
   },
   {
     "id": 5,
@@ -58,11 +58,11 @@
     "date": "2026-11-19",
     "originalDate": "Oct 2026",
     "area": "Hyper-V",
-    "symptom": "Al pegar texto en la consola de la máquina virtual salen símbolos distintos de los copiados.",
+    "symptom": "No documentado.",
     "diagnosis": "No documentado.",
     "cause": "La consola de Hyper-V simula pulsaciones de teclado, y la distribución del teclado cambia los símbolos.",
     "solution": "No documentado.",
-    "learning": "Usar teclado en inglés de EE. UU. en los servidores."
+    "learning": "Teclado en inglés de EE. UU. en servidores."
   },
   {
     "id": 6,
