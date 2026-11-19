@@ -52,6 +52,19 @@
     "learning": "No documentado."
   },
   {
+    "id": 5,
+    "title": "El portapapeles de Hyper-V escribe caracteres incorrectos",
+    "category": "Proxmox",
+    "date": "2026-11-19",
+    "originalDate": "Oct 2026",
+    "area": "Hyper-V",
+    "symptom": "No documentado.",
+    "diagnosis": "No documentado.",
+    "cause": "La consola de Hyper-V simula pulsaciones de teclado, y la distribución del teclado cambia los símbolos.",
+    "solution": "No documentado.",
+    "learning": "Teclado en inglés de EE. UU. en servidores."
+  },
+  {
     "id": 26,
     "title": "Bloqueo 403: access_denied al autorizar rclone con Google Drive",
     "category": "Ciberseguridad",
